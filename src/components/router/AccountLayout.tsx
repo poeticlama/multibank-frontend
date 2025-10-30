@@ -6,9 +6,7 @@ const AccountLayout = () => {
   return (
     <>
       <AccountHeader />
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
       <AccountFooter />
     </>
   )
