@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Account from './pages/Account.tsx';
 import AccountLayout from './components/router/AccountLayout.tsx';
 import OperationsHistory from './pages/OperationsHistory.tsx';
+import Payments from './pages/Payments.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
         path: 'history',
         element: <OperationsHistory />,
       },
+      {
+        path: 'payments',
+        element: <Payments />
+      }
     ],
   },
 ]);
