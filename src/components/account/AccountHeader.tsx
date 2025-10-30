@@ -10,7 +10,7 @@ const AccountHeader = () => {
         <AccountLink to="/account/history">
           Операции
         </AccountLink>
-        <AccountLink to="/account/">
+        <AccountLink to="/account/payments">
           Платежи
         </AccountLink>
       </nav>
