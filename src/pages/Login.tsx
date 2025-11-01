@@ -120,6 +120,7 @@ const Login: React.FC = () => {
           >
             Войти
           </button>
+          {(error.length > 0) && <p className="flex justify-center text-sm text-red-500">{error}</p>}
         </form>
 
         <div className="mt-6 text-center">
