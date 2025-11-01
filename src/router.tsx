@@ -1,18 +1,33 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Account from './pages/Account.tsx';
 import AccountLayout from './components/router/AccountLayout.tsx';
 import OperationsHistory from './pages/OperationsHistory.tsx';
 import Payments from './pages/Payments.tsx';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
+import PrivateRoute from './components/router/PrivateRoute.tsx';
+
+
+
+
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <PrivateRoute>
+        <Home />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/account',
-    element: <AccountLayout />,
+    element: (
+      <PrivateRoute>
+        <AccountLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
@@ -28,4 +43,20 @@ export const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: '/login',
+    element: (
+      <Login />
+    )
+  },
+  {
+    path: '/register',
+    element: (
+      <Register />
+    )
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />
+  }
 ]);
