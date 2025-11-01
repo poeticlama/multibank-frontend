@@ -6,7 +6,7 @@ import OperationsHistory from './pages/OperationsHistory.tsx';
 import Payments from './pages/Payments.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
-import PrivateRoute from './privateRoute';
+import PrivateRoute from './components/router/PrivateRoute.tsx';
 
 
 

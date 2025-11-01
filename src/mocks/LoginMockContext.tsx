@@ -21,6 +21,7 @@ interface AuthContextType {
   login: (login: string, password: string, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 // Context для авторизации
@@ -29,6 +30,7 @@ export const AuthContext = React.createContext<AuthContextType>({
   login: async () => false,
   logout: () => {},
   isAuthenticated: false,
+  loading: false,
 });
 
 export const registrate = ( login: string, password: string ) => {
@@ -48,6 +50,7 @@ export const useAuth = () => {
 // Провайдер авторизации
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Проверяем сохраненные данные при загрузке
@@ -62,6 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sessionStorage.removeItem('bankUser');
       }
     }
+    setLoading(false);
   }, []);
 
   const login = async (login: string, password: string, rememberMe: boolean): Promise<boolean> => {
@@ -94,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     login,
     logout,
     isAuthenticated: !!user,
+    loading,
   };
 
   return (

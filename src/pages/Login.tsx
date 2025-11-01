@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../mocks/loginMock.tsx';
+import { useAuth } from '../mocks/LoginMockContext.tsx';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="login-field" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="login-field" className="block text-sm font-medium text-blue-900 mb-2">
               Имя пользователя
             </label>
             <input
@@ -80,13 +80,13 @@ const Login: React.FC = () => {
               value={formData.login}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
               placeholder="Введите ваше имя"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-blue-900 mb-2">
               Пароль
             </label>
             <input
@@ -96,7 +96,7 @@ const Login: React.FC = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
               placeholder="Введите пароль"
             />
           </div>

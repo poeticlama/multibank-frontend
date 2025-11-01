@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router.tsx';
-import { AuthProvider } from './mocks/loginMock.tsx'
+import { AuthProvider } from './mocks/LoginMockContext.tsx'
 
 
 function App() {

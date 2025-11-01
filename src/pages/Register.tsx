@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registrate } from '../mocks/loginMock.tsx';
+import { registrate } from '../mocks/LoginMockContext.tsx';
 
 
 const Register: React.FC = () => {
@@ -73,7 +73,7 @@ const Register: React.FC = () => {
               value={formData.login}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
               placeholder="Введите ваше имя"
             />
           </div>
@@ -90,7 +90,7 @@ const Register: React.FC = () => {
               onChange={handleChange}
               required
               minLength={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
               placeholder="Введите пароль"
             />
             <p className="mt-1 text-sm text-gray-500">Минимум 6 символов</p>
@@ -108,7 +108,7 @@ const Register: React.FC = () => {
               onChange={handleChange}
               required
               minLength={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
               placeholder="Повторите пароль"
             />
           </div>

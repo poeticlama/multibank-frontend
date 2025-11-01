@@ -1,11 +1,15 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from './mocks/loginMock.tsx';
+import { useAuth } from '../../mocks/LoginMockContext.tsx';
+import React from 'react';
 
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
+  const { isAuthenticated, loading } = useAuth();
 
-  const { isAuthenticated } = useAuth();
+  if (loading) {
+    return <>loading...</>
+  }
 
   if (!isAuthenticated) {
 
