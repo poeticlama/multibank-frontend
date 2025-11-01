@@ -6,43 +6,27 @@ import OperationsHistory from './pages/OperationsHistory.tsx';
 import Payments from './pages/Payments.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
-//import { useAuth } from './mocks/loginMock.tsx';
+import PrivateRoute from './privateRoute';
 
 
-import { ProtectedRoute, GuestRoute } from './mocks/loginMock.tsx';
 
-
-const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <ProtectedRoute>
-      {children}
-    </ProtectedRoute>
-  );
-};
-const GuestLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <GuestRoute>
-      {children}
-    </GuestRoute>
-  );
-};
 
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProtectedLayout>
+      <PrivateRoute>
         <Home />
-      </ProtectedLayout>
+      </PrivateRoute>
     ),
   },
   {
     path: '/account',
     element: (
-      <ProtectedLayout>
+      <PrivateRoute>
         <AccountLayout />
-      </ProtectedLayout>
+      </PrivateRoute>
     ),
     children: [
       {
@@ -62,17 +46,13 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <GuestLayout>
-        <Login />
-      </GuestLayout>
+      <Login />
     )
   },
   {
     path: '/register',
     element: (
-      <GuestLayout>
-        <Register />
-      </GuestLayout>
+      <Register />
     )
   },
   {

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registrate } from '../mocks/loginMock.tsx';
 
 
 const Register: React.FC = () => {
 
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
 
@@ -19,15 +22,39 @@ const Register: React.FC = () => {
       ...prev,
       [name]: value
     }));
+    
+    if (error) setError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // логика регистрации
-    console.log('Данные регистрации:', formData);
-    navigate('/login');
 
+  const handleSubmit = async (e: React.FormEvent) => {
+
+    if (!(loading)){
+
+      e.preventDefault();
+      setLoading(true);
+      setError('');
+      console.log("=======")
+
+      try {
+        const success = await registrate(formData.login, formData.password);
+        
+        if (success) {
+          console.log('вход');
+          navigate('/login');
+        } else {
+          setError('Неверное имя пользователя или пароль');
+        }
+      } catch (err) {
+        setError('Error: ' + err);  //Это надо как-то нормально переделать
+      } finally {
+        setLoading(false);
+      }
+
+    }
   };
+
+
 
   return (
     <main className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
