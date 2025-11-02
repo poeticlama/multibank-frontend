@@ -22,13 +22,8 @@ const setInitialState = (settings: Settings) => {
   const totalHeight = maxIndex * itemHeight; // Общая высота контейнера
   const bufferedItems = amount + 2 * tolerance; // Количество элементов, которые не отображаются на странице, но присутствуют в данных
   const topPaddingHeight = 0;
-  const headHeight = document.getElementById("head")?.offsetHeight;
-  const operationsHeadHeight = document.getElementById("operations-head")?.offsetHeight;
 
-  const bottomPaddingHeight = totalHeight - viewPortHeight - Number(headHeight) - Number(operationsHeadHeight);
-  console.log(bottomPaddingHeight);
-  console.log(headHeight);
-  console.log(operationsHeadHeight);
+  const bottomPaddingHeight = totalHeight - viewPortHeight;
 
   return {
     settings,
