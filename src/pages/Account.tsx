@@ -1,4 +1,4 @@
-import accountsMock from '../mocks/accountsMock.ts';
+import accountsMock from '../mocks/accounts-mock.ts';
 import AccountCard from '../components/account/AccountCard.tsx';
 import smile from './smile.png'
 
