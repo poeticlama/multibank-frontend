@@ -2,7 +2,7 @@ import type { Settings } from '../components/operations-history/VirtualScroll.ts
 
 export const SETTINGS: Settings = {
   maxIndex: 1_000_000,
-  itemHeight: 32,
-  amount: 15,
+  itemHeight: 100,
+  amount: 6,
   tolerance: 2,
 };

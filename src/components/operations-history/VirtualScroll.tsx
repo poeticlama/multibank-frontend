@@ -1,5 +1,5 @@
 import { useRef, useState, type UIEvent, type JSX } from 'react';
-import type { IRowTemplate } from './RowTemplate.tsx';
+import type { IRowTemplate } from './Operation.tsx';
 import { getDataSlice } from '../../mocks/get-data-slice.ts';
 import type { Transaction } from '../../types/transaction-types.ts';
 
@@ -22,7 +22,13 @@ const setInitialState = (settings: Settings) => {
   const totalHeight = maxIndex * itemHeight; // Общая высота контейнера
   const bufferedItems = amount + 2 * tolerance; // Количество элементов, которые не отображаются на странице, но присутствуют в данных
   const topPaddingHeight = 0;
-  const bottomPaddingHeight = totalHeight - viewPortHeight;
+  const headHeight = document.getElementById("head")?.offsetHeight;
+  const operationsHeadHeight = document.getElementById("operations-head")?.offsetHeight;
+
+  const bottomPaddingHeight = totalHeight - viewPortHeight - Number(headHeight) - Number(operationsHeadHeight);
+  console.log(bottomPaddingHeight);
+  console.log(headHeight);
+  console.log(operationsHeadHeight);
 
   return {
     settings,
@@ -61,8 +67,9 @@ const VirtualScroll = ({ settings, template, get }: VirtualScrollProps) => {
   return (
     <div
       ref={viewPortElement}
-      style={{ height: viewPortHeight, overflow: 'auto', border: '1px solid #ccc', margin: '20px' }}
+      style={{ height: viewPortHeight, scrollbarWidth: 'none', msOverflowStyle: 'none', }}
       onScroll={handleScroll}
+      className="overflow-auto mt-5 bg-gray-100 px-20 border-1 border-gray-300 py-3 rounded-2xl scrollbar-hide"
     >
       <div style={{ height: topPaddingHeight }}></div>
       {data.map((item) => (

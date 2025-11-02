@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'history',
-        element: <OperationsHistory />,
+        element: <div className="overflow-hidden"><OperationsHistory /></div>,
       },
       {
         path: 'payments',

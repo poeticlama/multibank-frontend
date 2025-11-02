@@ -6,13 +6,18 @@ export interface IRowTemplate {
   item: Transaction;
 }
 
-export const RowTemplate = ({ item }: IRowTemplate): JSX.Element => {
+export const Operation = ({ item }: IRowTemplate): JSX.Element => {
   return (
     <div
-      style={{ height: SETTINGS.itemHeight, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ height: SETTINGS.itemHeight }}
       key={item.transactionId}
+      className="py-1 box-border"
     >
-      {item.creditDebitIndicator}
+      <div
+        className="bg-white h-full rounded-xl p-3"
+      >
+        {item.amount.amount + item.amount.currency}
+      </div>
     </div>
   );
 };
