@@ -1,5 +1,5 @@
 import { useRef, useState, type UIEvent, type JSX } from 'react';
-import type { IRowTemplate } from './Operation.tsx';
+import type { OperationProps } from './Operation.tsx';
 import { getDataSlice } from '../../mocks/get-data-slice.ts';
 import type { Transaction } from '../../types/transaction-types.ts';
 
@@ -12,7 +12,7 @@ export type Settings = {
 
 type VirtualScrollProps = {
   settings: Settings;
-  template: ({ item }: IRowTemplate) => JSX.Element;
+  template: ({ transaction }: OperationProps) => JSX.Element;
   get: (offset: number, limit: number, settings: Settings) => Transaction[];
 }
 
@@ -69,11 +69,11 @@ const VirtualScroll = ({ settings, template, get }: VirtualScrollProps) => {
       ref={viewPortElement}
       style={{ height: viewPortHeight, scrollbarWidth: 'none', msOverflowStyle: 'none', }}
       onScroll={handleScroll}
-      className="overflow-auto mt-5 bg-gray-100 px-20 border-1 border-gray-300 py-3 rounded-2xl scrollbar-hide"
+      className="overflow-auto mt-5 bg-gray-100 px-40 border-1 border-gray-300 py-3 rounded-2xl scrollbar-hide"
     >
       <div style={{ height: topPaddingHeight }}></div>
       {data.map((item) => (
-        <RowTemplate key={item.transactionId} item={item} />
+        <RowTemplate key={item.transactionId} transaction={item} />
       ))}
       <div style={{ height: bottomPaddingHeight }}></div>
     </div>
