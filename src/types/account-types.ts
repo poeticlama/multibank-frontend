@@ -1,4 +1,4 @@
-import type { Bank } from './bankTypes.ts';
+import type { Bank } from './bank-types.ts';
 
 export type AccountData = {
   id: number;

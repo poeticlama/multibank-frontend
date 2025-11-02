@@ -1,4 +1,4 @@
-import type { AccountData } from '../types/accountTypes.ts';
+import type { AccountData } from '../types/account-types.ts';
 
 const accounts: AccountData[] = [
   {
