@@ -18,7 +18,7 @@ const AccountPage = () => {
           {accounts}
         </div>
         <div className="bg-gray-100 p-5 rounded-xl w-full flex flex-col justify-around">
-          <h2 className="text-xl mb-5">Расходы за последние 12 месяцев</h2>
+          <h2 className="text-xl mb-10">Расходы за последние 12 месяцев</h2>
           <ExpenseStatistics months={months} expenses={expenses} currentPredict={currentPredict} nextPredict={nextPredict} />
         </div>
       </div>
