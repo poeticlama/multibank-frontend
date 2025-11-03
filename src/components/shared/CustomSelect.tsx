@@ -62,7 +62,7 @@ const CustomSelect = ({ options, placeholder, onChange }: CustomSelectProps) => 
             <li
               key={option.value}
               onClick={() => handleSelect(option)}
-              className={`px-4 py-2 cursor-pointer hover:bg-blue-100 ${
+              className={`px-4 py-2 cursor-pointer hover:bg-blue-100 text-xs ${
                 selected?.value === option.value ? "bg-blue-50 font-medium" : ""
               }`}
             >
