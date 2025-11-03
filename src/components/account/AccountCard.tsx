@@ -12,7 +12,7 @@ const AccountCard = ({ accountData }: AccountCardProps) => {
       <div className="flex items-center gap-3">
         <RubleIcon />
         <h3 className="text-xl font-bold">
-          {accountData.rubles} ₽
+          {accountData.amount + " " + accountData.currency}
         </h3>
       </div>
       <div className="mb-3 font-light flex justify-between items-center">
