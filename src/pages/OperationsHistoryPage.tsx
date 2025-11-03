@@ -5,7 +5,7 @@ import { getDataSlice } from '../mocks/get-data-slice.ts';
 import CustomSelect from '../components/shared/CustomSelect.tsx';
 import { useEffect } from 'react';
 
-const OperationsHistory = () => {
+const OperationsHistoryPage = () => {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -39,4 +39,4 @@ const OperationsHistory = () => {
   // В дальнейшем надо в get как-то передавать функцию, достающую данные из запроса
 }
 
-export default OperationsHistory
+export default OperationsHistoryPage

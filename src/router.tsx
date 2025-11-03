@@ -1,12 +1,13 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import Account from './pages/Account.tsx';
+import HomePage from './pages/HomePage.tsx';
+import AccountPage from './pages/AccountPage.tsx';
 import AccountLayout from './components/router/AccountLayout.tsx';
-import OperationsHistory from './pages/OperationsHistory.tsx';
-import Payments from './pages/Payments.tsx';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
+import OperationsHistoryPage from './pages/OperationsHistoryPage.tsx';
+import PaymentsPage from './pages/PaymentsPage.tsx';
+import LoginPage from './pages/LoginPage.tsx';
+import RegisterPage from './pages/RegisterPage.tsx';
 import PrivateRoute from './components/router/PrivateRoute.tsx';
+import ProductsPage from './pages/ProductsPage.tsx';
 
 
 
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: (
       <PrivateRoute>
-        <Home />
+        <HomePage />
       </PrivateRoute>
     ),
   },
@@ -31,28 +32,32 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Account />,
+        element: <AccountPage />,
       },
       {
         path: 'history',
-        element: <div className="overflow-hidden"><OperationsHistory /></div>,
+        element: <div className="overflow-hidden"><OperationsHistoryPage /></div>,
       },
       {
         path: 'payments',
-        element: <Payments />
+        element: <PaymentsPage />
+      },
+      {
+        path: 'products',
+        element: <ProductsPage />
       }
     ],
   },
   {
     path: '/login',
     element: (
-      <Login />
+      <LoginPage />
     )
   },
   {
     path: '/register',
     element: (
-      <Register />
+      <RegisterPage />
     )
   },
   {

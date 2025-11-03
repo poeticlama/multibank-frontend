@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
     login: '',
     password: ''
@@ -127,7 +127,7 @@ const Login: React.FC = () => {
           <p className="text-gray-600">
             Нет аккаунта?{' '}
             <a 
-              href="/register" 
+              href="/src/pages/RegisterPage"
               className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
             >
               Зарегистрируйтесь
@@ -139,4 +139,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
