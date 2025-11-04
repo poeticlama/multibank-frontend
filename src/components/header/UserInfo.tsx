@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import { useAuth } from '../../mocks/LoginMockContext.tsx';
 
 const UserInfo = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { user, logout, switchStatus } = useAuth();
 
   // Закрытие меню при клике вне компонента
   useEffect(() => {
@@ -23,12 +25,11 @@ const UserInfo = () => {
   };
 
   const handleLogout = () => {
-    // Здесь будет логика выхода
-    setIsMenuOpen(false);
+    logout();
   };
 
-  const handleAccount = () => {
-    // Здесь будет логика перехода в аккаунт
+  const handleStatusSwitch = () => {
+    switchStatus();
     setIsMenuOpen(false);
   };
 
@@ -38,7 +39,7 @@ const UserInfo = () => {
         onClick={handleUserClick}
         className='flex items-center gap-4 py-2 px-5 rounded-lg bg-white hover:bg-blue-200 transition-colors'
       >
-        <span className='text-blue-900 font-semibold text-md'>Иван</span>
+        <span className='text-blue-900 font-semibold text-md'>{user?.name}</span>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='25'
@@ -54,10 +55,10 @@ const UserInfo = () => {
       {isMenuOpen && (
         <div className='absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50'>
           <button
-            onClick={handleAccount}
+            onClick={handleStatusSwitch}
             className='w-full px-4 py-2 text-left text-blue-900 hover:bg-gray-100 transition-colors cursor-pointer'
           >
-            Мой Аккаунт
+            Перейти на {user?.status === "Premium" ? "Premium" : "Default" }
           </button>
           <button
             onClick={handleLogout}

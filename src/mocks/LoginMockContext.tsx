@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import type { User } from '../types/account-types.ts';
 
 
 // Mock данные пользователей
-const mockUsers = [
-  { id: 1, login: 'user1', password: '1111', name: 'Пенис Денисович' },
-  { id: 2, login: 'user2', password: '2222', name: 'Иван Говнов' },
-  { id: 3, login: 'admin', password: 'admin123', name: 'Админисратор' },
+const mockUsers: User[] = [
+  { id: 1, login: 'user1', password: '1111', name: 'Пенис Денисович', status: "Default" },
+  { id: 2, login: 'user2', password: '2222', name: 'Иван Говнов', status: "Default" },
+  { id: 3, login: 'admin', password: 'admin123', name: 'Админисратор', status: "Premium" },
 ];
-
-// Типы для авторизации
-interface User {
-  id: number;
-  login: string;
-  password: string;
-  name: string;
-}
 
 interface AuthContextType {
   user: User | null;
@@ -22,6 +15,7 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   loading: boolean;
+  switchStatus: () => void;
 }
 
 // Context для авторизации
@@ -31,11 +25,12 @@ export const AuthContext = React.createContext<AuthContextType>({
   logout: () => {},
   isAuthenticated: false,
   loading: false,
+  switchStatus: () => {},
 });
 
 export const registrate = ( login: string, password: string ) => {
   mockUsers.push(
-    { id: mockUsers.length, login: login, password: password, name: login }
+    { id: mockUsers.length, login: login, password: password, name: login, status: "Default" },
   )
   return true;
 };
@@ -93,12 +88,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     sessionStorage.removeItem('bankUser');
   };
 
+  const switchStatus = () => {
+    if (!user) return;
+
+    const newStatus = user.status === "Premium" ? "Default" : "Premium";
+
+    setUser((user) => user?  {...user, status: newStatus} : null);
+
+    if (localStorage.getItem('bankUser')) {
+      localStorage.setItem('bankUser', JSON.stringify({...user, status: newStatus}));
+    }
+    if (sessionStorage.getItem('bankUser')) {
+      sessionStorage.setItem('bankUser', JSON.stringify({...user, status: newStatus}));
+    }
+  }
+
   const value = {
     user,
     login,
     logout,
     isAuthenticated: !!user,
     loading,
+    switchStatus,
   };
 
   return (

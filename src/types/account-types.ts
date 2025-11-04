@@ -22,3 +22,11 @@ export type ExpensesPredict = {
   currentPredict: number;
   nextPredict: number;
 }
+
+export type User = {
+  id: number;
+  login: string;
+  password: string;
+  name: string;
+  status: "Premium" | "Default";
+}
