@@ -11,18 +11,30 @@ type ExpenseStatisticsProps = {
 const ExpenseStatistics = ({months, expenses, currentPredict, nextPredict}: ExpenseStatisticsProps) => {
   const maxHeight = Math.max(...expenses, currentPredict, nextPredict);
   const [heights, setHeights] = useState(months.map(() => 0));
-  const graph = months.map((month, i) => (
-    <MonthStatistic key={month + i} height={heights[i]} month={month} expense={expenses[i]} />
-  ));
+  const [currentPredictHeight, setCurrentPredictHeight] = useState(0);
+  const [nextPredictHeight, setNextPredictHeight] = useState(0);
+  const graph = months.map((month, i) => {
+    if (i === 12) {
+      return <MonthStatistic key={month + i} height={heights[i]} month={month} expense={expenses[i]} predictHeight={currentPredictHeight} predictExpense={currentPredict} />;
+    } else if (i === 13) {
+      return <MonthStatistic key={month + i} height={heights[i]} month={month} expense={expenses[i]} predictHeight={nextPredictHeight - 0.5} predictExpense={nextPredict} />;
+    } else {
+      return <MonthStatistic key={month + i} height={heights[i]} month={month} expense={expenses[i]} />
+    }
+  });
 
   useEffect(() => {
-    setHeights(expenses.map((expense) => (expense / maxHeight) * 100 + 1))
-  }, [expenses, maxHeight]);
+    setHeights(expenses.map((expense) => (expense / maxHeight) * 100))
+    setCurrentPredictHeight((currentPredict / maxHeight) * 100);
+    setNextPredictHeight((nextPredict / maxHeight) * 100);
+  }, [expenses, maxHeight, currentPredictHeight, currentPredict, nextPredict]);
 
   return (
-    <div className="flex h-80 justify-between">
-      {graph}
-    </div>
+    <>
+      <div className="flex justify-center gap-3 mb-3">
+        {graph}
+      </div>
+    </>
   );
 }
 
