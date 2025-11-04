@@ -1,6 +1,6 @@
 import accountsMock from '../mocks/accounts-mock.ts';
-import AccountCard from '../components/account/AccountCard.tsx';
-import ExpenseStatistics from '../components/account/ExpenseStatistics.tsx';
+import AccountCard from '../components/account/accounts-block/AccountCard.tsx';
+import ExpenseStatistics from '../components/account/statistics-block/ExpenseStatistics.tsx';
 import statisticsMock from '../mocks/statistics-mock.ts';
 
 const AccountPage = () => {

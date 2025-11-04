@@ -1,4 +1,4 @@
-import type { AccountData } from '../../types/account-types.ts';
+import type { AccountData } from '../../../types/account-types.ts';
 import RubleIcon from './RubleIcon.tsx';
 import { Link } from 'react-router-dom';
 
