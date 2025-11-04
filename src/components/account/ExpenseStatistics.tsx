@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import MonthStatistic from './MonthStatistic.tsx';
+import GraphLegend from './GraphLegend.tsx';
 
 type ExpenseStatisticsProps = {
   months: string[];
@@ -31,9 +32,10 @@ const ExpenseStatistics = ({months, expenses, currentPredict, nextPredict}: Expe
 
   return (
     <>
-      <div className="flex justify-center gap-3 mb-3">
+      <div className="flex justify-center gap-3 mb-5">
         {graph}
       </div>
+      <GraphLegend currentExpenses={expenses[expenses.length - 2]} currentPredict={currentPredict.toFixed(2)} nextPredict={nextPredict.toFixed(2)} />
     </>
   );
 }
