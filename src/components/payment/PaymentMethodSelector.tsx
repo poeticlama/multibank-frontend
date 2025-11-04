@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface PaymentMethodSelectorProps {
   selectedMethod: 'card' | 'account';
   onMethodChange: (method: 'card' | 'account') => void;

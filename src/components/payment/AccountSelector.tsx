@@ -1,4 +1,5 @@
 import type { AccountData } from '../../types/account-types';
+import React from 'react';
 
 interface AccountSelectorProps {
   accounts: AccountData[];

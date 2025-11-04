@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AccountSelector } from './AccountSelector';
 import { AmountInput } from './AmountInput';
 import type { AccountData } from '../../types/account-types';
@@ -42,7 +42,7 @@ export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
         accounts={accounts}
         selectedAccount={fromAccount}
         onAccountChange={onFromAccountChange}
-        label="Счета"
+        label="Выберите счет для списания"
         showOnlyEnabled={true}
       />
       

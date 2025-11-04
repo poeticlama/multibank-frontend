@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AccountSelector } from './AccountSelector';
 import { AmountInput } from './AmountInput';
 import type { AccountData } from '../../types/account-types';
@@ -43,7 +43,7 @@ export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
           value={cardNumber}
           onChange={(e) => onCardNumberChange(e.target.value)}
           placeholder="Введите номер карты..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors outline-none"
         />
       </div>
       

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PaymentHeader } from '../components/payment/PaymentHeader';
 import { PaymentMethodSelector } from '../components/payment/PaymentMethodSelector';
 import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
@@ -10,7 +9,7 @@ import accounts from '../mocks/accounts-mock';
 type PaymentMethod = 'card' | 'account';
 
 
-const PaymentsPage: React.FC = () => {
+const PaymentsPage= () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -47,9 +46,10 @@ const PaymentsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <h1 className="text-2xl font-bold mb-10 px-25 text-blue-900">
+        Платежи и переводы
+      </h1>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-6">
-        <PaymentHeader title="Платежи" />
-        
         <PaymentMethodSelector
           selectedMethod={selectedMethod}
           onMethodChange={setSelectedMethod}
