@@ -16,3 +16,9 @@ export type AccountData = {
   };
   bank: Bank;
 }
+
+export type ExpensesPredict = {
+  statistic: Record<string, number>;
+  currentPredict: number;
+  nextPredict: number;
+}
