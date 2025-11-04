@@ -3,7 +3,7 @@ import UserInfo from './UserInfo.tsx';
 
 const AccountHeader = () => {
   return (
-    <header id="head" className="bg-gray-100 pl-50 pr-20 py-10 text-blue-900 sticky top-0">
+    <header id="head" className="bg-gray-100 pl-50 pr-20 py-10 text-blue-900 sticky top-0 z-10">
       <nav className="flex items-center justify-between text-sm">
         <AccountLink to="/account">
           Мои счета
