@@ -3,7 +3,7 @@ import AccountCard from '../components/account/AccountCard.tsx';
 import smile from './smile.png'
 
 const AccountPage = () => {
-  const accounts = accountsMock.map(account => <AccountCard key={account.id} accountData={account} />);
+  const accounts = accountsMock.map(account => <AccountCard key={account.accountId} accountData={account} />);
 
   return (
     <main className="py-10 px-25 text-blue-900">
