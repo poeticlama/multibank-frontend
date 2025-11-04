@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormInput } from './FormInput';
 import { Checkbox } from './Checkbox';
-import { Button } from '../ui/LoadingButton';
+import { Button } from '../shared/LoadingButton';
 
 
 interface LoginFormData {

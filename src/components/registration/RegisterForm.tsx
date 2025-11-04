@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormInput } from './FormInput';
-import { Button } from '../ui/LoadingButton';
+import { Button } from '../shared/LoadingButton';
 
 interface RegisterFormData {
   login: string;

@@ -3,9 +3,8 @@ import { PaymentHeader } from '../components/payment/PaymentHeader';
 import { PaymentMethodSelector } from '../components/payment/PaymentMethodSelector';
 import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
-import { Button } from '../components/ui/Button';
+import { Button } from '../components/shared/Button';
 import accounts from '../mocks/accounts-mock';
-//import type { AccountData } from '../types/account-types';
 
 
 type PaymentMethod = 'card' | 'account';
