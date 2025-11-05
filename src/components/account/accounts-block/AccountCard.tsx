@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { AccountData } from '../../../types/account-types.ts';
 import RubleIcon from './RubleIcon.tsx';
 import { Link } from 'react-router-dom';
+import getCurrency from '../../../constants/get-currency.ts';
 
 type AccountCardProps = {
   accountData: AccountData;
@@ -15,7 +16,7 @@ const AccountCard = ({ accountData }: AccountCardProps) => {
     const calculateIconSize = () => {
       const screenWidth = window.innerWidth;
       const tenthOfScreen = Math.floor(screenWidth / 35);
-      const size = Math.min(tenthOfScreen, 30);
+      const size = Math.min(tenthOfScreen, 25);
       const finalSize = Math.max(size, 16);
       setIconSize(finalSize);
     };
@@ -30,14 +31,12 @@ const AccountCard = ({ accountData }: AccountCardProps) => {
   return (
     <div className="px-3 xs:px-4 sm:px-5 py-2 sm:py-3 bg-blue-200 w-full h-20 xs:h-22 sm:h-25 flex flex-col justify-between rounded-xl transition-all duration-200 hover:shadow-md">
 
-      <div className="flex items-center gap-1.5 xs:gap-2.5 sm:gap-3.5">
-        <div className="w-4 h-4 xs:w-4 xs:h-4 sm:w-4 sm:h-4 flex-shrink-0">
-          <RubleIcon size = {iconSize}/>
-        </div>
-        <h3 
-          className="text-lg xs:text-xl sm:text-2xl font-bold break-words mt-[3%] ml-[3%]"
+      <div className="flex items-center gap-3">
+        <RubleIcon size = {iconSize}/>
+        <h3
+          className="text-lg sm:text-xl font-bold break-words"
         >
-          {accountData.amount + " " + accountData.currency}
+          {accountData.amount + " " + getCurrency(accountData.currency)}
         </h3>
       </div>
 
@@ -47,7 +46,7 @@ const AccountCard = ({ accountData }: AccountCardProps) => {
         </span>
         <Link
           to='/account'
-          className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded hover:bg-blue-300 transition-colors"
+          className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors"
         >
           Реквизиты
         </Link>
