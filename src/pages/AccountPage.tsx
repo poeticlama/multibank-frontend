@@ -11,15 +11,28 @@ const AccountPage = () => {
   const expenses = Object.values(statisticsMock.statistic);
 
   return (
-    <main className="py-5 lg:py-10 px-4 sm:px-6 lg:px-25 text-blue-900">
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light pl-4 sm:pl-6 lg:pl-10 mb-5">Добро пожаловать!</h2>
-      <div className="flex flex-col xl:flex-row gap-5 lg:gap-10">
-        <div className="flex flex-col gap-2 bg-gray-100 p-4 sm:p-5 rounded-xl w-full h-fit lg:w-fit">
+    <main className="py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto">
+      <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-light pl-2 sm:pl-4 lg:pl-6 xl:pl-10 mb-4 sm:mb-5">
+        Добро пожаловать!
+      </h2>
+      
+      <div className="flex flex-col xl:flex-row gap-4 sm:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10">
+        {/* Блок с картами счетов */}
+        <div className="flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit">
           {accounts}
         </div>
-        <div className="bg-gray-100 p-4 sm:p-5 rounded-xl w-full flex flex-col justify-around">
-          <h2 className="text-lg sm:text-xl mb-6 sm:mb-12">Расходы за последние 12 месяцев</h2>
-          <ExpenseStatistics months={months} expenses={expenses} currentPredict={currentPredict} nextPredict={nextPredict} />
+        
+        {/* Блок со статистикой */}
+        <div className="bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full flex flex-col justify-around">
+          <h2 className="text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12">
+            Расходы за последние 12 месяцев
+          </h2>
+          <ExpenseStatistics 
+            months={months} 
+            expenses={expenses} 
+            currentPredict={currentPredict} 
+            nextPredict={nextPredict} 
+          />
         </div>
       </div>
     </main>

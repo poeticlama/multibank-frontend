@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
     primary: `${
       disabled 
         ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-        : 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500'
+        : 'bg-blue-900 text-white hover:bg-blue-700 focus:ring-blue-500'
     }`,
     secondary: `${
       disabled 

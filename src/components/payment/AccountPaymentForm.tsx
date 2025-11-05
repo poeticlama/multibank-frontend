@@ -61,6 +61,7 @@ export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
         onChange={onAmountChange}
         placeholder="Введите сумму..."
         currency={currency}
+        label="Введите сумму перевода на счет"
       />
     </div>
   );

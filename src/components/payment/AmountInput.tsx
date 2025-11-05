@@ -6,13 +6,15 @@ interface AmountInputProps {
   onChange: (amount: string) => void;
   placeholder?: string;
   currency?: string;
+  label?: string;
 }
 
 export const AmountInput: React.FC<AmountInputProps> = ({
   value,
   onChange,
   placeholder = "Введите сумму...",
-  currency = "RUB"
+  currency = "RUB",
+  label = "Сумма перевода:",
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -25,12 +27,15 @@ export const AmountInput: React.FC<AmountInputProps> = ({
 
   return (
     <div className="relative mb-4">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
       <input
         type="text"
         value={value}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="w-full p-3 pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors outline-none"
+        className="w-full p-3 pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none"
         inputMode="decimal"
       />
       <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">

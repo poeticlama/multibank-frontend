@@ -14,6 +14,7 @@ const ExpenseStatistics = ({months, expenses, currentPredict, nextPredict}: Expe
   const [heights, setHeights] = useState(months.map(() => 0));
   const [currentPredictHeight, setCurrentPredictHeight] = useState(0);
   const [nextPredictHeight, setNextPredictHeight] = useState(0);
+  
   const graph = months.map((month, i) => {
     if (i === 12) {
       return <MonthStatistic key={month + i} height={heights[i]} month={month} expense={expenses[i]} predictHeight={currentPredictHeight} predictExpense={currentPredict} />;
@@ -28,15 +29,24 @@ const ExpenseStatistics = ({months, expenses, currentPredict, nextPredict}: Expe
     setHeights(expenses.map((expense) => (expense / maxHeight) * 100))
     setCurrentPredictHeight((currentPredict / maxHeight) * 100);
     setNextPredictHeight((nextPredict / maxHeight) * 100);
-  }, [expenses, maxHeight, currentPredictHeight, currentPredict, nextPredict]);
+  }, [expenses, maxHeight, currentPredict, nextPredict]);
 
   return (
-    <>
-      <div className="flex justify-center gap-3 mb-5">
+
+    <div className="w-full">
+      <div className="flex justify-between items-end gap-1 xs:gap-2 sm:gap-3 px-1">
         {graph}
       </div>
-      <GraphLegend currentExpenses={expenses[expenses.length - 2]} currentPredict={currentPredict.toFixed(0)} nextPredict={nextPredict.toFixed(0)} />
-    </>
+      
+      <div className="mt-4 sm:mt-5">
+        <GraphLegend 
+          currentExpenses={expenses[expenses.length - 2]} 
+          currentPredict={currentPredict.toFixed(0)} 
+          nextPredict={nextPredict.toFixed(0)} 
+        />
+      </div>
+    </div>
+
   );
 }
 
