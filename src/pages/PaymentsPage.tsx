@@ -45,8 +45,8 @@ const PaymentsPage= () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <h1 className="text-2xl font-bold mb-10 px-25 text-blue-900">
+    <div className="min-h-screen py-8">
+      <h1 className="text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left">
         Платежи и переводы
       </h1>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-6">
