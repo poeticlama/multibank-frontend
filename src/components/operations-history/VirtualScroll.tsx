@@ -18,11 +18,10 @@ type VirtualScrollProps = {
 
 const setInitialState = (settings: Settings) => {
   const { maxIndex, itemHeight, amount, tolerance } = settings;
-  const viewPortHeight = amount * itemHeight; // Высота видимой области
-  const totalHeight = maxIndex * itemHeight; // Общая высота контейнера
-  const bufferedItems = amount + 2 * tolerance; // Количество элементов, которые не отображаются на странице, но присутствуют в данных
+  const viewPortHeight = amount * itemHeight;
+  const totalHeight = maxIndex * itemHeight;
+  const bufferedItems = amount + 2 * tolerance;
   const topPaddingHeight = 0;
-
   const bottomPaddingHeight = totalHeight - viewPortHeight;
 
   return {
@@ -62,9 +61,13 @@ const VirtualScroll = ({ settings, template, get }: VirtualScrollProps) => {
   return (
     <div
       ref={viewPortElement}
-      style={{ height: viewPortHeight, scrollbarWidth: 'none', msOverflowStyle: 'none', }}
+      style={{ 
+        height: viewPortHeight, 
+        scrollbarWidth: 'none', 
+        msOverflowStyle: 'none',
+      }}
       onScroll={handleScroll}
-      className="overflow-auto mt-5 bg-gray-100 px-40 border-1 border-gray-300 py-3 rounded-2xl scrollbar-hide"
+      className="overflow-auto mt-3 xs:mt-4 sm:mt-5 bg-gray-100 px-2 xs:px-3 sm:px-4 lg:px-6 xl:px-8 border-1 border-gray-300 py-2 xs:py-2.5 sm:py-3 rounded-xl xs:rounded-2xl scrollbar-hide"
     >
       <div style={{ height: topPaddingHeight }}></div>
       {data.map((item) => (

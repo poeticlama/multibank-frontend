@@ -37,13 +37,25 @@ export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
 
   return (
     <div className="space-y-4">
+
+      <AccountSelector
+        accounts={accounts}
+        selectedAccount={selectedAccount}
+        onAccountChange={onAccountChange}
+        label="Выберите счет для списания"
+        showOnlyEnabled={true}
+      />
+
       <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Номер карты получателя
+        </label>
         <input
           type="text"
           value={cardNumber}
           onChange={(e) => onCardNumberChange(e.target.value)}
           placeholder="Введите номер карты..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors outline-none"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none"
         />
       </div>
       
@@ -54,15 +66,10 @@ export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
         onChange={onAmountChange}
         placeholder="Введите сумму..."
         currency={currency}
+        label="Введите сумму перевода на карту"
       />
       
-      <AccountSelector
-        accounts={accounts}
-        selectedAccount={selectedAccount}
-        onAccountChange={onAccountChange}
-        label="Выберите счет для списания"
-        showOnlyEnabled={true}
-      />
+
     </div>
   );
 };

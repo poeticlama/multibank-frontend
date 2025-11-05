@@ -33,7 +33,7 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({
       <select
         value={selectedAccount}
         onChange={(e) => onAccountChange(e.target.value)}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors"
       >
         <option value="">{label}</option>
         {filteredAccounts.map((account) => (

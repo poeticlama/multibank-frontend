@@ -11,35 +11,36 @@ export const Operation = ({ transaction }: OperationProps): JSX.Element => {
     <div
       style={{ height: SETTINGS.itemHeight }}
       key={transaction.transactionId}
-      className="py-1 box-border"
+      className="py-1 xs:py-1.5 sm:py-2 box-border"
     >
       <div
-        className="bg-white h-full rounded-xl px-10 border-1 border-gray-300 flex items-center justify-between hover:bg-blue-100 hover:cursor-pointer transition duration-300"
+        className="bg-white h-full rounded-xl px-2 xs:px-3 sm:px-5 lg:px-6 border-1 border-gray-300 flex items-center justify-between hover:bg-blue-100 hover:cursor-pointer transition duration-300"
       >
-        <div>
-          <p className="text-lg">
+
+        <div className="flex-1 min-w-0 pr-2 xs:pr-3 sm:pr-4">
+          <p className="text-sm xs:text-base sm:text-lg font-medium truncate xs:whitespace-normal xs:break-words">
             {transaction.transactionInformation}
           </p>
-          <p className="text-xs text-gray-600 font-light">
+          <p className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 truncate">
             Счёт: {transaction.accountId}
           </p>
         </div>
-        <div className="flex flex-col items-end">
+
+        <div className="flex flex-col items-end flex-shrink-0 pl-2 xs:pl-3 sm:pl-4">
           {transaction.creditDebitIndicator === 'Debit' ? (
-            <p className="text-green-700 text-md mr-1">
-              + {transaction.amount.amount + transaction.amount.currency}
+            <p className="text-green-700 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap">
+              + {transaction.amount.amount} {transaction.amount.currency}
             </p>
           ) : (
-            <p className="text-red-500 text-md mr-1">
-              - {transaction.amount.amount + " " + transaction.amount.currency}
+            <p className="text-red-500 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap">
+              - {transaction.amount.amount} {transaction.amount.currency}
             </p>
           )}
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-gray-600 mt-1 xs:mt-1.5 text-right whitespace-nowrap">
             {new Intl.DateTimeFormat('ru-RU', {
-              weekday: 'short',
               day: 'numeric',
-              month: 'long',
-              year: 'numeric'
+              month: transaction.valueDateTime.getDate() === 1 ? 'long' : 'short',
+              year: transaction.valueDateTime.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
             }).format(transaction.valueDateTime)}
           </p>
         </div>
