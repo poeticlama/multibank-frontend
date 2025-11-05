@@ -7,6 +7,7 @@ export type Transaction = {
   accountId: string;
   transactionId: string;
   amount: Amount;
+  type: "BUSINESS" | "PERSONAL" | "NONE";
   creditDebitIndicator: "Debit" | "Credit";
   status: "Pending" | "Booked" | "Rejected";
   bookingDateTime: Date;

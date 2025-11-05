@@ -5,10 +5,11 @@ export type AccountData = {
   status: "Enabled" | "Disabled";
   amount: number;
   currency: string;
-  accountType: "Business" | "Personal";
+  purposeType: "BUSINESS" | "PERSONAL" | "NONE";
   accountSubType: "Savings" | "Checking" | "Card";
   nickname: string;
-  openingDate: Date;
+  openingDate: Date
+  description: null | string;
   account: {
     schemeName: string;
     identification: string;
