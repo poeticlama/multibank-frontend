@@ -35,7 +35,7 @@ const ExpenseStatistics = ({months, expenses, currentPredict, nextPredict}: Expe
       <div className="flex justify-center gap-3 mb-5">
         {graph}
       </div>
-      <GraphLegend currentExpenses={expenses[expenses.length - 2]} currentPredict={currentPredict.toFixed(2)} nextPredict={nextPredict.toFixed(2)} />
+      <GraphLegend currentExpenses={expenses[expenses.length - 2]} currentPredict={currentPredict.toFixed(0)} nextPredict={nextPredict.toFixed(0)} />
     </>
   );
 }
