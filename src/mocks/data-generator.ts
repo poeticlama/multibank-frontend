@@ -28,6 +28,7 @@ export const dataGenerator = (dataCount: number): Transaction[] => {
       accountId: `ACC${String(index + 1).padStart(8, '0')}`,
       transactionId: `TXN${String(index + 1).padStart(10, '0')}`,
       amount: amount,
+      type: 'BUSINESS',
       creditDebitIndicator: isCredit ? 'Credit' : 'Debit',
       status: statuses[Math.floor(Math.random() * statuses.length)],
       bookingDateTime: baseDate,

@@ -8,6 +8,8 @@ import LoginPage from './pages/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import PrivateRoute from './components/router/PrivateRoute.tsx';
 import ProductsPage from './pages/ProductsPage.tsx';
+import PremiumPage from './pages/PremiumPage.tsx';
+import ProductFormPage from './pages/ProductFormPage.tsx';
 
 
 
@@ -17,9 +19,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <PrivateRoute>
-        <HomePage />
-      </PrivateRoute>
+      <HomePage />
     ),
   },
   {
@@ -45,7 +45,15 @@ export const router = createBrowserRouter([
       {
         path: 'products',
         element: <ProductsPage />
-      }
+      },
+      {
+        path: 'product/:productId',
+        element: <ProductFormPage />
+      },
+      {
+        path: 'premium',
+        element: <PremiumPage />
+      },
     ],
   },
   {

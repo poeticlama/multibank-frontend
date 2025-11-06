@@ -1,4 +1,5 @@
 import type { ProductType } from '../../types/products-types.ts';
+import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
   product: ProductType;
@@ -36,12 +37,12 @@ const ProductCard = ({product}: ProductCardProps) => {
             </p>
           )}
         </div>
-        <button
-          type="submit"
+        <Link
+          to={`/account/product/${product.productId}`}
           className="bg-blue-900 hover:bg-blue-600 text-white font-semibold py-2 px-3 sm:py-2 sm:px-4 rounded-lg transition-colors duration-200 hover:cursor-pointer focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm sm:text-base whitespace-nowrap"
         >
           Оформить
-        </button>
+        </Link>
       </div>
     </div>
   )

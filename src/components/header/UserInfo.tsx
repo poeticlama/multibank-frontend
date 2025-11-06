@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../mocks/LoginMockContext.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const UserInfo = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { user, logout, switchStatus } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   // Закрытие меню при клике вне компонента
   useEffect(() => {
@@ -28,8 +30,8 @@ const UserInfo = () => {
     logout();
   };
 
-  const handleStatusSwitch = () => {
-    switchStatus();
+  const handleNavigatePremium = () => {
+    navigate('/account/premium');
     setIsMenuOpen(false);
   };
 
@@ -55,10 +57,10 @@ const UserInfo = () => {
       {isMenuOpen && (
         <div className='absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50'>
           <button
-            onClick={handleStatusSwitch}
+            onClick={handleNavigatePremium}
             className='w-full px-4 py-2 text-left text-blue-900 hover:bg-gray-100 transition-colors cursor-pointer'
           >
-            Перейти на {user?.status === "Premium" ? "Premium" : "Default" }
+            Мой аккаунт
           </button>
           <button
             onClick={handleLogout}
