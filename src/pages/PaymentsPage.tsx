@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PaymentMethodSelector } from '../components/payment/PaymentMethodSelector';
 import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
 import { Button } from '../components/shared/Button';
-import accounts from '../mocks/accounts-mock';
+import { useAccounts } from '../hooks/useAccounts.ts';
 
 
 type PaymentMethod = 'card' | 'account';
@@ -15,6 +15,11 @@ const PaymentsPage= () => {
   const [amount, setAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
   const [toAccount, setToAccount] = useState('');
+  const { accounts, getAllAccounts } = useAccounts();
+
+  useEffect(() => {
+    getAllAccounts();
+  }, [getAllAccounts]);
 
   const handleSubmit = () => {
     const fromAccountData = accounts.find(acc => acc.accountId === fromAccount);
@@ -30,7 +35,6 @@ const PaymentsPage= () => {
 
     console.log('Payment data:', paymentData);
 
-
     // Суда API ставъ
 
     
@@ -43,6 +47,8 @@ const PaymentsPage= () => {
       return amount && fromAccount && toAccount && fromAccount !== toAccount;
     }
   };
+
+
 
   return (
     <div className="min-h-screen py-8">
