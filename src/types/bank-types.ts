@@ -1,1 +1,1 @@
-export type Bank = 'ABank' | 'SBank' | 'VBank'
+export type Bank = string

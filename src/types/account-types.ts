@@ -24,6 +24,11 @@ export type ExpensesPredict = {
   nextPredict: number;
 }
 
+export type BankClientLink = {
+  bankId: string;
+  clientId: string;
+}
+
 export type User = {
   id: number;
   login: string;

@@ -7,13 +7,12 @@ type Option = {
 
 type CustomSelectProps = {
   options: Option[];
-  placeholder?: string;
   onChange?: (value: string) => void;
 };
 
-const CustomSelect = ({ options, placeholder, onChange }: CustomSelectProps) => {
+const CustomSelect = ({ options, onChange }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<Option | null>(null);
+  const [selected, setSelected] = useState<Option | null>(options[0] || null);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleSelect = (option: Option) => {
@@ -38,7 +37,7 @@ const CustomSelect = ({ options, placeholder, onChange }: CustomSelectProps) => 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center text-xs font-semibold px-4 py-2 bg-blue-50 border border-blue-300 text-blue-800 rounded-xl shadow-sm hover:bg-blue-100 transition"
       >
-        <span>{selected ? selected.label : placeholder || "Выберите..."}</span>
+        <span>{selected ? selected.label : "Выберите..."}</span>
         <svg
           className={`w-4 h-4 transform transition-transform ${
             isOpen ? "rotate-180" : ""
