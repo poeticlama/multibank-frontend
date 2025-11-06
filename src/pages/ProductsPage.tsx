@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import productsMock from '../mocks/products-mock.ts';
 import ProductsList from '../components/products/ProductsList.tsx';
 import CustomSelect from '../components/shared/CustomSelect.tsx';
@@ -6,7 +6,7 @@ import productTypes from '../constants/productTypes.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
 
 const ProductsPage = () => {
-  const products = productsMock;
+  const [products, setProducts] = useState(productsMock);
   const {
     accounts,
     getAllAccounts,
@@ -38,6 +38,14 @@ const ProductsPage = () => {
     ];
   }, [accounts, hasAccounts]);
 
+  const sortProductsByType = (productType: string) => {
+    if (productType === 'all') {
+      setProducts(productsMock);
+      return;
+    }
+    setProducts(productsMock.filter(product => product.productType === productType));
+  }
+
   if (isLoading) {
     return (
       <main className="pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto">
@@ -67,6 +75,7 @@ const ProductsPage = () => {
         />
         <CustomSelect
           options={productTypes}
+          onChange={sortProductsByType}
         />
       </div>
 
