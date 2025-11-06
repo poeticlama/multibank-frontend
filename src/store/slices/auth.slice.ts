@@ -153,7 +153,7 @@ const authSlice = createSlice({
       .addCase(initAuthListener.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.isAuthenticated = true;
+        state.isAuthenticated = !!state.user;
       });
   },
 });

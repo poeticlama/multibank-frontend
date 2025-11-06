@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../mocks/LoginMockContext.tsx';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/login/Card';
 import { LoginForm } from '../components/login/LoginForm';
 import { RegisterLink } from '../components/login/RegisterLink';
+import { useAuth } from '../hooks/auth/useAuth.ts';
 
 
 interface LoginFormData {
