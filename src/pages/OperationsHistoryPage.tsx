@@ -4,6 +4,8 @@ import { Operation } from '../components/operations-history/Operation.tsx';
 import { getDataSlice } from '../mocks/get-data-slice.ts';
 import CustomSelect from '../components/shared/CustomSelect.tsx';
 import { useEffect } from 'react';
+import months from '../constants/options/months.ts';
+import personalBusiness from '../constants/options/personal-business.ts';
 
 const OperationsHistoryPage = () => {
   useEffect(() => {
@@ -26,16 +28,10 @@ const OperationsHistoryPage = () => {
         {/* Фильтры */}
         <div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">
           <CustomSelect
-              options={[{label: "a", value: "b"}, {label: "c", value: "b"}]}
-              placeholder="Выбрать месяц"
+              options={months}
             />
           <CustomSelect
-              options={[{label: "a", value: "b"}, {label: "c", value: "b"}]}
-              placeholder="Счета и карты"
-            />
-          <CustomSelect
-              options={[{label: "a", value: "b"}, {label: "c", value: "b"}]}
-              placeholder="Личные и бизнес траты"
+              options={personalBusiness}
             />
         </div>
       </div>
