@@ -1,24 +1,13 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit';
-
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: {
-    value: 0,
-  },
-  reducers: {
-    incremented: state => {
-      state.value += 1;
-    },
-    decremented: state => {
-      state.value -= 1;
-    },
-  },
-});
-
-export const { incremented, decremented } = counterSlice.actions;
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './slices/auth.slice.ts';
 
 const store = configureStore({
-  reducer: counterSlice.reducer,
+  reducer: {
+    auth: authReducer,
+  },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

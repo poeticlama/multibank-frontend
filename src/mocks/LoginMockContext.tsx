@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { User } from '../types/account-types.ts';
-
-
-// Mock данные пользователей
-const mockUsers: User[] = [
-  { id: 1, login: 'user1', password: '1111', name: 'Пенис Денисович', status: "Default" },
-  { id: 2, login: 'user2', password: '2222', name: 'Иван Говнов', status: "Default" },
-  { id: 3, login: 'admin', password: 'admin123', name: 'Админисратор', status: "Premium" },
-];
+import mockUsers from './users-mock.ts';
 
 interface AuthContextType {
   user: User | null;
@@ -30,7 +23,7 @@ export const AuthContext = React.createContext<AuthContextType>({
 
 export const registrate = ( login: string, password: string ) => {
   mockUsers.push(
-    { id: mockUsers.length, login: login, password: password, name: login, status: "Default" },
+    { id: mockUsers.length, login: login, password: password, name: login, status: "DEFAULT" },
   )
   return true;
 };
@@ -91,7 +84,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const switchStatus = () => {
     if (!user) return;
 
-    const newStatus = user.status === "Premium" ? "Default" : "Premium";
+    const newStatus = user.status === "PREMIUM" ? "DEFAULT" : "PREMIUM";
 
     setUser((user) => user?  {...user, status: newStatus} : null);
 

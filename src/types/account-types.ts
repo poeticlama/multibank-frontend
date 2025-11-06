@@ -29,5 +29,11 @@ export type User = {
   login: string;
   password: string;
   name: string;
-  status: "Premium" | "Default";
+  status: "PREMIUM" | "DEFAULT";
+}
+
+export type Credentials = {
+  login: string;
+  password: string;
+  rememberMe: boolean;
 }
