@@ -51,6 +51,40 @@ const accounts: AccountData[] = [
       name: "IVAN PETROV"
     },
     bank: "ABank",
+  },
+  {
+    accountId: "893456",
+    status: "Disabled",
+    amount: 432143.32,
+    currency: "EUR",
+    purposeType: "PERSONAL",
+    accountSubType: "Card",
+    nickname: "Карта для путешествий",
+    description: "ДЛИННННННОЕ ОПИСАНИЕ вфццццццццццццццццццццццццццццшгпгпргшрпашгрфыыыыыыыамыгрмшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшшввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввввв",
+    openingDate: new Date('2024-01-10'),
+    account: {
+      schemeName: "EU.IBAN",
+      identification: "DE89370400440532013000",
+      name: "IVAN PETROV"
+    },
+    bank: "ABank",
+  },
+  {
+    accountId: "893456",
+    status: "Disabled",
+    amount: 432143.32,
+    currency: "EUR",
+    purposeType: "PERSONAL",
+    accountSubType: "Card",
+    nickname: "Карта для путешествий",
+    description: null,
+    openingDate: new Date('2024-01-10'),
+    account: {
+      schemeName: "EU.IBAN",
+      identification: "DE89370400440532013000",
+      name: "IVAN PETROV"
+    },
+    bank: "ABank",
   }
 ];
 
