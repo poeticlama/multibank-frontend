@@ -43,12 +43,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <FormInput
-        label="Имя пользователя"
+        label="Логин"
         type="text"
         name="login"
         value={formData.login}
         onChange={handleChange}
-        placeholder="Введите ваше имя"
+        placeholder="Введите логин"
         required
         autoComplete="username"
       />

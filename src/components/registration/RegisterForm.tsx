@@ -41,14 +41,38 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <FormInput
-        label="Имя пользователя"
+        label="Логин"
         type="text"
         name="login"
         value={formData.login}
         onChange={handleChange}
-        placeholder="Введите ваше имя"
+        placeholder="Введите логин"
         required
         autoComplete="username"
+      />
+
+      <FormInput
+        label="Имя"
+        type="text"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Введите ваше имя"
+        required
+        minLength={6}
+        autoComplete="new-password"
+      />
+
+      <FormInput
+        label="Фамилия"
+        type="text"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Введите вашу фамилию"
+        required
+        minLength={6}
+        autoComplete="new-password"
       />
 
       <FormInput
