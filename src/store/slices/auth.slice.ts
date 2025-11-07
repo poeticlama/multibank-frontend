@@ -7,6 +7,7 @@ type AuthState = {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  token: string | null;
 };
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  token: null,
 };
 
 export const login = createAsyncThunk(
