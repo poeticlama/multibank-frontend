@@ -9,11 +9,10 @@ const FooterBlock = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-400">
             <span>8 (800) 555-35-35</span>
-            <span>pussi_destroer_2005@SVOmail.RussianEmpire</span>
             <span>Анапа, ул. БиллиХеррингтона, 1312</span>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-gray-500">
-            <p>© 2024 Multibank. Все права не защищены.</p>
+            <p>© 2025 Multibank. Все права не защищены.</p>
           </div>
         </div>
       </div>
