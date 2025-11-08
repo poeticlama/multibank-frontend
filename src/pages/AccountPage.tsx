@@ -8,9 +8,6 @@ import statisticsMock from '../mocks/statistics-mock.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
 import { useEffect } from 'react';
 
-//import accountsMock from '../mocks/accounts-mock.ts';
-
-
 
 
 const AccountPage = () => {
@@ -35,9 +32,6 @@ const AccountPage = () => {
 
 
   }
-
-
-
 
   useEffect(() => {
     getAllAccounts();
@@ -67,7 +61,7 @@ const AccountPage = () => {
 
 
         {/* Блок со статистикой */}
-        <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full flex flex-col justify-around'>
+        <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full h-fit flex flex-col justify-around'>
           <h2 className='text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12'>
             Расходы за последние 12 месяцев
           </h2>

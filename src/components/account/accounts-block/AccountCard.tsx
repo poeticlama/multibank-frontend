@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { AccountData } from '../../../types/account-types.ts';
 import RubleIcon from './RubleIcon.tsx';
 import getCurrency from '../../../constants/get-currency.ts';
@@ -10,7 +10,6 @@ type AccountCardProps = {
 }
 
 const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => {
-  
   const [iconSize, setIconSize] = useState(20);
   const [requisitesIsOpen, setRequisitesIsOpen] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -73,16 +72,9 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
 
       {/* Верхняя часть с балансом и валютой */}
       <div className="flex items-center gap-3 mb-2">
-        <RubleIcon size={iconSize}/>
-        <h3 className="text-lg sm:text-xl font-bold break-words">
-          {accountData.amount + " " + getCurrency(accountData.currency)}
-        </h3>
       </div>
-      
-
         {
-          accountData.status == "Pending" ? 
-
+          accountData.status == "Pending" ?
           (
             <div className="flex items-center gap-3">
               <h3
@@ -92,7 +84,6 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
               </h3>
             </div>
           )
-
           : (
             <div className="flex items-center gap-3">
               <RubleIcon size = {iconSize}/>
@@ -105,10 +96,6 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
           )
 
         }
-
-
-
-
       {/* Блок с описанием счета */}
       {newDescription && (
         <div className="mb-2 relative">
@@ -166,9 +153,6 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
                   >
                     {isDescriptionExpanded ? 'Свернуть' : 'Подробнее'}
                   </button>
-
-
-
                 </div>
               )}
             </>
@@ -177,7 +161,6 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
       )}
 
 
-      {/* Нижняя часть с названием банка и кнопкой реквизитов */}
       <div className="mt-auto font-light flex justify-between items-center gap-2">
         <span className="text-sm xs:text-base truncate flex-1">
           {accountData.bank}
@@ -197,18 +180,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
             name: accountData.account.name
           }}
         />
-
-
-        {accountData.status != "Pending" && (<Link
-          to='/account'
-          className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors"
-        >
-          Реквизиты
-        </Link>)}
-
-
       </div>
-
     </div>
   )
 }
