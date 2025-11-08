@@ -52,30 +52,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       />
 
       <FormInput
-        label="Имя"
-        type="text"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        placeholder="Введите ваше имя"
-        required
-        minLength={6}
-        autoComplete="new-password"
-      />
-
-      <FormInput
-        label="Фамилия"
-        type="text"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        placeholder="Введите вашу фамилию"
-        required
-        minLength={6}
-        autoComplete="new-password"
-      />
-
-      <FormInput
         label="Пароль"
         type="password"
         name="password"

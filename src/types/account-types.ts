@@ -30,11 +30,12 @@ export type BankClientLink = {
 }
 
 export type User = {
-  id: number;
-  login: string;
-  password: string;
   name: string;
+  surname: string;
+  username: string;
   status: "PREMIUM" | "DEFAULT";
+  premiumExpireDate: Date | null;
+  bankClientLinks: BankClientLink[];
 }
 
 export type Credentials = {
