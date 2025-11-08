@@ -4,9 +4,9 @@ import './index.css';
 import App from './App.tsx';
 import { Provider } from 'react-redux';
 import store from './store';
-import { initAuthListener } from './store/slices/auth.slice.ts';
+import { initFromStorage } from './store/slices/auth.slice.ts';
 
-store.dispatch(initAuthListener())
+store.dispatch(initFromStorage());
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
