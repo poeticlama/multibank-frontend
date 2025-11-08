@@ -2,7 +2,7 @@ import type { Bank } from './bank-types.ts';
 
 export type AccountData = {
   accountId: string;
-  status: "Enabled" | "Disabled";
+  status: "Enabled" | "Disabled" | "Pending";
   amount: number;
   currency: string;
   purposeType: "BUSINESS" | "PERSONAL" | "NONE";

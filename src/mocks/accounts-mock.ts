@@ -20,6 +20,23 @@ const accounts: AccountData[] = [
   },
   {
     accountId: "528741",
+    status: "Pending",
+    amount: 431.34,
+    currency: "USD",
+    purposeType: "BUSINESS",
+    accountSubType: "Checking",
+    nickname: "Основной расчетный счет",
+    description: "На додеп",
+    openingDate: new Date('2022-11-20'),
+    account: {
+      schemeName: "US.ABA",
+      identification: "021000021",
+      name: "PALTUS TRADING LTD"
+    },
+    bank: "VBank",
+  },
+  {
+    accountId: "528741",
     status: "Enabled",
     amount: 431.34,
     currency: "USD",

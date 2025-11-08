@@ -1,5 +1,9 @@
 import AccountCard from '../components/account/accounts-block/AccountCard.tsx';
 import ExpenseStatistics from '../components/account/statistics-block/ExpenseStatistics.tsx';
+
+import { Button } from '../components/shared/Button';
+import { useNavigate } from 'react-router-dom';
+
 import statisticsMock from '../mocks/statistics-mock.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
 import { useEffect } from 'react';
@@ -10,6 +14,9 @@ import { useEffect } from 'react';
 
 
 const AccountPage = () => {
+
+  const navigate = useNavigate();
+
   const { accounts, getAllAccounts, isLoading } = useAccounts();
   const currentPredict = statisticsMock.currentPredict;
   const nextPredict = statisticsMock.nextPredict;
@@ -48,7 +55,16 @@ const AccountPage = () => {
           {isLoading ? "Загрузка..." : accounts.map(account => (
               <AccountCard key={account.accountId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
           ))}
+
+          <Button 
+            onClick={ ()=>{navigate('/account/add')} } 
+            disabled={false}
+          >
+            Добавить счет
+          </Button>
+
         </div>
+
 
         {/* Блок со статистикой */}
         <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full flex flex-col justify-around'>

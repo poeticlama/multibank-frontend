@@ -78,6 +78,36 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
           {accountData.amount + " " + getCurrency(accountData.currency)}
         </h3>
       </div>
+      
+
+        {
+          accountData.status == "Pending" ? 
+
+          (
+            <div className="flex items-center gap-3">
+              <h3
+                className="text-lg sm:text-xl font-bold break-words"
+              >
+                Ожидает подтверждения
+              </h3>
+            </div>
+          )
+
+          : (
+            <div className="flex items-center gap-3">
+              <RubleIcon size = {iconSize}/>
+              <h3
+                className="text-lg sm:text-xl font-bold break-words"
+              >
+                {accountData.amount + " " + getCurrency(accountData.currency)}
+              </h3>
+            </div>
+          )
+
+        }
+
+
+
 
       {/* Блок с описанием счета */}
       {newDescription && (
@@ -167,6 +197,16 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
             name: accountData.account.name
           }}
         />
+
+
+        {accountData.status != "Pending" && (<Link
+          to='/account'
+          className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors"
+        >
+          Реквизиты
+        </Link>)}
+
+
       </div>
 
     </div>
