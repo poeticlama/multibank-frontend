@@ -98,7 +98,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
         }
       {/* Блок с описанием счета */}
       {newDescription && (
-        <div className="mb-2 relative">
+        <div className="my-2 relative">
           {isEditing ? (
             <div className="space-y-2">
               <textarea
@@ -132,7 +132,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
             <>
               <div
                 className={`
-                  text-xs xs:text-sm text-gray-700 leading-tight 
+                  text-xs xs:text-sm text-gray-600 leading-tight
                   break-words break-all word-wrap-break-word overflow-wrap-break-word
                   ${isDescriptionExpanded ? '' : 'line-clamp-2'}
                   cursor-pointer hover:bg-blue-300 hover:bg-opacity-30 rounded px-1 py-1 transition-colors

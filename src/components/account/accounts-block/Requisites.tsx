@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface RequisitesProps {
   isOpen: boolean;
@@ -13,9 +13,16 @@ interface RequisitesProps {
 }
 
 const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const onClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -24,12 +31,14 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
         onClose();
       }
     };
+
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
@@ -56,8 +65,14 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-md w-full p-6">
+    <div className="fixed inset-0 bg-gradient-to-b from-black/20 to-black/40 flex items-center justify-center p-4 z-50"
+      onClick={handleBackdropClick}
+    >
+      <div
+        ref={modalRef}
+        className="bg-white rounded-xl max-w-md w-full p-6"
+        onClick={(e) => e.stopPropagation()} // Предотвращаем закрытие при клике внутри модалки
+      >
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-semibold text-blue-900">Реквизиты счета</h3>
         </div>
@@ -80,7 +95,7 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
             Копировать все
           </button>
           <button
-            onClick={ onClose }
+            onClick={onClose}
           >
             Закрыть
           </button>
