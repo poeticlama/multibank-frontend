@@ -1,7 +1,6 @@
-import type { Bank } from './bank-types.ts';
-
 export type AccountData = {
   accountId: string;
+  bankId: string;
   status: "Enabled" | "Disabled" | "Pending";
   amount: number;
   currency: string;
@@ -15,7 +14,6 @@ export type AccountData = {
     identification: string;
     name: string;
   };
-  bank: Bank;
 }
 
 export type ExpensesPredict = {

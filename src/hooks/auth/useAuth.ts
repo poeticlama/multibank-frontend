@@ -22,21 +22,16 @@ export const useAuth = () => {
   const [registerMutation, { isLoading: registerLoading }] = useRegisterMutation();
   const [fetchGeneralData, { isLoading: generalDataLoading }] = useLazyGeneralDataQuery();
 
-  /** 🔐 Логин */
   const handleLogin = async (loginStr: string, password: string, rememberMe: boolean) => {
     try {
-      // 1. Отправляем логин
       const resLogin = await loginMutation({ username: loginStr, password }).unwrap();
       if (!resLogin.token || !resLogin.expiresIn)
         throw new Error('Сервер не вернул токен или expiresIn');
 
-      // 2. Сохраняем токен в store (нужен для подстановки в headers)
       dispatch(setToken(resLogin.token));
 
-      // 3. Получаем информацию о пользователе
       const userData = await fetchGeneralData(null).unwrap();
 
-      // 4. Сохраняем пользователя и токен в redux + local/session storage
       dispatch(setUser(userData));
       dispatch(
         saveUserToStorage({
@@ -54,7 +49,6 @@ export const useAuth = () => {
     }
   };
 
-  /** 🧾 Регистрация */
   const handleRegister = async (loginStr: string, password: string, rememberMe = true) => {
     try {
       const res = await registerMutation({ username: loginStr, password }).unwrap();
@@ -64,7 +58,6 @@ export const useAuth = () => {
 
       dispatch(setToken(res.token));
 
-      // После регистрации — тоже загружаем данные пользователя
       const userData = await fetchGeneralData(null).unwrap();
 
       dispatch(setUser(userData));
