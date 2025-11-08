@@ -8,6 +8,11 @@ import statisticsMock from '../mocks/statistics-mock.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
 import { useEffect } from 'react';
 
+//import accountsMock from '../mocks/accounts-mock.ts';
+
+
+
+
 const AccountPage = () => {
 
   const navigate = useNavigate();
@@ -17,6 +22,22 @@ const AccountPage = () => {
   const nextPredict = statisticsMock.nextPredict;
   const months = Object.keys(statisticsMock.statistic);
   const expenses = Object.values(statisticsMock.statistic);
+
+
+
+  const onDescriptionUpdate = (accountId: string, newDescription: string) => {
+
+
+    //Сюда надо API прикручивать
+
+    console.log(accountId, newDescription)
+
+
+
+  }
+
+
+
 
   useEffect(() => {
     getAllAccounts();
@@ -32,7 +53,7 @@ const AccountPage = () => {
         {/* Блок с картами счетов */}
         <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
           {isLoading ? "Загрузка..." : accounts.map(account => (
-              <AccountCard key={account.accountId} accountData={account} />
+              <AccountCard key={account.accountId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
           ))}
 
           <Button 
