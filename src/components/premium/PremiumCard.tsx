@@ -9,7 +9,7 @@ interface PremiumCardProps {
 
 const PremiumCard = ({ title, days, price, originalPrice, popular, onSelect }: PremiumCardProps) => {
   return (
-    <div className={`relative bg-white p-4 sm:p-5 lg:p-6 rounded-xl border-2 ${popular ? 'border-blue-500' : 'border-gray-200'} hover:border-blue-300 transition-colors cursor-pointer h-full flex flex-col`}>
+    <div className={`relative bg-white p-4 sm:p-5 lg:p-6 rounded-xl border-2 ${popular ? 'border-blue-500' : 'border-gray-200'} hover:border-blue-300 transition-colors h-full flex flex-col`}>
       {popular && (
         <div className='absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium'>
           Популярный
@@ -46,7 +46,7 @@ const PremiumCard = ({ title, days, price, originalPrice, popular, onSelect }: P
         
         <button
           onClick={() => onSelect(days)}
-          className={`w-full py-2 sm:py-3 rounded-lg font-medium transition-colors bg-gray-100 hover:bg-gray-200 text-blue-900`}
+          className={`w-full py-2 sm:py-3 rounded-lg font-medium transition-colors bg-gray-100 hover:bg-gray-200 hover:cursor-pointer text-blue-900`}
         >
           Выбрать
         </button>

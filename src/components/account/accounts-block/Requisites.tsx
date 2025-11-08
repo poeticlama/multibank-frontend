@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 interface RequisitesProps {
   isOpen: boolean;
@@ -15,9 +15,9 @@ interface RequisitesProps {
 const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, [setIsModalOpen]);
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -43,7 +43,7 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
