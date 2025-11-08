@@ -10,6 +10,7 @@ import PrivateRoute from './components/router/PrivateRoute.tsx';
 import ProductsPage from './pages/ProductsPage.tsx';
 import PremiumPage from './pages/PremiumPage.tsx';
 import ProductFormPage from './pages/ProductFormPage.tsx';
+import AddBankPage from './pages/AddBankPage';
 
 
 
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: 'payments',
         element: <PaymentsPage />
+      },
+      {
+        path: 'add',
+        element: <AddBankPage />
       },
       {
         path: 'products',
