@@ -12,7 +12,7 @@ export type OperationProps = {
 
 export const Operation = ({ transaction, premium }: OperationProps): JSX.Element => {
 
-  const [value, setValue] = useState(transaction.type);
+  const [value] = useState(transaction.type);
 
   return (
     <div
@@ -34,18 +34,25 @@ export const Operation = ({ transaction, premium }: OperationProps): JSX.Element
             Счёт: {transaction.accountId}
           </p>
 
-          {premium && (
-            <select
-              value={value}
-              onChange={() => {
-                setValue( value == "BUSINESS" ? "PERSONAL" : "BUSINESS" ) // handle
-              }}
-              className="text-xs text-blue-950 opacity-60 font-light mt-1 xs:mt-1.5 border border-blue-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
-            >
-              <option value="PERSONAL">Личное</option>
-              <option value="BUSINESS">Бизнес</option>
-            </select>
-          )}
+          {premium &&
+            <div className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5">
+              Тип расходов: <span className="font-semibold text-blue-900 opacity-60">{value === "BUSINESS"? "Бизнес" : "Личное"}</span>
+            </div>
+          }
+
+          {/*{premium && (*/}
+          {/*  <select*/}
+          {/*    value={value}*/}
+          {/*    onChange={(e) => {*/}
+          {/*      setValue( value == "BUSINESS" ? "PERSONAL" : "BUSINESS" ) // handle*/}
+          {/*    }}*/}
+          {/*    className="text-xs text-blue-950 opacity-60 font-light mt-1 xs:mt-1.5 border border-blue-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500"*/}
+          {/*  >*/}
+          {/*    <option value="PERSONAL">Личное</option>*/}
+          {/*    <option value="BUSINESS">Бизнес</option>*/}
+          {/*  </select>*/}
+          {/*)}*/}
+
         </div>
 
         <div className="flex flex-col items-end flex-shrink-0 pl-2 xs:pl-3 sm:pl-4">

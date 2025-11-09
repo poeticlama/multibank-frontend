@@ -1,7 +1,7 @@
 import type { Settings } from '../components/operations-history/VirtualScroll.tsx';
 
 export const SETTINGS: Settings = {
-  itemHeight: 120,
-  amount: 4,
+  itemHeight: 110,
+  amount: 5,
   tolerance: 2,
 };

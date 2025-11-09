@@ -5,7 +5,7 @@ export const statisticsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getStatistics: build.query<ExpensesPredict, null>({
       query: () => ({
-        url: `/api/data/statistic?type=PERSONAL`,
+        url: `/api/data/statistic?type=NONE`,
         method: 'GET',
       })
     }),

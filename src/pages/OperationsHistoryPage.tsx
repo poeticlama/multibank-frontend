@@ -82,37 +82,37 @@ const OperationsHistoryPage = () => {
         </h1>
         
         {/* Фильтры */}
-        <div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">
-          <CustomSelect
-              options={months}
-            />
+        {/*<div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">*/}
+        {/*  <CustomSelect*/}
+        {/*      options={months}*/}
+        {/*    />*/}
 
-          { !!user &&
-            (
-              <div>
-                {
-                  user.status === "PREMIUM" ?
-                  <CustomSelect
-                    options={personalBusiness}
-                  /> :
-                  <div title="Только для premium аккаунтов">
-                    {/*
-                      У меня в Firefox cursor-not-allowed не показывает title,
-                      вроде это нормально для многих браузеров,
-                      поэтому лучше на блок вверх title подвинуть
-                    */}
-                    <div className="cursor-not-allowed opacity-50 pointer-events-none">
-                      <CustomSelect
-                        options={[ { label: "Личные и бизнес траты", value: "00"}, {label: "Только для premium аккаунтов", value: "01"}, ]}
-                      />
-                    </div>
-                  </div>
-                }
-              </div>
-            )
-          }
+        {/*  { !!user &&*/}
+        {/*    (*/}
+        {/*      <div>*/}
+        {/*        {*/}
+        {/*          user.status === "PREMIUM" ?*/}
+        {/*          <CustomSelect*/}
+        {/*            options={personalBusiness}*/}
+        {/*          /> :*/}
+        {/*          <div title="Только для premium аккаунтов">*/}
+        {/*            /!**/}
+        {/*              У меня в Firefox cursor-not-allowed не показывает title,*/}
+        {/*              вроде это нормально для многих браузеров,*/}
+        {/*              поэтому лучше на блок вверх title подвинуть*/}
+        {/*            *!/*/}
+        {/*            <div className="cursor-not-allowed opacity-50 pointer-events-none">*/}
+        {/*              <CustomSelect*/}
+        {/*                options={[ { label: "Личные и бизнес траты", value: "00"}, {label: "Только для premium аккаунтов", value: "01"}, ]}*/}
+        {/*              />*/}
+        {/*            </div>*/}
+        {/*          </div>*/}
+        {/*        }*/}
+        {/*      </div>*/}
+        {/*    )*/}
+        {/*  }*/}
 
-        </div>
+        {/*</div>*/}
       </div>
 
       {/* Список операций */}
