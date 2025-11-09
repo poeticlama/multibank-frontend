@@ -7,10 +7,18 @@ import { useEffect } from 'react';
 import months from '../constants/options/months.ts';
 import personalBusiness from '../constants/options/personal-business.ts';
 
+import { useAuth } from '../hooks/auth/useAuth.ts';
+
+
 const OperationsHistoryPage = () => {
+
+  const { user } = useAuth();
+
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    console.log( user )
 
     return () => {
       document.body.style.overflow = originalOverflow;
@@ -30,15 +38,43 @@ const OperationsHistoryPage = () => {
           <CustomSelect
               options={months}
             />
-          <CustomSelect
-              options={personalBusiness}
-            />
+
+          { user != null &&
+            (
+              <div>
+                {
+                  user.status == "PREMIUM" ?
+                  <CustomSelect
+                    options={personalBusiness}
+                  /> :
+                  <div title="Только для premium аккаунтов">
+                    {/*
+                      У меня в Firefox cursor-not-allowed не показывает title,
+                      вроде это нормально для многих браузеров,
+                      поэтому лучше на блок вверх title подвинуть
+                    */}
+                    <div className="cursor-not-allowed opacity-50 pointer-events-none">
+                      <CustomSelect
+                        options = {[ { label: "Личные и бизнес траты", value: "00"}, {label: "Только для premium аккаунтов", value: "01"}, ]}
+                      />
+                    </div>
+                  </div>
+                }
+              </div>
+            )
+          }
+
         </div>
       </div>
 
       {/* Список операций */}
       <div className=" px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25">
-        <VirtualScroll settings={SETTINGS} template={Operation} get={getDataSlice} />
+        { user != null && (
+            <VirtualScroll settings={SETTINGS} template={Operation} premium={user.status == "PREMIUM"} get={getDataSlice} />
+          )
+        }
+
+        
       </div>
     </main>
   )

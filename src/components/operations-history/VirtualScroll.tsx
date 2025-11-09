@@ -3,6 +3,7 @@ import type { OperationProps } from './Operation.tsx';
 import { getDataSlice } from '../../mocks/get-data-slice.ts';
 import type { Transaction } from '../../types/transaction-types.ts';
 
+
 export type Settings = {
   maxIndex: number;
   itemHeight: number;
@@ -12,7 +13,8 @@ export type Settings = {
 
 type VirtualScrollProps = {
   settings: Settings;
-  template: ({ transaction }: OperationProps) => JSX.Element;
+  premium: boolean; 
+  template: ({ transaction, premium }: OperationProps) => JSX.Element;
   get: (offset: number, limit: number, settings: Settings) => Transaction[];
 }
 
@@ -35,7 +37,7 @@ const setInitialState = (settings: Settings) => {
   };
 };
 
-const VirtualScroll = ({ settings, template, get }: VirtualScrollProps) => {
+const VirtualScroll = ({ settings, premium, template, get }: VirtualScrollProps) => {
   const viewPortElement = useRef<HTMLDivElement>(null);
 
   const [state, setState] = useState(setInitialState(settings));
@@ -71,7 +73,7 @@ const VirtualScroll = ({ settings, template, get }: VirtualScrollProps) => {
     >
       <div style={{ height: topPaddingHeight }}></div>
       {data.map((item) => (
-        <RowTemplate key={item.transactionId} transaction={item} />
+        <RowTemplate key={item.transactionId} transaction={item} premium={premium} />
       ))}
       <div style={{ height: bottomPaddingHeight }}></div>
     </div>
