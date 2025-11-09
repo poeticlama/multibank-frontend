@@ -21,7 +21,7 @@ export const AccountSelector: React.FC<AccountSelectorProps> = ({
     : accounts;
 
   const formatAccountDisplay = (account: AccountData) => {
-    const lastFourDigits = account.account.identification.slice(-4);
+    const lastFourDigits = account.account[0].identification.slice(-4);
     return `${account.nickname} (****${lastFourDigits}) - ${account.amount.toLocaleString()} ${account.currency}`;
   };
 

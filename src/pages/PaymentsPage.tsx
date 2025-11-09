@@ -19,7 +19,7 @@ const PaymentsPage= () => {
 
   useEffect(() => {
     getAllAccounts();
-  }, [getAllAccounts]);
+  }, []);
 
   const handleSubmit = () => {
     const fromAccountData = accounts.find(acc => acc.accountId === fromAccount);
