@@ -4,12 +4,14 @@ import CustomSelect, { type Option } from '../components/shared/CustomSelect.tsx
 import productTypes from '../constants/productTypes.ts';
 import { useLazyBanksQuery, useLazyGetProductsQuery } from '../store/api/endpoints/banks.api.ts';
 import type { ProductType } from '../types/products-types.ts';
+import type { BankInfo } from '../types/bank-info.ts';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [fetchBanks, { isLoading: banksLoading, isError: banksError }] = useLazyBanksQuery();
   const [fetchProducts, {isLoading: productsLoading, isError: productsError }] = useLazyGetProductsQuery();
   const [banks, setBanks] = useState<Option[]>([]);
+  const [bankLinks, setBankLinks] = useState<BankInfo[]>([]);
   const [bankFilter, setBankFilter] = useState('all');
   const [productFilter, setProductFilter] = useState('all');
 
@@ -23,6 +25,7 @@ const ProductsPage = () => {
             return { label: bank.name, value: bank.id };
           }),
         ]);
+        setBankLinks(fetchedBanks)
       } catch (error) {
         console.error('Ошибка при загрузке банков:', error);
       }
@@ -81,13 +84,13 @@ const ProductsPage = () => {
 
       {/* Фильтры */}
       <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
-        <CustomSelect options={banks} onChange={(option) => setBankFilter(option)} />
-        <CustomSelect options={productTypes} onChange={(option) => setProductFilter(option)} />
+        <CustomSelect options={banks} onChange={option => setBankFilter(option)} />
+        <CustomSelect options={productTypes} onChange={option => setProductFilter(option)} />
       </div>
 
       {/* Список продуктов */}
       <div className='px-3 xs:px-4 sm:px-6 lg:px-25 pt-4 sm:pt-6 lg:pt-8 lg:mr-52'>
-        <ProductsList products={products} />
+        <ProductsList products={products} bankLinks={bankLinks} />
       </div>
     </main>
   );

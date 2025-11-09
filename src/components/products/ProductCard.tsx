@@ -1,11 +1,11 @@
 import type { ProductType } from '../../types/products-types.ts';
-import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
   product: ProductType;
+  link: string;
 }
 
-const ProductCard = ({product}: ProductCardProps) => {
+const ProductCard = ({product, link}: ProductCardProps) => {
   return (
     <div className="h-auto min-h-40 sm:min-h-45 lg:min-h-50 bg-gray-100 rounded-xl px-4 xs:px-5 sm:px-6 lg:px-7 py-4 sm:py-5 flex flex-col sm:flex-row justify-between gap-4 sm:gap-3 lg:gap-4">
       {/* Левая часть - информация о продукте */}
@@ -37,12 +37,12 @@ const ProductCard = ({product}: ProductCardProps) => {
             </p>
           )}
         </div>
-        <Link
-          to={`/account/product/${product.productId}`}
+        <a
+          href={link}
           className="bg-blue-900 hover:bg-blue-600 text-white font-semibold py-2 px-3 sm:py-2 sm:px-4 rounded-lg transition-colors duration-200 hover:cursor-pointer focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm sm:text-base whitespace-nowrap"
         >
-          Оформить
-        </Link>
+          Оформить на {product.bankId}
+        </a>
       </div>
     </div>
   )
