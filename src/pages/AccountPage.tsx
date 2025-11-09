@@ -4,10 +4,11 @@ import ExpenseStatistics from '../components/account/statistics-block/ExpenseSta
 import { Button } from '../components/shared/Button';
 import { useNavigate } from 'react-router-dom';
 
-import statisticsMock from '../mocks/statistics-mock.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/auth/useAuth.ts';
+import { useLazyGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
+import type { ExpensesPredict } from '../types/account-types.ts';
 
 
 
@@ -16,10 +17,9 @@ const AccountPage = () => {
 
   const { accounts, hasAccounts, getAllAccounts, isLoading } = useAccounts();
   const { refreshUser } = useAuth();
-  const currentPredict = statisticsMock.currentPredict;
-  const nextPredict = statisticsMock.nextPredict;
-  const months = Object.keys(statisticsMock.statistic);
-  const expenses = Object.values(statisticsMock.statistic);
+  const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
+
+  const [fetchStatistics, {isLoading: statisticsLoading}] = useLazyGetStatisticsQuery();
 
 
 
@@ -39,6 +39,8 @@ const AccountPage = () => {
       try {
         await refreshUser();
         await getAllAccounts();
+        const res = await fetchStatistics(null).unwrap();
+        setStatistics(res);
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
       }
@@ -80,12 +82,16 @@ const AccountPage = () => {
           <h2 className='text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12'>
             Расходы за последние 12 месяцев
           </h2>
-          <ExpenseStatistics
-            months={months}
-            expenses={expenses}
-            currentPredict={currentPredict}
-            nextPredict={nextPredict}
-          />
+          {(statisticsLoading || !statistics) ?
+            "Загрузка..."
+            :
+            <ExpenseStatistics
+              months={Object.keys(statistics.statistic)}
+              expenses={Object.values(statistics.statistic)}
+              currentPredict={statistics.currentPredict}
+              nextPredict={statistics.nextPredict}
+            />
+          }
         </div>
       </div>
     </main>
