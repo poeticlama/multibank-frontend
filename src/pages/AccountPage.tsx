@@ -68,7 +68,7 @@ const AccountPage = () => {
             </div>
           )}
           {isLoading ? "Загрузка..." : accounts.map(account => (
-              <AccountCard key={account.accountId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
+              <AccountCard key={account.accountId + account.bankId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
           ))}
 
           <Button 
