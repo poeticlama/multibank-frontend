@@ -10,13 +10,13 @@ const GraphLegend = ({currentExpenses, currentPredict, nextPredict}: GraphLegend
     <div className="flex justify-between items-center">
       <div className="flex flex-col gap-2">
         <div>
-          Траты за текущий месяц: <span className="font-semibold">{currentExpenses}</span>
+          Траты за текущий месяц: <span className="font-semibold">{currentExpenses} ₽</span>
         </div>
         <div>
-          Прогноз трат на текущий месяц: <span className="font-semibold">{currentPredict}</span>
+          Прогноз трат на текущий месяц: <span className="font-semibold">{currentPredict} ₽</span>
         </div>
         <div>
-          Прогноз трат на следующий месяц: <span className="font-semibold">{nextPredict}</span>
+          Прогноз трат на следующий месяц: <span className="font-semibold">{nextPredict} ₽</span>
         </div>
       </div>
       <div className="flex flex-col gap-1">
