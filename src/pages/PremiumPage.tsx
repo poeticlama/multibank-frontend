@@ -71,7 +71,7 @@ const PremiumPage = () => {
         </div>
 
         <div className='w-full xl:w-1/3'>
-          <div className='bg-gray-100 p-4 sm:p-5 lg:p-6 rounded-xl sticky top-4'>
+          <div className='bg-gray-100 p-4 sm:p-5 lg:p-6 rounded-xl sticky top-40'>
             <h3 className='text-lg sm:text-xl lg:text-2xl font-medium mb-4 sm:mb-6 text-blue-900'>
               Оформление заказа
             </h3>

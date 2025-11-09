@@ -12,7 +12,7 @@ import Loader from '../components/shared/Loader.tsx';
 const OperationsHistoryPage = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const { user } = useAuth();
-  const { getAllAccounts, accounts } = useAccounts();
+  const { getAllAccounts, accounts, isLoading } = useAccounts();
 
   const [getTransactions, {isLoading: transactionsLoading, isError: transactionsError}] = useLazyGetTransactionsQuery();
 
@@ -61,7 +61,7 @@ const OperationsHistoryPage = () => {
     getAllTransactions();
   }, []);
 
-  if (transactionsLoading) {
+  if (transactionsLoading || isLoading) {
     return <Loader />;
   }
 
