@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BankInfoList } from '../../mocks/banks-ids-list.ts';
-    //Это тоже похорошему нужно из API брать на проде, а не хранить статично на фронте, поэтому сейчас моак
+import type { BankInfo } from '../../types/bank-info.ts';
+import { useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
+import { useConsentAccountMutation } from '../../store/api/endpoints/accounts.api.ts';
 
 
 const AddBankForm: React.FC = () => {
-
+  const [banks, setBanks] = useState<BankInfo[]>([]);
   const navigate = useNavigate();
-  const [bankId, setBankId] = useState( BankInfoList[0].bankId );
+  const [bankId, setBankId] = useState("");
   const [clientId, setClientId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [fetchBanks] = useLazyBanksQuery();
+  const [consentAccountMutation,
+    // { isLoading: loginLoading, isError: submitError }
+  ] = useConsentAccountMutation();
+  // const [addBankMutation] = useAddBankMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Сюда API прикручивать
-    console.log( bankId, clientId )
-    
+    try {
+      consentAccountMutation({
+        bankId: bankId,
+        clientId: clientId,
+      });
+      navigate('/account');
+    } catch (error) {
+      console.error(error);
+    }
     setIsLoading(false);
-    navigate('/account');
   };
+
+  useEffect(() => {
+    const loadBanks = async () => {
+      try {
+        const fetchedBanks = await fetchBanks(null).unwrap();
+        setBanks(fetchedBanks);
+      } catch (error) {
+        console.error('Ошибка при загрузке банков:', error);
+      }
+    };
+
+    loadBanks();
+  }, [fetchBanks]);
 
 
   return (
@@ -37,13 +60,13 @@ const AddBankForm: React.FC = () => {
             <select
               id="bankId"
               value={bankId}
-              onChange={(e) => setBankId(  parseInt( e.target.value , 10) ) }
+              onChange={(e) => setBankId(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              {BankInfoList.map((bank) => (
-                <option key={bank.bankId} value={bank.bankId}>
-                  {bank.bankName}
+              {banks.map((bank) => (
+                <option key={bank.id} value={bank.id}>
+                  {bank.name}
                 </option>
               ))}
             </select>

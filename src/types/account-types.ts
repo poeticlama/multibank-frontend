@@ -16,6 +16,8 @@ export type AccountData = {
   };
 }
 
+export type Status = "BUSINESS" | "PERSONAL" | "NONE";
+
 export type ExpensesPredict = {
   statistic: Record<string, number>;
   currentPredict: number;

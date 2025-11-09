@@ -1,4 +1,5 @@
 export type BankInfo = {
-  bankId: number,
-  bankName: string,
+  id: string,
+  name: string,
+  url: string,
 };

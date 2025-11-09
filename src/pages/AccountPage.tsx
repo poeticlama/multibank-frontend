@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 const AccountPage = () => {
   const navigate = useNavigate();
 
-  const { accounts, getAllAccounts, isLoading } = useAccounts();
+  const { accounts, hasAccounts, getAllAccounts, isLoading } = useAccounts();
   const currentPredict = statisticsMock.currentPredict;
   const nextPredict = statisticsMock.nextPredict;
   const months = Object.keys(statisticsMock.statistic);
@@ -49,7 +49,7 @@ const AccountPage = () => {
       <div className='flex flex-col xl:flex-row gap-4 sm:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10'>
         {/* Блок с картами счетов */}
         <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
-          {accounts.length <= 0 && (
+          {!hasAccounts && (
             <div className='text-center my-3 opacity-40'>
               У вас пока не добавлены счета
             </div>

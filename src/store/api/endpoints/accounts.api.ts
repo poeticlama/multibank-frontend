@@ -1,6 +1,14 @@
 import { baseApi } from '../baseApi.ts';
 import type { AccountData, BankClientLink } from '../../../types/account-types.ts';
 
+type ConsentAccountResponse = {
+  status: string;
+  requestId: string;
+  consentId: string;
+  autoApproved: boolean;
+  createdAt: string;
+}
+
 export const accountsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAccounts: build.query<AccountData[], BankClientLink>({
@@ -10,8 +18,16 @@ export const accountsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['Accounts'],
     }),
+    consentAccount: build.mutation<ConsentAccountResponse, { bankId: string, clientId: string }>({
+      query: (body) => ({
+        url: 'api/consent/account',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Accounts'],
+    }),
   }),
   overrideExisting: false,
 })
 
-export const { useLazyGetAccountsQuery } = accountsApi;
+export const { useLazyGetAccountsQuery, useConsentAccountMutation } = accountsApi;
