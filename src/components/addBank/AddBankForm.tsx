@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { BankInfo } from '../../types/bank-info.ts';
-import { useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
+import { useAddBankMutation, useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
 import { useConsentAccountMutation } from '../../store/api/endpoints/accounts.api.ts';
 
 
@@ -13,19 +13,27 @@ const AddBankForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [fetchBanks] = useLazyBanksQuery();
-  const [consentAccountMutation,
-    // { isLoading: loginLoading, isError: submitError }
-  ] = useConsentAccountMutation();
-  // const [addBankMutation] = useAddBankMutation();
+  const [consentAccountMutation] = useConsentAccountMutation();
+  const [addBankMutation] = useAddBankMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    const selected = banks.find((bank) => bank.id === bankId);
+
     try {
-      consentAccountMutation({
+      const addBankParams = {
+        bankId,
+        bankName: selected?.name || "",
+        url: selected?.url || "",
+      }
+
+      await addBankMutation(addBankParams).unwrap();
+      await consentAccountMutation({
         bankId: bankId,
         clientId: clientId,
-      });
+      }).unwrap();
+
       navigate('/account');
     } catch (error) {
       console.error(error);

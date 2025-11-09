@@ -1,6 +1,7 @@
 import { baseApi } from '../baseApi.ts';
 import type { BankInfo } from '../../../types/bank-info.ts';
 import type { Status } from '../../../types/account-types.ts';
+import type { ProductType } from '../../../types/products-types.ts';
 
 type Consent = {
   id: number;
@@ -30,6 +31,8 @@ type AddBankResponse = {
   clientId: string;
 }
 
+type AddBankRequest = { bankId: string, bankName: string, url: string }
+
 export const banksApi = baseApi.injectEndpoints({
   endpoints: build => ({
     banks: build.query<BankInfo[], null>({
@@ -38,14 +41,20 @@ export const banksApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
-    addBank: build.mutation<AddBankResponse, { bankId: string, bankName: string, url: string }>({
+    addBank: build.mutation<AddBankResponse, AddBankRequest>({
       query: ({ bankId, bankName, url }) => ({
         url: `api/banks/addBank?bankId=${bankId}&bankName=${bankName}&url=${url}`,
-        method: 'POST'
-      })
+        method: 'POST',
+      }),
     }),
+    getProducts: build.query<ProductType[], string>({
+      query: (bankId) => ({
+        url: `api/banks/availableProducts/${bankId}`,
+        method: 'GET'
+      })
+    })
   }),
   overrideExisting: false,
 });
 
-export const { useLazyBanksQuery, useAddBankMutation } = banksApi;
+export const { useLazyBanksQuery, useAddBankMutation, useLazyGetProductsQuery } = banksApi;
