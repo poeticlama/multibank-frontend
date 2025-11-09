@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/auth/useAuth.ts';
 import { useLazyGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
 import type { ExpensesPredict } from '../types/account-types.ts';
+import { useSetDescriptionMutation } from '../store/api/endpoints/accounts.api.ts';
 
 
 
@@ -20,18 +21,21 @@ const AccountPage = () => {
   const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
 
   const [fetchStatistics, {isLoading: statisticsLoading}] = useLazyGetStatisticsQuery();
+  const [setDescription] = useSetDescriptionMutation();
 
 
 
-  const onDescriptionUpdate = (accountId: string, newDescription: string) => {
-
-
-    //Сюда надо API прикручивать
-
-    console.log(accountId, newDescription)
-
-
-
+  const onDescriptionUpdate = async (accountId: string, bankId: string, newDescription: string) => {
+    try {
+      await setDescription({
+        bankId,
+        id: accountId,
+        text: newDescription,
+      });
+      await getAllAccounts();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {

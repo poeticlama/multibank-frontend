@@ -19,15 +19,22 @@ export const accountsApi = baseApi.injectEndpoints({
       providesTags: ['Accounts'],
     }),
     consentAccount: build.mutation<ConsentAccountResponse, { bank_id: string; client_id: string }>({
-      query: (body) => ({
+      query: body => ({
         url: 'api/consent/account',
         method: 'POST',
         body,
       }),
       invalidatesTags: ['Accounts'],
     }),
+    setDescription: build.mutation<void, { bankId: string; id: string; text: string }>({
+      query: body => ({
+        url: 'api/account/setDescription',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyGetAccountsQuery, useConsentAccountMutation } = accountsApi;
+export const { useLazyGetAccountsQuery, useConsentAccountMutation, useSetDescriptionMutation } = accountsApi;

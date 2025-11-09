@@ -6,7 +6,7 @@ import Requisites from './Requisites.tsx';
 
 type AccountCardProps = {
   accountData: AccountData;
-  onDescriptionUpdate?: (accountId: string, newDescription: string) => void;    //  Потом следует убрать ?опциональность
+  onDescriptionUpdate: (accountId: string, bankId: string, newDescription: string) => void;
 }
 
 const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => {
@@ -14,7 +14,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
   const [requisitesIsOpen, setRequisitesIsOpen] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedDescription, setEditedDescription] = useState(accountData.description || 'Добавьте описание');
+  const [editedDescription, setEditedDescription] = useState(accountData.description || '');
   const [newDescription, setNewDescription] = useState(accountData.description || 'Добавьте описание');
   
   useEffect(() => {
@@ -49,7 +49,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
   const handleSave = () => {
     if (onDescriptionUpdate) {
       setNewDescription(editedDescription);
-      onDescriptionUpdate(accountData.accountId || '', editedDescription);
+      onDescriptionUpdate(accountData.accountId || '', accountData.bankId, editedDescription);
     }
     setIsEditing(false);
   };
