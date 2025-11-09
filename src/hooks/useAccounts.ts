@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from './rtk.ts';
-import type { BankClientLink } from '../types/account-types.ts';
+import type { AccountData, BankClientLink } from '../types/account-types.ts';
 import { useLazyGetAccountsQuery } from '../store/api/endpoints/accounts.api.ts';
 import { setAccounts } from '../store/slices/accounts.slice.ts';
 import { setError } from '../store/slices/accounts.slice.ts';
@@ -19,6 +19,21 @@ export const useAccounts = () => {
       dispatch(setAccounts(resAccounts));
       return resAccounts;
     } catch (err: any) {
+      if (err?.data?.message === "Consent is not approved yet") {
+        return [{
+          accountId: "waitingforapproval",
+          bankId: bankClientLink.bankId,
+          status: "Pending",
+          amount: 0,
+          currency: "cur",
+          purposeType: "NONE",
+          accountSubType: "Card",
+          nickname: "nick",
+          description: null,
+          openingDate: new Date(''),
+          account: [],
+        }] as AccountData[];
+      }
       dispatch(setError(err?.data?.message || 'Ошибка при загрузке счетов'));
       return [];
     }

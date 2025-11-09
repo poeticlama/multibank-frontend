@@ -30,7 +30,7 @@ const OperationsHistoryPage = () => {
       try {
         const fetchedAccounts = await getAllAccounts();
 
-        const validAccounts = fetchedAccounts?.length ? fetchedAccounts : accounts;
+        const validAccounts = (fetchedAccounts?.length ? fetchedAccounts : accounts).filter(account => account.status !== "Pending");
         if (!validAccounts?.length) return;
 
         const transactionsByAccount = await Promise.all(

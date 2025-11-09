@@ -74,13 +74,13 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
       <div className="flex items-center gap-3 mb-2">
       </div>
         {
-          accountData.status == "Pending" ?
+          accountData.status === "Pending" ?
           (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center mb-10">
               <h3
                 className="text-lg sm:text-xl font-bold break-words"
               >
-                Ожидает подтверждения
+                Ожидает подтверждения в {accountData.bankId}
               </h3>
             </div>
           )
@@ -97,7 +97,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
 
         }
       {/* Блок с описанием счета */}
-      {newDescription && (
+      {newDescription && accountData.status !== "Pending" && (
         <div className="my-2 relative">
           {isEditing ? (
             <div className="space-y-2">
@@ -161,26 +161,28 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
       )}
 
 
-      <div className="mt-auto font-light flex justify-between items-center gap-2">
-        <span className="text-sm xs:text-base truncate flex-1">
-          {accountData.bankId}
-        </span>
-        <button
-          onClick={() => setRequisitesIsOpen(true)}
-          className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70"
-        >
-          Реквизиты
-        </button>
+      {accountData.status !== "Pending" &&
+        <div className="mt-auto font-light flex justify-between items-center gap-2">
+          <span className="text-sm xs:text-base truncate flex-1">
+            {accountData.bankId}
+          </span>
+          <button
+            onClick={() => setRequisitesIsOpen(true)}
+            className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70"
+          >
+            Реквизиты
+          </button>
 
-        <Requisites
-          isOpen={requisitesIsOpen}
-          setIsModalOpen={setRequisitesIsOpen}
-          accountData={{
-            identification: accountData.account[0].identification,
-            name: accountData.account[0].name
-          }}
-        />
-      </div>
+          <Requisites
+            isOpen={requisitesIsOpen}
+            setIsModalOpen={setRequisitesIsOpen}
+            accountData={{
+              identification: accountData.account[0].identification,
+              name: accountData.account[0].name
+            }}
+          />
+        </div>
+      }
     </div>
   )
 }

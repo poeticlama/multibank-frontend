@@ -20,7 +20,7 @@ const AccountPage = () => {
   const { refreshUser } = useAuth();
   const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
 
-  const [fetchStatistics, {isLoading: statisticsLoading}] = useLazyGetStatisticsQuery();
+  const [fetchStatistics, {isLoading: statisticsLoading, isError: statisticsError}] = useLazyGetStatisticsQuery();
   const [setDescription] = useSetDescriptionMutation();
 
 
@@ -87,7 +87,7 @@ const AccountPage = () => {
             Расходы за последние 12 месяцев
           </h2>
           {(statisticsLoading || !statistics) ?
-            "Загрузка..."
+            statisticsError ? "Статистика недоступна" : "Загрузка..."
             :
             <ExpenseStatistics
               months={Object.keys(statistics.statistic)}
