@@ -1,11 +1,7 @@
 import VirtualScroll from '../components/operations-history/VirtualScroll.tsx';
 import { SETTINGS } from '../constants/settings.ts';
 import { Operation } from '../components/operations-history/Operation.tsx';
-import CustomSelect from '../components/shared/CustomSelect.tsx';
 import { useEffect, useState } from 'react';
-import months from '../constants/options/months.ts';
-import personalBusiness from '../constants/options/personal-business.ts';
-
 import { useAuth } from '../hooks/auth/useAuth.ts';
 import { useLazyGetTransactionsQuery } from '../store/api/endpoints/transactions.api.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';

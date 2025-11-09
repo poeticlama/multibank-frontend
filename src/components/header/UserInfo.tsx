@@ -41,7 +41,7 @@ const UserInfo = () => {
         onClick={handleUserClick}
         className='flex items-center gap-4 py-2 px-5 rounded-lg bg-white hover:bg-blue-200 transition-colors'
       >
-        <span className='text-blue-900 font-semibold text-md'>{user?.username} {user?.status === "PREMIUM" ? <span className="text-yellow-500">- PREMIUM</span> : ""}</span>
+        <div className='text-blue-900 flex flex-col font-semibold text-md'>{user?.username} {user?.status === "PREMIUM" ? <span className="mt-1 text-yellow-500 text-xs">PREMIUM</span> : ""}</div>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='25'
