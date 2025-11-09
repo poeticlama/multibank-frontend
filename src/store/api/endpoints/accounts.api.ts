@@ -10,7 +10,7 @@ type ConsentAccountResponse = {
 }
 
 export const accountsApi = baseApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     getAccounts: build.query<AccountData[], BankClientLink>({
       query: ({ bankId, clientId }) => ({
         url: `api/account/getAccounts/${bankId}/${clientId}`,
@@ -18,7 +18,7 @@ export const accountsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['Accounts'],
     }),
-    consentAccount: build.mutation<ConsentAccountResponse, { bankId: string, clientId: string }>({
+    consentAccount: build.mutation<ConsentAccountResponse, { bank_id: string; client_id: string }>({
       query: (body) => ({
         url: 'api/consent/account',
         method: 'POST',
@@ -28,6 +28,6 @@ export const accountsApi = baseApi.injectEndpoints({
     }),
   }),
   overrideExisting: false,
-})
+});
 
 export const { useLazyGetAccountsQuery, useConsentAccountMutation } = accountsApi;

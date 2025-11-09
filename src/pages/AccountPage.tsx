@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import statisticsMock from '../mocks/statistics-mock.ts';
 import { useAccounts } from '../hooks/useAccounts.ts';
 import { useEffect } from 'react';
+import { useAuth } from '../hooks/auth/useAuth.ts';
 
 
 
@@ -14,6 +15,7 @@ const AccountPage = () => {
   const navigate = useNavigate();
 
   const { accounts, hasAccounts, getAllAccounts, isLoading } = useAccounts();
+  const { refreshUser } = useAuth();
   const currentPredict = statisticsMock.currentPredict;
   const nextPredict = statisticsMock.nextPredict;
   const months = Object.keys(statisticsMock.statistic);
@@ -33,12 +35,17 @@ const AccountPage = () => {
   }
 
   useEffect(() => {
-    try {
-      getAllAccounts();
-    } catch (error) {
-      console.error(error);
-    }
-  }, [getAllAccounts]);
+    const fetchData = async () => {
+      try {
+        await refreshUser();
+        await getAllAccounts();
+      } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <main className='py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto'>
@@ -49,7 +56,7 @@ const AccountPage = () => {
       <div className='flex flex-col xl:flex-row gap-4 sm:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10'>
         {/* Блок с картами счетов */}
         <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
-          {!hasAccounts && (
+          {!hasAccounts && !isLoading && (
             <div className='text-center my-3 opacity-40'>
               У вас пока не добавлены счета
             </div>

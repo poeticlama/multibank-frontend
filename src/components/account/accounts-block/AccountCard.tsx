@@ -163,7 +163,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
 
       <div className="mt-auto font-light flex justify-between items-center gap-2">
         <span className="text-sm xs:text-base truncate flex-1">
-          {accountData.bank}
+          {accountData.bankId}
         </span>
         <button
           onClick={() => setRequisitesIsOpen(true)}
@@ -176,8 +176,8 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
           isOpen={requisitesIsOpen}
           setIsModalOpen={setRequisitesIsOpen}
           accountData={{
-            identification: accountData.account.identification,
-            name: accountData.account.name
+            identification: accountData.account[0].identification,
+            name: accountData.account[0].name
           }}
         />
       </div>

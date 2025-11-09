@@ -13,6 +13,7 @@ import {
   saveUserToStorage,
   setError,
 } from '../../store/slices/auth.slice';
+import { useCallback } from 'react';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -77,6 +78,29 @@ export const useAuth = () => {
     }
   };
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const userData = await fetchGeneralData(null).unwrap();
+      dispatch(setUser(userData));
+
+      if (auth.token && auth.expiresAt && auth.user) {
+        dispatch(
+          saveUserToStorage({
+            user: userData,
+            token: auth.token,
+            expiresIn: auth.expiresAt - Date.now(),
+            remember: !!localStorage.getItem('bankUser'),
+          })
+        );
+      }
+
+      return userData;
+    } catch (err: any) {
+      dispatch(setError(err?.data?.message || 'Ошибка при обновлении данных пользователя'));
+      return null;
+    }
+  }, [auth.expiresAt, auth.token, auth.user, dispatch, fetchGeneralData]);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -94,6 +118,7 @@ export const useAuth = () => {
     login: handleLogin,
     register: handleRegister,
     logout: handleLogout,
+    refreshUser,
     switchStatus: handleSwitchStatus,
     clearError: handleClearError,
     isAuthenticated: auth.isAuthenticated,

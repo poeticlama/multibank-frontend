@@ -45,7 +45,7 @@ const ProductsPage = () => {
           setProducts(allProducts);
         } else {
           const products = await fetchProducts(typeFilter).unwrap();
-          setProducts(products);
+          setProducts(products.filter(product => product.productType === typeFilter));
         }
       } catch (error) {
         console.error('Ошибка при загрузке продуктов:', error);

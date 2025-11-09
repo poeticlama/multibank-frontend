@@ -13,7 +13,7 @@ export type AccountData = {
     schemeName: string;
     identification: string;
     name: string;
-  };
+  }[];
 }
 
 export type Status = "BUSINESS" | "PERSONAL" | "NONE";

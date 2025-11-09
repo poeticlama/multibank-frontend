@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { BankInfo } from '../../types/bank-info.ts';
-import { useAddBankMutation, useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
+import { useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
 import { useConsentAccountMutation } from '../../store/api/endpoints/accounts.api.ts';
 
 
 const AddBankForm: React.FC = () => {
   const [banks, setBanks] = useState<BankInfo[]>([]);
   const navigate = useNavigate();
-  const [bankId, setBankId] = useState("");
+  const [bankId, setBankId] = useState("abank");
   const [clientId, setClientId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const [fetchBanks] = useLazyBanksQuery();
   const [consentAccountMutation] = useConsentAccountMutation();
-  const [addBankMutation] = useAddBankMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const selected = banks.find((bank) => bank.id === bankId);
 
     try {
-      const addBankParams = {
-        bankId,
-        bankName: selected?.name || "",
-        url: selected?.url || "",
-      }
-
-      await addBankMutation(addBankParams).unwrap();
       await consentAccountMutation({
-        bankId: bankId,
-        clientId: clientId,
+        bank_id: bankId,
+        client_id: clientId,
       }).unwrap();
 
       navigate('/account');
@@ -58,7 +49,7 @@ const AddBankForm: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Добавить банк</h1>
+        <h1 className="text-2xl font-bold text-blue-900 mb-6">Добавить учетную запись банка</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

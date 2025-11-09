@@ -16,9 +16,8 @@ export const useAccounts = () => {
     try {
       const resAccounts = await fetchAccounts(bankClientLink).unwrap();
 
-      dispatch(setAccounts(resAccounts ? resAccounts : []));
-
-      return accounts.accounts;
+      dispatch(setAccounts(resAccounts));
+      return resAccounts;
     } catch (err: any) {
       dispatch(setError(err?.data?.message || 'Ошибка при загрузке счетов'));
       return [];
@@ -31,19 +30,22 @@ export const useAccounts = () => {
 
     try {
       const allResults = await Promise.all(
-        links.map((link) => handleGetAccountsByBank(link))
+        links.map(async (link) => {
+          const res = await handleGetAccountsByBank(link);
+
+          return Array.isArray(res) ? res : [];
+        })
       );
 
-      const mergedAccounts = allResults.flat();
+      const mergedAccounts = allResults.flat().filter(Boolean);
 
       dispatch(setAccounts(mergedAccounts));
-
       return mergedAccounts;
     } catch (err: any) {
       dispatch(setError(err?.data?.message || 'Ошибка при загрузке счетов'));
       return [];
     }
-  }, [dispatch, handleGetAccountsByBank, user?.bankClientLinks]);
+  }, [dispatch, handleGetAccountsByBank, user]);
 
   return {
     accounts: accounts.accounts,
