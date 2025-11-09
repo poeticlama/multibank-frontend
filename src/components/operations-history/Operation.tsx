@@ -1,12 +1,18 @@
 import { SETTINGS } from '../../constants/settings.ts';
 import type { JSX } from 'react';
 import type { Transaction } from '../../types/transaction-types.ts';
+import { useState } from 'react';
+
 
 export type OperationProps = {
   transaction: Transaction;
+  premium: boolean;
 }
 
-export const Operation = ({ transaction }: OperationProps): JSX.Element => {
+export const Operation = ({ transaction, premium }: OperationProps): JSX.Element => {
+
+  const [value, setValue] = useState(transaction.type);
+
   return (
     <div
       style={{ height: SETTINGS.itemHeight }}
@@ -21,6 +27,28 @@ export const Operation = ({ transaction }: OperationProps): JSX.Element => {
           <p className="text-sm xs:text-base sm:text-lg font-medium truncate xs:whitespace-normal xs:break-words">
             {transaction.transactionInformation}
           </p>
+
+
+          {premium && (
+            <select
+              value={value}
+              onChange={(e) => {
+
+                //e.target.value = e.target.value == "BUSINESS" ? "PERSONAL" : "BUSINESS";
+                setValue( value == "BUSINESS" ? "PERSONAL" : "BUSINESS" )
+                console.log(e, e.target.value, e.target.value == "BUSINESS")
+                // Сюда хук нужен
+
+
+              }}
+              className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
+            >
+              <option value="PERSONAL">Личное</option>
+              <option value="BUSINESS">Бизнес</option>
+            </select>
+          )}
+
+
           <p className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 truncate">
             Счёт: {transaction.accountId}
           </p>
