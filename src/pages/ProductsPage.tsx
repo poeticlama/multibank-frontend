@@ -8,9 +8,10 @@ import type { ProductType } from '../types/products-types.ts';
 const ProductsPage = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [fetchBanks, { isLoading: banksLoading, isError: banksError }] = useLazyBanksQuery();
-  const [fetchProducts] = useLazyGetProductsQuery();
+  const [fetchProducts, {isLoading: productsLoading, isError: productsError }] = useLazyGetProductsQuery();
   const [banks, setBanks] = useState<Option[]>([]);
-  const [typeFilter, setTypeFilter] = useState('all');
+  const [bankFilter, setBankFilter] = useState('all');
+  const [productFilter, setProductFilter] = useState('all');
 
   useEffect(() => {
     const loadBanks = async () => {
@@ -33,7 +34,7 @@ const ProductsPage = () => {
   useEffect(() => {
     const loadAllProducts = async () => {
       try {
-        if (typeFilter === 'all') {
+        if (bankFilter === 'all') {
           const bankIds = banks.slice(1).map(bank => bank.value);
           const productPromises = bankIds.map(bankId =>
             fetchProducts(bankId).unwrap()
@@ -42,10 +43,10 @@ const ProductsPage = () => {
           const results = await Promise.all(productPromises);
 
           const allProducts = results.flat();
-          setProducts(allProducts);
+          setProducts(productFilter === 'all' ? allProducts : allProducts.filter(product => product.productType === productFilter));
         } else {
-          const products = await fetchProducts(typeFilter).unwrap();
-          setProducts(products.filter(product => product.productType === typeFilter));
+          const products = await fetchProducts(bankFilter).unwrap();
+          setProducts(productFilter === 'all' ? products : products.filter(product => product.productType === productFilter));
         }
       } catch (error) {
         console.error('Ошибка при загрузке продуктов:', error);
@@ -54,9 +55,9 @@ const ProductsPage = () => {
     };
 
     loadAllProducts();
-  }, [typeFilter, banks, fetchProducts]);
+  }, [bankFilter, banks, fetchProducts, productFilter]);
 
-  if (banksLoading) {
+  if (productsLoading || banksLoading) {
     return (
       <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
         <div className='text-center'>Загрузка продуктов...</div>
@@ -64,7 +65,7 @@ const ProductsPage = () => {
     );
   }
 
-  if (banksError) {
+  if (banksError || productsError) {
     return (
       <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
         <div className='text-center text-red-500'>Ошибка загрузки продуктов</div>
@@ -80,8 +81,8 @@ const ProductsPage = () => {
 
       {/* Фильтры */}
       <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
-        <CustomSelect options={banks} />
-        <CustomSelect options={productTypes} onChange={(option) => setTypeFilter(option)} />
+        <CustomSelect options={banks} onChange={(option) => setBankFilter(option)} />
+        <CustomSelect options={productTypes} onChange={(option) => setProductFilter(option)} />
       </div>
 
       {/* Список продуктов */}
