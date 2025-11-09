@@ -41,7 +41,7 @@ const UserInfo = () => {
         onClick={handleUserClick}
         className='flex items-center gap-4 py-2 px-5 rounded-lg bg-white hover:bg-blue-200 transition-colors'
       >
-        <span className='text-blue-900 font-semibold text-md'>{user?.username}</span>
+        <span className='text-blue-900 font-semibold text-md'>{user?.username} {user?.status === "PREMIUM" ? <span className="text-yellow-500">- PREMIUM</span> : ""}</span>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='25'
@@ -60,7 +60,7 @@ const UserInfo = () => {
             onClick={handleNavigatePremium}
             className='w-full px-4 py-2 text-left text-blue-900 hover:bg-gray-100 transition-colors cursor-pointer'
           >
-            Мой аккаунт
+            Приобрести премиум
           </button>
           <button
             onClick={handleLogout}

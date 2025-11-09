@@ -2,11 +2,16 @@ import { useState } from 'react';
 import PremiumCard from '../components/premium/PremiumCard';
 import PremiumFeatures from '../components/premium/PremiumFeatures';
 import PaymentMethod from '../components/premium/PaymentMethod';
-import { Button } from '../components/shared/Button'; 
+import { Button } from '../components/shared/Button';
+import { useNavigate } from 'react-router-dom';
+import { useActivatePremiumMutation } from '../store/api/endpoints/premium.api.ts';
 
 const PremiumPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const navigate = useNavigate();
+
+  const [mutatePremium] = useActivatePremiumMutation();
 
   const premiumPlans = [
     { days: 1, title: 'Дневной', price: 228, originalPrice: 228 },
@@ -20,13 +25,15 @@ const PremiumPage = () => {
     setSelectedPlan(days);
   };
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (!selectedPlan) return;
-    
-    // Суда логику ставъ
-
-    console.log(`Покупка премиума на ${selectedPlan} дней через ${paymentMethod}`);
-
+    try {
+      await mutatePremium(selectedPlan);
+      console.log(`Покупка премиума на ${selectedPlan} дней через ${paymentMethod}`);
+      navigate('/account');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const selectedPlanData = premiumPlans.find(plan => plan.days === selectedPlan);
