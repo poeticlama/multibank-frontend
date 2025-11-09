@@ -3,11 +3,14 @@ export type Amount = {
   currency: string;
 }
 
+export type TransactionType = "BUSINESS" | "PERSONAL" | "NONE";
+
 export type Transaction = {
   accountId: string;
+  bankId: string;
   transactionId: string;
   amount: Amount;
-  type: "BUSINESS" | "PERSONAL" | "NONE";
+  type: TransactionType;
   creditDebitIndicator: "Debit" | "Credit";
   status: "Pending" | "Booked" | "Rejected";
   bookingDateTime: string;

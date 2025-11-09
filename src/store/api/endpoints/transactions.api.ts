@@ -1,5 +1,5 @@
 import { baseApi } from '../baseApi.ts';
-import type { TransactionsResponse } from '../../../types/transaction-types.ts';
+import type { TransactionsResponse, TransactionType } from '../../../types/transaction-types.ts';
 
 const transactionsApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -8,9 +8,16 @@ const transactionsApi = baseApi.injectEndpoints({
         url: `/api/transaction/getTransactions/${bank_id}/${account_id}?page=${page}&limit=${limit}&predictParam=true`,
         method: 'GET',
       })
+    }),
+    setTransactionType: build.mutation<void, {bankId: string, id: string, type: TransactionType}>({
+      query: (body) => ({
+        url: '/api/transaction/setType',
+        method: 'POST',
+        body
+      })
     })
   }),
   overrideExisting: false,
 })
 
-export const { useLazyGetTransactionsQuery } = transactionsApi;
+export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation } = transactionsApi;
