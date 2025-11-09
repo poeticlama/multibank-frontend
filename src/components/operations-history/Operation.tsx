@@ -2,6 +2,7 @@ import { SETTINGS } from '../../constants/settings.ts';
 import type { JSX } from 'react';
 import type { Transaction } from '../../types/transaction-types.ts';
 import { useState } from 'react';
+import getCurrency from '../../constants/get-currency.ts';
 
 
 export type OperationProps = {
@@ -29,48 +30,44 @@ export const Operation = ({ transaction, premium }: OperationProps): JSX.Element
           </p>
 
 
+          <p className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 truncate">
+            Счёт: {transaction.accountId}
+          </p>
+
           {premium && (
             <select
               value={value}
-              onChange={(e) => {
-
-                //e.target.value = e.target.value == "BUSINESS" ? "PERSONAL" : "BUSINESS";
-                setValue( value == "BUSINESS" ? "PERSONAL" : "BUSINESS" )
-                console.log(e, e.target.value, e.target.value == "BUSINESS")
-                // Сюда хук нужен
-
-
+              onChange={() => {
+                setValue( value == "BUSINESS" ? "PERSONAL" : "BUSINESS" ) // handle
               }}
-              className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
+              className="text-xs text-blue-950 opacity-60 font-light mt-1 xs:mt-1.5 border border-blue-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500"
             >
               <option value="PERSONAL">Личное</option>
               <option value="BUSINESS">Бизнес</option>
             </select>
           )}
-
-
-          <p className="text-xs text-gray-600 font-light mt-1 xs:mt-1.5 truncate">
-            Счёт: {transaction.accountId}
-          </p>
         </div>
 
         <div className="flex flex-col items-end flex-shrink-0 pl-2 xs:pl-3 sm:pl-4">
           {transaction.creditDebitIndicator === 'Debit' ? (
             <p className="text-green-700 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap">
-              + {transaction.amount.amount} {transaction.amount.currency}
+              + {transaction.amount.amount} {getCurrency(transaction.amount.currency)}
             </p>
           ) : (
             <p className="text-red-500 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap">
-              - {transaction.amount.amount} {transaction.amount.currency}
+              - {transaction.amount.amount} {getCurrency(transaction.amount.currency)}
             </p>
           )}
           <p className="text-xs text-gray-600 mt-1 xs:mt-1.5 text-right whitespace-nowrap">
             {new Intl.DateTimeFormat('ru-RU', {
               day: 'numeric',
-              month: transaction.valueDateTime.getDate() === 1 ? 'long' : 'short',
-              year: transaction.valueDateTime.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
-            }).format(transaction.valueDateTime)}
+              month: 'short',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            }).format(new Date(transaction.valueDateTime))}
           </p>
+
         </div>
       </div>
     </div>

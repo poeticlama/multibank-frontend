@@ -10,10 +10,20 @@ export type Transaction = {
   type: "BUSINESS" | "PERSONAL" | "NONE";
   creditDebitIndicator: "Debit" | "Credit";
   status: "Pending" | "Booked" | "Rejected";
-  bookingDateTime: Date;
-  valueDateTime: Date;
+  bookingDateTime: string;
+  valueDateTime: string;
   transactionInformation: string;
   bankTransactionCode: {
     code: string;
   };
+}
+
+export type TransactionsResponse = {
+  transactions: Transaction[];
+  meta: {
+    totalPages: number;
+    totalRecords: number;
+    currentPage: number;
+    pageSize: number;
+  }
 }
