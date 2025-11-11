@@ -148,7 +148,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
 
       {accountData.status !== 'Pending' && (
         <div className='mt-auto font-light flex justify-between items-center gap-2'>
-          <span className='text-sm xs:text-base truncate flex-1'>{accountData.bankId}</span>
+          <span className='font-semibold opacity-50 text-sm xs:text-base truncate flex-1'>{accountData.accountSubType} - {accountData.bankId}</span>
           <button
             onClick={() => setRequisitesIsOpen(true)}
             className='text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70 cursor-pointer'
