@@ -8,7 +8,7 @@ const AccountHeader = () => {
   return (
     <header
       id='head'
-      className='bg-gray-100 px-4 sm:px-5 lg:pl-50 lg:pr-20 py-3 sm:py-10 text-blue-900 sticky top-0 z-10'
+      className='bg-gray-100 px-4 sm:px-5 lg:pl-50 lg:pr-20 py-3 sm:py-10 text-blue-900 sticky top-0 z-10 border-b-1 border-gray-200'
     >
       <div className='lg:hidden'>
         <div className='flex items-center justify-between'>

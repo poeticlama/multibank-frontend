@@ -127,7 +127,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
                   cursor-pointer hover:bg-blue-300 hover:bg-opacity-30 rounded px-1 py-1 transition-colors
                 `}
                 onClick={handleEditClick}
-                title='Кликните для редактирования'
+                title='Нажмите для редактирования'
               >
                 {isDescriptionExpanded ? newDescription : truncateDescription(newDescription)}
               </div>
@@ -151,7 +151,7 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
           <span className='text-sm xs:text-base truncate flex-1'>{accountData.bankId}</span>
           <button
             onClick={() => setRequisitesIsOpen(true)}
-            className='text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70'
+            className='text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70 cursor-pointer'
           >
             Реквизиты
           </button>

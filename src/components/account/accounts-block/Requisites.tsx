@@ -47,9 +47,6 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
   const requisites = [
     { label: 'Владелец', value: accountData.name },
     { label: 'Идентификатор', value: accountData.identification },
-    //{ label: 'Банк', value: accountData.bankName || 'Мультибанк' },
-    //{ label: 'БИК', value: accountData.bik || '044525999' },
-    //{ label: 'Корр. счет', value: accountData.correspondentAccount || '30101810000000000999' },
   ];
 
   const handleCopyRequisites = async () => {
@@ -68,30 +65,30 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
     >
       <div
         ref={modalRef}
-        className='bg-white rounded-xl max-w-md w-full p-6'
-        onClick={e => e.stopPropagation()} // Предотвращаем закрытие при клике внутри модалки
+        className='bg-white rounded-xl max-w-lg w-full p-6'
+        onClick={e => e.stopPropagation()}
       >
         <div className='flex justify-between items-center mb-6'>
           <h3 className='text-xl font-semibold text-blue-900'>Реквизиты счета</h3>
         </div>
 
-        <div className='space-y-4 mb-6'>
+        <div className='space-y-4 mb-6 text-xs md:text-sm'>
           {requisites.map((requisite, index) => (
             <div
               key={index}
               className='flex justify-between items-start border-b border-gray-100 pb-3'
             >
-              <span className='text-sm font-medium text-gray-600 flex-1'>{requisite.label}</span>
-              <span className='text-sm text-blue-900 font-mono text-right flex-1 break-all'>
+              <span className='font-medium text-gray-600 flex-1'>{requisite.label}</span>
+              <span className='text-blue-900 font-mono text-right flex-1 break-all'>
                 {requisite.value}
               </span>
             </div>
           ))}
         </div>
 
-        <div className='flex gap-3'>
-          <button onClick={handleCopyRequisites}>Копировать все</button>
-          <button onClick={onClose}>Закрыть</button>
+        <div className='flex gap-5'>
+            <button className="font-semibold cursor-pointer hover:underline" onClick={handleCopyRequisites}>Копировать все</button>
+          <button className="font-semibold cursor-pointer hover:underline" onClick={onClose}>Закрыть</button>
         </div>
       </div>
     </div>
