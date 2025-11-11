@@ -7,7 +7,7 @@ const AccountLayout = () => {
       <AccountHeader />
       <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default AccountLayout
+export default AccountLayout;

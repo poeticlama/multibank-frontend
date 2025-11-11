@@ -5,11 +5,9 @@ import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
 import { Button } from '../components/shared/Button';
 import { useAccounts } from '../hooks/useAccounts.ts';
 
-
 type PaymentMethod = 'card' | 'account';
 
-
-const PaymentsPage= () => {
+const PaymentsPage = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -36,8 +34,6 @@ const PaymentsPage= () => {
     console.log('Payment data:', paymentData);
 
     // Суда API ставъ
-
-    
   };
 
   const isFormValid = () => {
@@ -48,20 +44,15 @@ const PaymentsPage= () => {
     }
   };
 
-
-
   return (
-    <div className="min-h-screen py-8">
-      <h1 className="text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left">
+    <div className='min-h-screen py-8'>
+      <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
         Платежи и переводы
       </h1>
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-6">
-        <PaymentMethodSelector
-          selectedMethod={selectedMethod}
-          onMethodChange={setSelectedMethod}
-        />
-        
-        <div className="mb-6">
+      <div className='max-w-md mx-auto bg-white rounded-xl shadow-sm p-6'>
+        <PaymentMethodSelector selectedMethod={selectedMethod} onMethodChange={setSelectedMethod} />
+
+        <div className='mb-6'>
           {selectedMethod === 'card' ? (
             <CardPaymentForm
               cardNumber={cardNumber}
@@ -84,11 +75,8 @@ const PaymentsPage= () => {
             />
           )}
         </div>
-        
-        <Button 
-          onClick={handleSubmit} 
-          disabled={!isFormValid()}
-        >
+
+        <Button onClick={handleSubmit} disabled={!isFormValid()}>
           Отправить
         </Button>
       </div>
@@ -96,5 +84,4 @@ const PaymentsPage= () => {
   );
 };
 
-
-export default PaymentsPage
+export default PaymentsPage;

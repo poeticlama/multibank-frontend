@@ -11,8 +11,6 @@ import { useLazyGetStatisticsQuery } from '../store/api/endpoints/statistics.api
 import type { ExpensesPredict } from '../types/account-types.ts';
 import { useSetDescriptionMutation } from '../store/api/endpoints/accounts.api.ts';
 
-
-
 const AccountPage = () => {
   const navigate = useNavigate();
 
@@ -20,10 +18,9 @@ const AccountPage = () => {
   const { refreshUser } = useAuth();
   const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
 
-  const [fetchStatistics, {isLoading: statisticsLoading, isError: statisticsError}] = useLazyGetStatisticsQuery();
+  const [fetchStatistics, { isLoading: statisticsLoading, isError: statisticsError }] =
+    useLazyGetStatisticsQuery();
   const [setDescription] = useSetDescriptionMutation();
-
-
 
   const onDescriptionUpdate = async (accountId: string, bankId: string, newDescription: string) => {
     try {
@@ -36,7 +33,7 @@ const AccountPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,43 +60,50 @@ const AccountPage = () => {
         {/* Блок с картами счетов */}
         <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
           {!hasAccounts && !isLoading && (
-            <div className='text-center my-3 opacity-40'>
-              У вас пока не добавлены счета
-            </div>
+            <div className='text-center my-3 opacity-40'>У вас пока не добавлены счета</div>
           )}
-          {isLoading ? "Загрузка..." : accounts.map(account => (
-              <AccountCard key={account.accountId + account.bankId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
-          ))}
+          {isLoading
+            ? 'Загрузка...'
+            : accounts.map(account => (
+                <AccountCard
+                  key={account.accountId + account.bankId}
+                  accountData={account}
+                  onDescriptionUpdate={onDescriptionUpdate}
+                />
+              ))}
 
-          <Button 
-            onClick={ ()=>{navigate('/account/add')} } 
-            disabled={false}
+          <Button
+            onClick={() => {
+              navigate('/account/add');
+            }}
           >
             Добавить счет
           </Button>
-
         </div>
-
 
         {/* Блок со статистикой */}
         <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full h-fit flex flex-col justify-around'>
           <h2 className='text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12'>
             Расходы за последние 12 месяцев
           </h2>
-          {(statisticsLoading || !statistics) ?
-            statisticsError ? "Статистика недоступна" : "Загрузка..."
-            :
+          {statisticsLoading || !statistics ? (
+            statisticsError ? (
+              'Статистика недоступна'
+            ) : (
+              'Загрузка...'
+            )
+          ) : (
             <ExpenseStatistics
               months={Object.keys(statistics.statistic)}
               expenses={Object.values(statistics.statistic)}
               currentPredict={statistics.currentPredict}
               nextPredict={statistics.nextPredict}
             />
-          }
+          )}
         </div>
       </div>
     </main>
   );
-}
+};
 
 export default AccountPage;

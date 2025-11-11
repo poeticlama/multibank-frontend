@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
+import React, { type ChangeEvent, useState } from 'react';
 import { FormInput } from './FormInput';
 import { Checkbox } from './Checkbox';
 import { Button } from '../shared/LoadingButton';
 
-
-interface LoginFormData {
+type LoginFormData = {
   login: string;
   password: string;
-}
+};
 
-interface LoginFormProps {
+type LoginFormProps = {
   onSubmit: (data: LoginFormData, rememberMe: boolean) => Promise<void>;
   loading?: boolean;
   error?: string;
-}
+};
 
-
-export const LoginForm: React.FC<LoginFormProps> = ({ 
-  onSubmit, 
-  loading = false, 
-  error = '' 
-}) => {
+export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormProps) => {
   const [formData, setFormData] = useState<LoginFormData>({
     login: '',
-    password: ''
+    password: '',
   });
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -41,48 +35,41 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className='space-y-6'>
       <FormInput
-        label="Логин"
-        type="text"
-        name="login"
+        label='Логин'
+        type='text'
+        name='login'
         value={formData.login}
         onChange={handleChange}
-        placeholder="Введите логин"
+        placeholder='Введите логин'
         required
-        autoComplete="username"
+        autoComplete='username'
       />
 
       <FormInput
-        label="Пароль"
-        type="password"
-        name="password"
+        label='Пароль'
+        type='password'
+        name='password'
         value={formData.password}
         onChange={handleChange}
-        placeholder="Введите пароль"
+        placeholder='Введите пароль'
         required
-        autoComplete="current-password"
+        autoComplete='current-password'
       />
 
       <Checkbox
-        label="Запомнить меня"
-        name="rememberMe"
+        label='Запомнить меня'
+        name='rememberMe'
         checked={rememberMe}
-        onChange={(e) => setRememberMe(e.target.checked)}
+        onChange={e => setRememberMe(e.target.checked)}
       />
 
-      <Button
-        type="submit"
-        disabled={loading}
-      >
+      <Button type='submit' disabled={loading}>
         Войти
       </Button>
 
-      {error && (
-        <p className="flex justify-center text-sm text-red-500">
-          {error}
-        </p>
-      )}
+      {error && <p className='flex justify-center text-sm text-red-500'>{error}</p>}
     </form>
   );
 };

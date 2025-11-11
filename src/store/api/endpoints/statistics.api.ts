@@ -7,7 +7,7 @@ export const statisticsApi = baseApi.injectEndpoints({
       query: () => ({
         url: `/api/data/statistic?type=NONE`,
         method: 'GET',
-      })
+      }),
     }),
   }),
   overrideExisting: false,

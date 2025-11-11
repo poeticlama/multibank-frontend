@@ -8,13 +8,13 @@ import { useAccounts } from '../hooks/useAccounts.ts';
 import type { Transaction } from '../types/transaction-types.ts';
 import Loader from '../components/shared/Loader.tsx';
 
-
 const OperationsHistoryPage = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const { user } = useAuth();
   const { getAllAccounts, accounts, isLoading } = useAccounts();
 
-  const [getTransactions, {isLoading: transactionsLoading, isError: transactionsError}] = useLazyGetTransactionsQuery();
+  const [getTransactions, { isLoading: transactionsLoading, isError: transactionsError }] =
+    useLazyGetTransactionsQuery();
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -30,11 +30,13 @@ const OperationsHistoryPage = () => {
       try {
         const fetchedAccounts = await getAllAccounts();
 
-        const validAccounts = (fetchedAccounts?.length ? fetchedAccounts : accounts).filter(account => account.status !== "Pending");
+        const validAccounts = (fetchedAccounts?.length ? fetchedAccounts : accounts).filter(
+          account => account.status !== 'Pending'
+        );
         if (!validAccounts?.length) return;
 
         const transactionsByAccount = await Promise.all(
-          validAccounts.map(async (account) => {
+          validAccounts.map(async account => {
             try {
               const res = await getTransactions({
                 bank_id: account.bankId,
@@ -45,7 +47,10 @@ const OperationsHistoryPage = () => {
 
               return res.transactions;
             } catch (error) {
-              console.error(`Ошибка при загрузке транзакций для счёта ${account.accountId}:`, error);
+              console.error(
+                `Ошибка при загрузке транзакций для счёта ${account.accountId}:`,
+                error
+              );
               return [];
             }
           })
@@ -66,17 +71,17 @@ const OperationsHistoryPage = () => {
   }
 
   if (transactionsError) {
-    return <div className="text-lg text-red-600 text-center mt-10">Ошибка загрузки транзакций</div>
+    return <div className='text-lg text-red-600 text-center mt-10'>Ошибка загрузки транзакций</div>;
   }
 
   return (
-    <main className="pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto">
+    <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
       {/* Заголовок */}
-      <div className="mb-4 sm:mb-6 lg:mb-5">
-        <h1 className="text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left">
+      <div className='mb-4 sm:mb-6 lg:mb-5'>
+        <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
           Операции
         </h1>
-        
+
         {/* Фильтры */}
         {/*<div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">*/}
         {/*  <CustomSelect*/}
@@ -112,14 +117,18 @@ const OperationsHistoryPage = () => {
       </div>
 
       {/* Список операций */}
-      <div className=" px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25">
+      <div className=' px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25'>
         {!!user && (
-            <VirtualScroll settings={SETTINGS} template={Operation} premium={user.status === "PREMIUM"} transactions={transactions} />
-          )
-        }
+          <VirtualScroll
+            settings={SETTINGS}
+            template={Operation}
+            premium={user.status === 'PREMIUM'}
+            transactions={transactions}
+          />
+        )}
       </div>
     </main>
-  )
-}
+  );
+};
 
 export default OperationsHistoryPage;

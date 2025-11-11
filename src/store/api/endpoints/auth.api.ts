@@ -5,9 +5,9 @@ type LoginRequest = { username: string; password: string };
 type LoginResponse = { token: string; expiresIn: number };
 
 export const authApi = baseApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: build => ({
     login: build.mutation<LoginResponse, LoginRequest>({
-      query: (body) => ({
+      query: body => ({
         url: 'api/user/login',
         method: 'POST',
         body,
@@ -15,7 +15,7 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ['Auth', 'User'],
     }),
     register: build.mutation<LoginResponse, LoginRequest>({
-      query: (body) => ({
+      query: body => ({
         url: 'api/user/register',
         method: 'POST',
         body,
@@ -25,9 +25,9 @@ export const authApi = baseApi.injectEndpoints({
     generalData: build.query<User, null>({
       query: () => ({
         url: 'api/user/generalData',
-        method: 'GET'
+        method: 'GET',
       }),
-      providesTags: ['User']
+      providesTags: ['User'],
     }),
   }),
   overrideExisting: false,

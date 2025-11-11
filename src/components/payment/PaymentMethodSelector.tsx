@@ -1,16 +1,14 @@
-import React from 'react';
-
-interface PaymentMethodSelectorProps {
+type PaymentMethodSelectorProps = {
   selectedMethod: 'card' | 'account';
   onMethodChange: (method: 'card' | 'account') => void;
-}
+};
 
-export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
+export const PaymentMethodSelector = ({
   selectedMethod,
   onMethodChange,
-}) => {
+}: PaymentMethodSelectorProps) => {
   return (
-    <div className="flex space-x-4 mb-6">
+    <div className='flex space-x-4 mb-6'>
       <button
         className={`px-6 py-3 rounded-lg font-medium transition-colors ${
           selectedMethod === 'card'
@@ -21,7 +19,7 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
       >
         По номеру карты
       </button>
-      
+
       <button
         className={`px-6 py-3 rounded-lg font-medium transition-colors ${
           selectedMethod === 'account'

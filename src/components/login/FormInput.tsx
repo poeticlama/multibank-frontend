@@ -1,17 +1,17 @@
-import React from 'react';
+import { type ChangeEvent } from 'react';
 
-interface FormInputProps {
+type FormInputProps = {
   label: string;
   type: 'text' | 'password' | 'email';
   name: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
   autoComplete?: string;
-}
+};
 
-export const FormInput: React.FC<FormInputProps> = ({
+export const FormInput = ({
   label,
   type,
   name,
@@ -20,10 +20,10 @@ export const FormInput: React.FC<FormInputProps> = ({
   placeholder,
   required = false,
   autoComplete,
-}) => {
+}: FormInputProps) => {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-blue-900 mb-2">
+      <label htmlFor={name} className='block text-sm font-medium text-blue-900 mb-2'>
         {label}
       </label>
       <input
@@ -34,7 +34,7 @@ export const FormInput: React.FC<FormInputProps> = ({
         onChange={onChange}
         required={required}
         autoComplete={autoComplete}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200"
+        className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200'
         placeholder={placeholder}
       />
     </div>

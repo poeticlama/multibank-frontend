@@ -7,37 +7,42 @@ import { setError } from '../store/slices/accounts.slice.ts';
 
 export const useAccounts = () => {
   const dispatch = useAppDispatch();
-  const accounts = useAppSelector((state) => state.accounts);
-  const user = useAppSelector((state) => state.auth.user);
+  const accounts = useAppSelector(state => state.accounts);
+  const user = useAppSelector(state => state.auth.user);
 
   const [fetchAccounts, { isLoading: getAccountsLoading }] = useLazyGetAccountsQuery();
 
-  const handleGetAccountsByBank = useCallback(async (bankClientLink: BankClientLink) => {
-    try {
-      const resAccounts = await fetchAccounts(bankClientLink).unwrap();
+  const handleGetAccountsByBank = useCallback(
+    async (bankClientLink: BankClientLink) => {
+      try {
+        const resAccounts = await fetchAccounts(bankClientLink).unwrap();
 
-      dispatch(setAccounts(resAccounts));
-      return resAccounts;
-    } catch (err: any) {
-      if (err?.data?.message === "Consent is not approved yet") {
-        return [{
-          accountId: "waitingforapproval",
-          bankId: bankClientLink.bankId,
-          status: "Pending",
-          amount: 0,
-          currency: "cur",
-          purposeType: "NONE",
-          accountSubType: "Card",
-          nickname: "nick",
-          description: null,
-          openingDate: new Date(''),
-          account: [],
-        }] as AccountData[];
+        dispatch(setAccounts(resAccounts));
+        return resAccounts;
+      } catch (err: any) {
+        if (err?.data?.message === 'Consent is not approved yet') {
+          return [
+            {
+              accountId: 'waitingforapproval',
+              bankId: bankClientLink.bankId,
+              status: 'Pending',
+              amount: 0,
+              currency: 'cur',
+              purposeType: 'NONE',
+              accountSubType: 'Card',
+              nickname: 'nick',
+              description: null,
+              openingDate: new Date(''),
+              account: [],
+            },
+          ] as AccountData[];
+        }
+        dispatch(setError(err?.data?.message || 'Ошибка при загрузке счетов'));
+        return [];
       }
-      dispatch(setError(err?.data?.message || 'Ошибка при загрузке счетов'));
-      return [];
-    }
-  }, [fetchAccounts, dispatch, accounts.accounts]);
+    },
+    [fetchAccounts, dispatch, accounts.accounts]
+  );
 
   const handleGetAllAccounts = useCallback(async () => {
     const links = user?.bankClientLinks;
@@ -45,7 +50,7 @@ export const useAccounts = () => {
 
     try {
       const allResults = await Promise.all(
-        links.map(async (link) => {
+        links.map(async link => {
           const res = await handleGetAccountsByBank(link);
 
           return Array.isArray(res) ? res : [];

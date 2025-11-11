@@ -1,7 +1,6 @@
-import React from 'react';
 import AddBankForm from '../components/addBank/AddBankForm';
 
-const AddBankPage: React.FC = () => {
+const AddBankPage = () => {
   return <AddBankForm />;
 };
 

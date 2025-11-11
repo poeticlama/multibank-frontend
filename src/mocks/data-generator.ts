@@ -10,7 +10,7 @@ export const dataGenerator = (dataCount: number): Transaction[] => {
     'Зарплата',
     'Снятие наличных',
     'Оплата картой',
-    'Пополнение счета'
+    'Пополнение счета',
   ];
 
   return [...Array(dataCount)].map((_, index) => {
@@ -21,7 +21,7 @@ export const dataGenerator = (dataCount: number): Transaction[] => {
 
     const amount: Amount = {
       amount: amountValue,
-      currency: currencies[Math.floor(Math.random() * currencies.length)]
+      currency: currencies[Math.floor(Math.random() * currencies.length)],
     };
 
     const transaction: Transaction = {
@@ -33,10 +33,11 @@ export const dataGenerator = (dataCount: number): Transaction[] => {
       status: statuses[Math.floor(Math.random() * statuses.length)],
       bookingDateTime: baseDate,
       valueDateTime: new Date(baseDate.getTime() + Math.floor(Math.random() * 86400000)), // + случайное время до 24 часов
-      transactionInformation: transactionDescriptions[Math.floor(Math.random() * transactionDescriptions.length)],
+      transactionInformation:
+        transactionDescriptions[Math.floor(Math.random() * transactionDescriptions.length)],
       bankTransactionCode: {
-        code: transactionCodes[Math.floor(Math.random() * transactionCodes.length)]
-      }
+        code: transactionCodes[Math.floor(Math.random() * transactionCodes.length)],
+      },
     };
 
     return transaction;

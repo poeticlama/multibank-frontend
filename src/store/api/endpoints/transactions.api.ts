@@ -3,21 +3,26 @@ import type { TransactionsResponse, TransactionType } from '../../../types/trans
 
 const transactionsApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    getTransactions: build.query<TransactionsResponse, { bank_id: string, account_id: string, page: number, limit: number }>({
-      query: ({bank_id, account_id, page, limit}) => ({
+    getTransactions: build.query<
+      TransactionsResponse,
+      { bank_id: string; account_id: string; page: number; limit: number }
+    >({
+      query: ({ bank_id, account_id, page, limit }) => ({
         url: `/api/transaction/getTransactions/${bank_id}/${account_id}?page=${page}&limit=${limit}&predictParam=true`,
         method: 'GET',
-      })
+      }),
     }),
-    setTransactionType: build.mutation<void, {bankId: string, id: string, type: TransactionType}>({
-      query: (body) => ({
-        url: '/api/transaction/setType',
-        method: 'POST',
-        body
-      })
-    })
+    setTransactionType: build.mutation<void, { bankId: string; id: string; type: TransactionType }>(
+      {
+        query: body => ({
+          url: '/api/transaction/setType',
+          method: 'POST',
+          body,
+        }),
+      }
+    ),
   }),
   overrideExisting: false,
-})
+});
 
 export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation } = transactionsApi;

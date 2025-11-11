@@ -1,24 +1,24 @@
 import getCurrencySymbol from '../../constants/get-currency.ts';
-import React from 'react';
+import { type ChangeEvent } from 'react';
 
-interface AmountInputProps {
+type AmountInputProps = {
   value: string;
   onChange: (amount: string) => void;
   placeholder?: string;
   currency?: string;
   label?: string;
-}
+};
 
-export const AmountInput: React.FC<AmountInputProps> = ({
+export const AmountInput = ({
   value,
   onChange,
-  placeholder = "Введите сумму...",
-  currency = "RUB",
-  label = "Сумма перевода:",
-}) => {
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  placeholder = 'Введите сумму...',
+  currency = 'RUB',
+  label = 'Сумма перевода:',
+}: AmountInputProps) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    
+
     // Только числа и точку для десятичных
     if (inputValue === '' || /^\d+([,.]\d{0,2})?$/.test(inputValue)) {
       onChange(inputValue);
@@ -26,19 +26,17 @@ export const AmountInput: React.FC<AmountInputProps> = ({
   };
 
   return (
-    <div className="relative mb-4">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label}
-      </label>
+    <div className='relative mb-4'>
+      <label className='block text-sm font-medium text-gray-700 mb-2'>{label}</label>
       <input
-        type="text"
+        type='text'
         value={value}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className="w-full p-3 pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none"
-        inputMode="decimal"
+        className='w-full p-3 pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none'
+        inputMode='decimal'
       />
-      <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+      <span className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium'>
         {getCurrencySymbol(currency)}
       </span>
     </div>

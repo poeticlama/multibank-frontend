@@ -9,7 +9,8 @@ import type { BankInfo } from '../types/bank-info.ts';
 const ProductsPage = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [fetchBanks, { isLoading: banksLoading, isError: banksError }] = useLazyBanksQuery();
-  const [fetchProducts, {isLoading: productsLoading, isError: productsError }] = useLazyGetProductsQuery();
+  const [fetchProducts, { isLoading: productsLoading, isError: productsError }] =
+    useLazyGetProductsQuery();
   const [banks, setBanks] = useState<Option[]>([]);
   const [bankLinks, setBankLinks] = useState<BankInfo[]>([]);
   const [bankFilter, setBankFilter] = useState('all');
@@ -25,7 +26,7 @@ const ProductsPage = () => {
             return { label: bank.name, value: bank.id };
           }),
         ]);
-        setBankLinks(fetchedBanks)
+        setBankLinks(fetchedBanks);
       } catch (error) {
         console.error('Ошибка при загрузке банков:', error);
       }
@@ -39,17 +40,23 @@ const ProductsPage = () => {
       try {
         if (bankFilter === 'all') {
           const bankIds = banks.slice(1).map(bank => bank.value);
-          const productPromises = bankIds.map(bankId =>
-            fetchProducts(bankId).unwrap()
-          );
+          const productPromises = bankIds.map(bankId => fetchProducts(bankId).unwrap());
 
           const results = await Promise.all(productPromises);
 
           const allProducts = results.flat();
-          setProducts(productFilter === 'all' ? allProducts : allProducts.filter(product => product.productType === productFilter));
+          setProducts(
+            productFilter === 'all'
+              ? allProducts
+              : allProducts.filter(product => product.productType === productFilter)
+          );
         } else {
           const products = await fetchProducts(bankFilter).unwrap();
-          setProducts(productFilter === 'all' ? products : products.filter(product => product.productType === productFilter));
+          setProducts(
+            productFilter === 'all'
+              ? products
+              : products.filter(product => product.productType === productFilter)
+          );
         }
       } catch (error) {
         console.error('Ошибка при загрузке продуктов:', error);

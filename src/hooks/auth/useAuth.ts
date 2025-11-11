@@ -17,7 +17,7 @@ import { useCallback } from 'react';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const auth = useAppSelector(state => state.auth);
 
   const [loginMutation, { isLoading: loginLoading }] = useLoginMutation();
   const [registerMutation, { isLoading: registerLoading }] = useRegisterMutation();
@@ -54,8 +54,7 @@ export const useAuth = () => {
     try {
       const res = await registerMutation({ username: loginStr, password }).unwrap();
 
-      if (!res.token || !res.expiresIn)
-        throw new Error('Сервер не вернул токен или expiresIn');
+      if (!res.token || !res.expiresIn) throw new Error('Сервер не вернул токен или expiresIn');
 
       dispatch(setToken(res.token));
 

@@ -16,7 +16,7 @@ type Consent = {
     status: Status;
     statusExpireDate: string | null;
     consents: string[];
-  }
+  };
 };
 
 type AddBankResponse = {
@@ -29,9 +29,9 @@ type AddBankResponse = {
   status: string;
   expirationDate: string;
   clientId: string;
-}
+};
 
-type AddBankRequest = { bankId: string, bankName: string, url: string }
+type AddBankRequest = { bankId: string; bankName: string; url: string };
 
 export const banksApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -48,11 +48,11 @@ export const banksApi = baseApi.injectEndpoints({
       }),
     }),
     getProducts: build.query<ProductType[], string>({
-      query: (bankId) => ({
+      query: bankId => ({
         url: `api/banks/availableProducts/${bankId}`,
-        method: 'GET'
-      })
-    })
+        method: 'GET',
+      }),
+    }),
   }),
   overrideExisting: false,
 });

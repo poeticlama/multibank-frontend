@@ -59,13 +59,10 @@ const authSlice = createSlice({
       storage.setItem('expiresAt', String(expiresAt));
     },
 
-    initFromStorage: (state) => {
-      const savedUser =
-        localStorage.getItem('bankUser') || sessionStorage.getItem('bankUser');
-      const token =
-        localStorage.getItem('token') || sessionStorage.getItem('token');
-      const expiresAtStr =
-        localStorage.getItem('expiresAt') || sessionStorage.getItem('expiresAt');
+    initFromStorage: state => {
+      const savedUser = localStorage.getItem('bankUser') || sessionStorage.getItem('bankUser');
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const expiresAtStr = localStorage.getItem('expiresAt') || sessionStorage.getItem('expiresAt');
 
       if (!savedUser || !token || !expiresAtStr) {
         return;
@@ -99,7 +96,7 @@ const authSlice = createSlice({
       }
     },
 
-    logout: (state) => {
+    logout: state => {
       state.user = null;
       state.isAuthenticated = false;
       state.token = null;
@@ -109,10 +106,9 @@ const authSlice = createSlice({
       sessionStorage.clear();
     },
 
-    switchStatus: (state) => {
+    switchStatus: state => {
       if (state.user) {
-        const newStatus =
-          state.user.status === 'PREMIUM' ? 'DEFAULT' : 'PREMIUM';
+        const newStatus = state.user.status === 'PREMIUM' ? 'DEFAULT' : 'PREMIUM';
         state.user = { ...state.user, status: newStatus };
 
         if (localStorage.getItem('bankUser')) {
@@ -124,7 +120,7 @@ const authSlice = createSlice({
       }
     },
 
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
   },
