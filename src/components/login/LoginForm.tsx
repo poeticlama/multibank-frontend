@@ -1,5 +1,5 @@
 import React, { type ChangeEvent, useState } from 'react';
-import { FormInput } from './FormInput';
+import { FormInput } from '../shared/FormInput.tsx';
 import { Checkbox } from './Checkbox';
 import { Button } from '../shared/LoadingButton';
 
@@ -43,7 +43,6 @@ export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormPr
         value={formData.login}
         onChange={handleChange}
         placeholder='Введите логин'
-        required
         autoComplete='username'
       />
 
@@ -54,7 +53,6 @@ export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormPr
         value={formData.password}
         onChange={handleChange}
         placeholder='Введите пароль'
-        required
         autoComplete='current-password'
       />
 

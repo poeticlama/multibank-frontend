@@ -1,6 +1,6 @@
 import React, { type ChangeEvent, useState } from 'react';
-import { FormInput } from './FormInput';
 import { Button } from '../shared/LoadingButton';
+import { FormInput } from '../shared/FormInput.tsx';
 
 type RegisterFormData = {
   login: string;
@@ -43,7 +43,6 @@ export const RegisterForm = ({ onSubmit, loading = false, error = '' }: Register
         value={formData.login}
         onChange={handleChange}
         placeholder='Введите логин'
-        required
         autoComplete='username'
       />
 
@@ -54,12 +53,10 @@ export const RegisterForm = ({ onSubmit, loading = false, error = '' }: Register
         value={formData.password}
         onChange={handleChange}
         placeholder='Введите пароль'
-        required
         minLength={6}
         autoComplete='new-password'
-      >
-        <p className='mt-1 text-sm text-gray-500'>Минимум 6 символов</p>
-      </FormInput>
+      />
+      <p className='relative left-1 -mt-4 text-sm text-gray-500'>Минимум 6 символов</p>
 
       <FormInput
         label='Подтвердите пароль'
@@ -68,7 +65,6 @@ export const RegisterForm = ({ onSubmit, loading = false, error = '' }: Register
         value={formData.confirmPassword}
         onChange={handleChange}
         placeholder='Повторите пароль'
-        required
         minLength={6}
         autoComplete='new-password'
       />

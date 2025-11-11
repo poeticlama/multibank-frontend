@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/login/Card';
+import { ContentCard } from '../components/shared/ContentCard.tsx';
 import { LoginForm } from '../components/login/LoginForm';
 import { RegisterLink } from '../components/login/RegisterLink';
 import { useAuth } from '../hooks/auth/useAuth.ts';
@@ -41,13 +41,13 @@ const LoginPage = () => {
 
   return (
     <main className='min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8'>
-      <Card>
+      <ContentCard>
         <h2 className='text-4xl font-bold text-center mb-8'>Вход</h2>
 
         <LoginForm onSubmit={handleLoginSubmit} loading={loading} error={error} />
 
         <RegisterLink />
-      </Card>
+      </ContentCard>
     </main>
   );
 };
