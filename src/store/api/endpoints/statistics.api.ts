@@ -13,4 +13,4 @@ export const statisticsApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazyGetStatisticsQuery } = statisticsApi;
+export const { useGetStatisticsQuery } = statisticsApi;

@@ -32,6 +32,7 @@ export const accountsApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Accounts'],
     }),
   }),
   overrideExisting: false,

@@ -5,21 +5,16 @@ import { Button } from '../components/shared/Button';
 import { useNavigate } from 'react-router-dom';
 
 import { useAccounts } from '../hooks/useAccounts.ts';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/auth/useAuth.ts';
-import { useLazyGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
-import type { ExpensesPredict } from '../types/account-types.ts';
+import { useGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
 import { useSetDescriptionMutation } from '../store/api/endpoints/accounts.api.ts';
 
 const AccountPage = () => {
   const navigate = useNavigate();
 
-  const { accounts, hasAccounts, getAllAccounts, isLoading } = useAccounts();
-  const { refreshUser } = useAuth();
-  const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
+  const { accounts, hasAccounts, isLoading } = useAccounts();
 
-  const [fetchStatistics, { isLoading: statisticsLoading, isError: statisticsError }] =
-    useLazyGetStatisticsQuery();
+  const { data: statistics, isLoading: statisticsLoading, isError: statisticsError } =
+    useGetStatisticsQuery(null);
   const [setDescription] = useSetDescriptionMutation();
 
   const onDescriptionUpdate = async (accountId: string, bankId: string, newDescription: string) => {
@@ -29,26 +24,10 @@ const AccountPage = () => {
         id: accountId,
         text: newDescription,
       });
-      await getAllAccounts();
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await refreshUser();
-        await getAllAccounts();
-        const res = await fetchStatistics(null).unwrap();
-        setStatistics(res);
-      } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <main className='py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto'>
