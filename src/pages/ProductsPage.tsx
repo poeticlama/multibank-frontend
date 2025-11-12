@@ -36,7 +36,7 @@ const ProductsPage = () => {
   }, [fetchBanks]);
 
   useEffect(() => {
-    const loadAllProducts = async () => {
+    const loadProducts = async () => {
       try {
         if (bankFilter === 'all') {
           const bankIds = banks.slice(1).map(bank => bank.value);
@@ -64,7 +64,7 @@ const ProductsPage = () => {
       }
     };
 
-    loadAllProducts();
+    loadProducts();
   }, [bankFilter, banks, fetchProducts, productFilter]);
 
   if (productsLoading || banksLoading) {

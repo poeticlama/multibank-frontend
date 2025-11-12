@@ -25,4 +25,4 @@ const transactionsApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation } = transactionsApi;
+export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation, useGetTransactionsQuery } = transactionsApi;

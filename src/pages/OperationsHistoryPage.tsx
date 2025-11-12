@@ -1,20 +1,14 @@
 import VirtualScroll from '../components/operations-history/VirtualScroll.tsx';
 import { SETTINGS } from '../constants/settings.ts';
 import { Operation } from '../components/operations-history/Operation.tsx';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/auth/useAuth.ts';
-import { useLazyGetTransactionsQuery } from '../store/api/endpoints/transactions.api.ts';
-import { useAccounts } from '../hooks/useAccounts.ts';
-import type { Transaction } from '../types/transaction-types.ts';
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/auth/useAuth.ts'
 import Loader from '../components/shared/Loader.tsx';
+import { useTransactions } from '../hooks/useTransactions.ts';
 
 const OperationsHistoryPage = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const {allTransactions, isLoading, isError} = useTransactions();
   const { user } = useAuth();
-  const { getAllAccounts, accounts, isLoading } = useAccounts();
-
-  const [getTransactions, { isLoading: transactionsLoading, isError: transactionsError }] =
-    useLazyGetTransactionsQuery();
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
@@ -25,52 +19,11 @@ const OperationsHistoryPage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const getAllTransactions = async () => {
-      try {
-        const fetchedAccounts = await getAllAccounts();
-
-        const validAccounts = (fetchedAccounts?.length ? fetchedAccounts : accounts).filter(
-          account => account.status !== 'Pending'
-        );
-        if (!validAccounts?.length) return;
-
-        const transactionsByAccount = await Promise.all(
-          validAccounts.map(async account => {
-            try {
-              const res = await getTransactions({
-                bank_id: account.bankId,
-                account_id: account.accountId,
-                limit: 100,
-                page: 1,
-              }).unwrap();
-
-              return res.transactions;
-            } catch (error) {
-              console.error(
-                `Ошибка при загрузке транзакций для счёта ${account.accountId}:`,
-                error
-              );
-              return [];
-            }
-          })
-        );
-
-        const allTransactions = transactionsByAccount.flat();
-        setTransactions(allTransactions);
-      } catch (error) {
-        console.error('Ошибка при загрузке всех транзакций:', error);
-      }
-    };
-
-    getAllTransactions();
-  }, []);
-
-  if (transactionsLoading || isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
-  if (transactionsError) {
+  if (isError) {
     return <div className='text-lg text-red-600 text-center mt-10'>Ошибка загрузки транзакций</div>;
   }
 
@@ -123,7 +76,7 @@ const OperationsHistoryPage = () => {
             settings={SETTINGS}
             template={Operation}
             premium={user.status === 'PREMIUM'}
-            transactions={transactions}
+            transactions={allTransactions}
           />
         )}
       </div>
