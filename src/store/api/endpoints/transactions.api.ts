@@ -11,6 +11,7 @@ const transactionsApi = baseApi.injectEndpoints({
         url: `/api/transaction/getTransactions/${bank_id}/${account_id}?page=${page}&limit=${limit}&predictParam=true`,
         method: 'GET',
       }),
+      providesTags: ['Transactions'],
     }),
     setTransactionType: build.mutation<void, { bankId: string; id: string; type: TransactionType }>(
       {
@@ -19,10 +20,10 @@ const transactionsApi = baseApi.injectEndpoints({
           method: 'POST',
           body,
         }),
-      }
-    ),
+        invalidatesTags: ['Transactions'],
+      }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation, useGetTransactionsQuery } = transactionsApi;
+export const { useLazyGetTransactionsQuery, useSetTransactionTypeMutation } = transactionsApi;
