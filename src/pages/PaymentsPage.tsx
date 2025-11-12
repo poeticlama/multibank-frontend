@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PaymentMethodSelector } from '../components/payment/PaymentMethodSelector';
 import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
@@ -13,11 +13,7 @@ const PaymentsPage = () => {
   const [amount, setAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
   const [toAccount, setToAccount] = useState('');
-  const { accounts, getAllAccounts } = useAccounts();
-
-  useEffect(() => {
-    getAllAccounts();
-  }, []);
+  const { accounts } = useAccounts();
 
   const handleSubmit = () => {
     const fromAccountData = accounts.find(acc => acc.accountId === fromAccount);
@@ -49,7 +45,7 @@ const PaymentsPage = () => {
       <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
         Платежи и переводы
       </h1>
-      <div className='max-w-md mx-auto bg-white rounded-xl shadow-sm p-6'>
+      <div className='max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-6 lg:ml-25'>
         <PaymentMethodSelector selectedMethod={selectedMethod} onMethodChange={setSelectedMethod} />
 
         <div className='mb-6'>
