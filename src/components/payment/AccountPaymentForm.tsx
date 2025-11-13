@@ -26,7 +26,7 @@ export const AccountPaymentForm = ({
 
   useEffect(() => {
     if (fromAccount) {
-      const selectedAccount = accounts.find(acc => acc.accountId === fromAccount);
+      const selectedAccount = accounts.find(acc => acc.account[0].identification === fromAccount);
       if (selectedAccount) {
         setCurrency(selectedAccount.currency);
       }

@@ -32,7 +32,7 @@ export const AccountSelector = ({
   };
 
   const handleSelect = (account: AccountData) => {
-    onAccountChange(account.accountId);
+    onAccountChange(account.account[0].identification);
     setSelected(account);
     setIsOpen(false);
   };
@@ -52,7 +52,7 @@ export const AccountSelector = ({
 
   useEffect(() => {
     if (selectedAccount && filteredAccounts.length > 0) {
-      const account = filteredAccounts.find(acc => acc.accountId === selectedAccount);
+      const account = filteredAccounts.find(acc => acc.account[0].identification === selectedAccount);
       setSelected(account || null);
     } else {
       setSelected(null);
@@ -88,7 +88,7 @@ export const AccountSelector = ({
               key={account.accountId + account.bankId}
               onClick={() => handleSelect(account)}
               className={`px-6 py-3 cursor-pointer bg-blue-50 hover:bg-blue-200 text-sm ${
-                (selected?.accountId || "")  + (selected?.bankId || "") === account.accountId + account.bankId ? 'bg-blue-100 font-medium' : ''
+                (selected?.account[0].identification || "") === account.account[0].identification ? 'bg-blue-100 font-medium' : ''
               }`}
             >
               {formatAccountDisplay(account)}

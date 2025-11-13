@@ -4,32 +4,54 @@ import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
 import { Button } from '../components/shared/Button';
 import { useAccounts } from '../hooks/useAccounts.ts';
+import { usePaymentMutation, useSinglePaymentConsentMutation } from '../store/api/endpoints/payments.api.ts';
 
 type PaymentMethod = 'card' | 'account';
 
 const PaymentsPage = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
+
   const [amount, setAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
   const [toAccount, setToAccount] = useState('');
   const { accounts } = useAccounts();
 
-  const handleSubmit = () => {
-    const fromAccountData = accounts.find(acc => acc.accountId === fromAccount);
-    const toAccountData = accounts.find(acc => acc.accountId === toAccount);
+  const [createPaymentConsent] = useSinglePaymentConsentMutation();
+  const [createPayment] = usePaymentMutation();
 
-    const paymentData = {
-      method: selectedMethod,
-      cardNumber: selectedMethod === 'card' ? cardNumber : undefined,
-      amount: parseFloat(amount),
-      fromAccount: fromAccountData,
-      toAccount: selectedMethod === 'account' ? toAccountData : undefined,
+  const handleSubmit = () => {
+    const fromAccountData = accounts.find(acc => acc.account[0].identification === fromAccount);
+    const toAccountData = accounts.find(acc => acc.account[0].identification === toAccount);
+
+    if (!fromAccountData) return
+
+    const consentData = {
+      bank_id: fromAccountData.bankId,
+      debtor_account: fromAccountData.account[0].identification,
+      amount: Number(amount),
+      currency: fromAccountData.currency,
+      creditor_account: selectedMethod === 'account' ? toAccountData?.account[0].identification || "" : cardNumber,
+      creditor_name: toAccountData?.account[0].name || "",
+      reference: "",
     };
 
-    console.log('Payment data:', paymentData);
+    const paymentData = {
+      accountId: fromAccountData.accountId,
+      debtor_account: fromAccountData.account[0].identification,
+      creditor_account: selectedMethod === 'account' ? toAccountData?.account[0].identification || "" : cardNumber,
+      debtor_bank: fromAccountData.bankId,
+      creditor_bank: toAccountData?.bankId || "",
+      amount: Number(amount),
+      currency: fromAccountData.currency,
+      comment: "",
+      debtor_scheme: fromAccountData.account[0].schemeName,
+      creditor_scheme: selectedMethod === 'account' ? toAccountData?.account[0].schemeName || "" : "",
+    }
 
-    // Суда API ставъ
+    createPaymentConsent(consentData).then(() => {
+      createPayment(paymentData)
+    });
   };
 
   const isFormValid = () => {
