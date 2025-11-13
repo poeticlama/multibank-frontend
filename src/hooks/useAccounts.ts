@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from './rtk.ts';
 import type { AccountData, BankClientLink } from '../types/account-types.ts';
 import { useLazyGetAccountsQuery } from '../store/api/endpoints/accounts.api.ts';
 import { setAccounts, setError } from '../store/slices/accounts.slice.ts';
-import { useAuth } from './auth/useAuth.ts';
+import { useAuth } from './useAuth.ts';
 
 export const useAccounts = (autoLoad = true) => {
   const dispatch = useAppDispatch();

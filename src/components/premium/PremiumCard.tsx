@@ -1,3 +1,5 @@
+import { Button } from '../shared/Button.tsx';
+
 type PremiumCardProps = {
   title: string;
   days: number;
@@ -25,13 +27,13 @@ const PremiumCard = ({
         </div>
       )}
 
-      <h3 className='text-lg sm:text-xl lg:text-2xl font-medium text-center mb-3 sm:mb-4'>
+      <h3 className='text-md sm:text-lg lg:text-xl font-medium text-center mb-3 sm:mb-4'>
         {title}
       </h3>
 
       <div className='flex-1 flex flex-col justify-between'>
         <div className='text-center mb-4 sm:mb-6'>
-          <div className='text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-2'>
+          <div className='text-xl sm:text-2xl lg:text-3xl font-bold text-blue-900 mb-2'>
             {days} дней
           </div>
           <div className='text-gray-600 text-sm'>премиум-доступа</div>
@@ -39,28 +41,25 @@ const PremiumCard = ({
 
         <div className='text-center mb-4 sm:mb-6'>
           <div className='flex items-center justify-center gap-2 mb-1'>
-            <span className='text-xl sm:text-2xl lg:text-3xl font-bold text-blue-900'>
+            <span className='text-lg sm:text-xl lg:text-2xl font-bold text-blue-900'>
               {price} ₽
             </span>
             {originalPrice &&
               (originalPrice == price ? null : (
-                <span className='text-lg text-gray-400 line-through'>{originalPrice} ₽</span>
+                <span className='text-md text-gray-400 line-through'>{originalPrice} ₽</span>
               ))}
           </div>
           {originalPrice &&
             (originalPrice == price ? null : (
-              <div className='text-green-600 text-sm font-medium'>
+              <div className='text-green-600 text-xs font-medium'>
                 Экономия {originalPrice - price} ₽
               </div>
             ))}
         </div>
 
-        <button
-          onClick={() => onSelect(days)}
-          className={`w-full py-2 sm:py-3 rounded-lg font-medium transition-colors bg-gray-100 hover:bg-gray-200 hover:cursor-pointer text-blue-900`}
-        >
+        <Button onClick={() => onSelect(days)} variant="secondary" pointer>
           Выбрать
-        </button>
+        </Button>
       </div>
     </div>
   );

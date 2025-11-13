@@ -2,7 +2,7 @@ import VirtualScroll from '../components/operations-history/VirtualScroll.tsx';
 import { SETTINGS as DEFAULT_SETTINGS } from '../constants/settings.ts';
 import { Operation } from '../components/operations-history/Operation.tsx';
 import { useEffect, useState, useRef } from 'react';
-import { useAuth } from '../hooks/auth/useAuth.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 import Loader from '../components/shared/Loader.tsx';
 import { useTransactions } from '../hooks/useTransactions.ts';
 import CustomSelect from '../components/shared/CustomSelect.tsx';

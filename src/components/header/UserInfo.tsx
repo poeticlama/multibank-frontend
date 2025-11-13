@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/auth/useAuth.ts';
+import { useAuth } from '../../hooks/useAuth.ts';
 
 const UserInfo = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ContentCard } from '../components/shared/ContentCard.tsx';
 import { LoginForm } from '../components/login/LoginForm';
 import { RegisterLink } from '../components/login/RegisterLink';
-import { useAuth } from '../hooks/auth/useAuth.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 
 type LoginFormData = {
   login: string;

@@ -3,23 +3,19 @@ import PremiumCard from '../components/premium/PremiumCard';
 import PremiumFeatures from '../components/premium/PremiumFeatures';
 import PaymentMethod from '../components/premium/PaymentMethod';
 import { Button } from '../components/shared/Button';
-import { useNavigate } from 'react-router-dom';
 import { useActivatePremiumMutation } from '../store/api/endpoints/premium.api.ts';
+import premiumPlans from '../constants/premiumPlans.ts';
+import { useAuth } from '../hooks/useAuth.ts';
+import Loader from '../components/shared/Loader.tsx';
 
 const PremiumPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
-  const navigate = useNavigate();
+  const { user, refreshUser } = useAuth();
 
-  const [mutatePremium] = useActivatePremiumMutation();
+  const [mutatePremium, {isLoading: premiumPaymentLoading}] = useActivatePremiumMutation();
 
-  const premiumPlans = [
-    { days: 1, title: 'Дневной', price: 228, originalPrice: 228 },
-    { days: 7, title: 'Недельный', price: 1339, originalPrice: 1339 },
-    { days: 30, title: 'Месячный', price: 1499, originalPrice: 1999, popular: true },
-    { days: 180, title: 'Полгода', price: 7499, originalPrice: 9999 },
-    { days: 365, title: 'Годовой', price: 12999, originalPrice: 17999 },
-  ];
+  if (premiumPaymentLoading) return <Loader />;
 
   const handlePlanSelect = (days: number) => {
     setSelectedPlan(days);
@@ -29,8 +25,7 @@ const PremiumPage = () => {
     if (!selectedPlan) return;
     try {
       await mutatePremium(selectedPlan);
-      console.log(`Покупка премиума на ${selectedPlan} дней через ${paymentMethod}`);
-      navigate('/account');
+      await refreshUser();
     } catch (error) {
       console.error(error);
     }
@@ -40,9 +35,23 @@ const PremiumPage = () => {
 
   return (
     <main className='py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto'>
-      <h2 className='text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-light pl-2 sm:pl-4 lg:pl-6 xl:pl-10 mb-4 sm:mb-5'>
+      <h2 className='text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-light pl-2 sm:pl-4 lg:pl-6 xl:pl-10 mb-4 sm:mb-7'>
         Премиум подписка
       </h2>
+
+      <div className="ml-10 mb-10">
+        <span className="font-semibold">Текущий тариф: </span>
+        {(user?.status === "PREMIUM" && !!user?.premiumExpireDate) ? (
+          <span className="text-yellow-500 font-medium">
+          Премиум <span className="text-blue-900">(до {new Date(user?.premiumExpireDate).toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long'
+          })})</span>
+  </span>
+        ) : (
+          <span className="text-gray-600">Базовый</span>
+        )}
+      </div>
 
       <div className='flex flex-col xl:flex-row gap-4 sm:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10'>
         <div className='w-full xl:w-2/3'>
@@ -91,7 +100,7 @@ const PremiumPage = () => {
 
                 <PaymentMethod selectedMethod={paymentMethod} onMethodChange={setPaymentMethod} />
 
-                <Button onClick={handlePurchase} variant='primary' disabled={!selectedPlan}>
+                <Button onClick={handlePurchase} variant='primary' disabled={!selectedPlan} pointer>
                   Оформить подписку
                 </Button>
               </>

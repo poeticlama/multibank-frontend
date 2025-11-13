@@ -34,7 +34,7 @@ export type User = {
   surname: string;
   username: string;
   status: 'PREMIUM' | 'DEFAULT';
-  premiumExpireDate: Date | null;
+  premiumExpireDate: string | null;
   bankClientLinks: BankClientLink[];
 };
 

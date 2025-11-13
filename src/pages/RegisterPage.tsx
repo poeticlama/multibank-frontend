@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RegisterForm } from '../components/register/RegisterForm';
 import { LoginLink } from '../components/register/LoginLink';
-import { useAuth } from '../hooks/auth/useAuth.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 import { ContentCard } from '../components/shared/ContentCard.tsx';
 
 type RegisterFormData = {

@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../rtk';
+import { useAppDispatch, useAppSelector } from './rtk.ts';
 import {
   useLoginMutation,
   useRegisterMutation,
   useLazyGeneralDataQuery,
-} from '../../store/api/endpoints/auth.api';
+} from '../store/api/endpoints/auth.api.ts';
 import {
   clearError,
   logout,
@@ -12,7 +12,7 @@ import {
   setToken,
   saveUserToStorage,
   setError,
-} from '../../store/slices/auth.slice';
+} from '../store/slices/auth.slice.ts';
 import { useCallback } from 'react';
 
 export const useAuth = () => {

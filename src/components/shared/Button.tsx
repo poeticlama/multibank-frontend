@@ -27,8 +27,8 @@ export const Button = ({
     }`,
     secondary: `${
       disabled
-        ? `bg-gray-200 text-gray-500 cursor-not-allowed ${pointer ? 'cursor-pointer' : ''}`
-        : `bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500 ${pointer ? 'cursor-pointer' : ''}`
+        ? `bg-gray-200 text-blue-500 cursor-not-allowed ${pointer ? 'cursor-pointer' : ''}`
+        : `bg-gray-100 text-blue-900 hover:bg-gray-200 ${pointer ? 'cursor-pointer' : ''}`
     }`,
   };
 
