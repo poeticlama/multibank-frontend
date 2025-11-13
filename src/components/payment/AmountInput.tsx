@@ -36,7 +36,7 @@ export const AmountInput = ({
         className='w-full p-3 pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none'
         inputMode='decimal'
       />
-      <span className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium'>
+      <span className='absolute right-3 mt-6 transform -translate-y-1/2 text-gray-500 font-medium'>
         {getCurrencySymbol(currency)}
       </span>
     </div>

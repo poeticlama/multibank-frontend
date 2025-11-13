@@ -25,14 +25,14 @@ type PaymentRequest = {
 
 const paymentsApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    singlePaymentConsent: build.mutation<void, PaymentConsentRequest>({
+    singlePaymentConsent: build.mutation<string, PaymentConsentRequest>({
       query: body => ({
         url: 'api/consent/singlePayment',
         method: 'POST',
         body,
       })
     }),
-    payment: build.mutation<void, PaymentRequest>({
+    payment: build.mutation<string, PaymentRequest>({
       query: body => ({
         url: 'api/payment',
         method: 'POST',

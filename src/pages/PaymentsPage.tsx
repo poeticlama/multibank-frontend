@@ -5,20 +5,23 @@ import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
 import { Button } from '../components/shared/Button';
 import { useAccounts } from '../hooks/useAccounts.ts';
 import { usePaymentMutation, useSinglePaymentConsentMutation } from '../store/api/endpoints/payments.api.ts';
+import PaymentInput from '../components/payment/PaymentInput.tsx';
+import Loader from '../components/shared/Loader.tsx';
 
 type PaymentMethod = 'card' | 'account';
 
 const PaymentsPage = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
+  const [comment, setComment] = useState('');
 
   const [amount, setAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
   const [toAccount, setToAccount] = useState('');
   const { accounts } = useAccounts();
 
-  const [createPaymentConsent] = useSinglePaymentConsentMutation();
-  const [createPayment] = usePaymentMutation();
+  const [createPaymentConsent, {isLoading: consentLoading, isError: consentError}] = useSinglePaymentConsentMutation();
+  const [createPayment, {isLoading: paymentLoading, isSuccess: paymentSuccess, isError: paymentError}] = usePaymentMutation();
 
   const handleSubmit = () => {
     const fromAccountData = accounts.find(acc => acc.account[0].identification === fromAccount);
@@ -33,7 +36,7 @@ const PaymentsPage = () => {
       currency: fromAccountData.currency,
       creditor_account: selectedMethod === 'account' ? toAccountData?.account[0].identification || "" : cardNumber,
       creditor_name: toAccountData?.account[0].name || "",
-      reference: "",
+      reference: comment,
     };
 
     const paymentData = {
@@ -44,14 +47,20 @@ const PaymentsPage = () => {
       creditor_bank: toAccountData?.bankId || "",
       amount: Number(amount),
       currency: fromAccountData.currency,
-      comment: "",
+      comment: comment,
       debtor_scheme: fromAccountData.account[0].schemeName,
       creditor_scheme: selectedMethod === 'account' ? toAccountData?.account[0].schemeName || "" : "",
     }
 
     createPaymentConsent(consentData).then(() => {
-      createPayment(paymentData)
+      createPayment(paymentData);
     });
+
+    setCardNumber('');
+    setAmount('');
+    setComment('');
+    setFromAccount('');
+    setToAccount('');
   };
 
   const isFormValid = () => {
@@ -62,15 +71,17 @@ const PaymentsPage = () => {
     }
   };
 
+  if (paymentLoading || consentLoading) return <Loader />
+
   return (
-    <div className='min-h-screen py-8'>
+    <div className='min-h-screen pt-8'>
       <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
         Платежи и переводы
       </h1>
       <div className='max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-6 lg:ml-25'>
         <PaymentMethodSelector selectedMethod={selectedMethod} onMethodChange={setSelectedMethod} />
 
-        <div className='mb-6'>
+        <div className='mb-2'>
           {selectedMethod === 'card' ? (
             <CardPaymentForm
               cardNumber={cardNumber}
@@ -94,9 +105,33 @@ const PaymentsPage = () => {
           )}
         </div>
 
-        <Button onClick={handleSubmit} disabled={!isFormValid()}>
-          Отправить
-        </Button>
+        <PaymentInput
+          type='text'
+          value={comment}
+          onChange={e => setComment(e.target.value)}
+          placeholder='Введите комментарий...'
+          label='Комментарий к платежу'
+          maxLength={100}
+        />
+
+        <div className='mt-6'>
+          <Button
+            onClick={handleSubmit}
+            disabled={!isFormValid() || paymentLoading || consentLoading}
+          >
+            Отправить
+          </Button>
+          {paymentSuccess && (
+            <div className='text-xs lg:text-sm mt-1 -mb-2 text-center text-green-700'>
+              Перевод выполнен успешно!
+            </div>
+          )}
+          {(consentError || paymentError) && (
+            <div className='text-xs lg:text-sm mt-1 -mb-2 text-center text-red-700'>
+              Произошла ошибка, попробуйте позже
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
