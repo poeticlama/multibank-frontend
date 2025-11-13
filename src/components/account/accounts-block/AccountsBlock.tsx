@@ -8,7 +8,7 @@ import Loader from '../../shared/Loader.tsx';
 
 const AccountsBlock = () => {
   const navigate = useNavigate();
-  const { accounts, hasAccounts, isLoading } = useAccounts();
+  const { accounts, hasAccounts, isLoading, error } = useAccounts();
   const [isFull, setIsFull] = useState(false);
   const [setDescription] = useSetDescriptionMutation();
 
@@ -23,6 +23,14 @@ const AccountsBlock = () => {
       console.error(error);
     }
   };
+
+  if (error) return (
+    <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
+      <h2 className="text-sm text-center text-gray-500">
+        Не удалось загрузить счета
+      </h2>
+    </div>
+    )
 
   return (
     <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
