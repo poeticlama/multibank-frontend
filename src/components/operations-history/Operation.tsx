@@ -61,12 +61,12 @@ export const Operation = ({ transaction, premium }: OperationProps): JSX.Element
         </div>
 
         <div className='flex flex-col items-end flex-shrink-0 pl-2 xs:pl-3 sm:pl-4'>
-          {transaction.creditDebitIndicator === 'Debit' ? (
-            <p className='text-green-700 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap'>
+          {transaction.creditDebitIndicator === 'Credit' ? (
+            <p className='text-green-700 text-lg xs:text-base sm:text-md font-semibold whitespace-nowrap'>
               + {transaction.amount.amount} {getCurrency(transaction.amount.currency)}
             </p>
           ) : (
-            <p className='text-red-500 text-sm xs:text-base sm:text-md font-semibold whitespace-nowrap'>
+            <p className='text-red-500 text-lg xs:text-base sm:text-md font-semibold whitespace-nowrap'>
               - {transaction.amount.amount} {getCurrency(transaction.amount.currency)}
             </p>
           )}

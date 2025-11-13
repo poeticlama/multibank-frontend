@@ -3,49 +3,32 @@ import { useEffect, useState } from 'react';
 import { useLazyGetTransactionsQuery } from '../store/api/endpoints/transactions.api.ts';
 import { useAccounts } from './useAccounts.ts';
 
-export const useTransactions = () => {
-  const [allTransactions, setAllTransactions] = useState<Transaction[]>([]);
+export const useTransactions = (accountFilter: string) => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [transactionsLoading, setTransactionsLoading] = useState(true);
   const [hookError, setHookError] = useState(false);
 
-  const [getTransactions, { isError: transactionsError }] =
+  const [fetchTransactions, { isError: transactionsError }] =
     useLazyGetTransactionsQuery();
   const { accounts, isLoading } = useAccounts();
 
   useEffect(() => {
-    const getAllTransactions = async () => {
+    const getTransactions = async () => {
       try {
-        const validAccounts = accounts.filter(
-          account => account.status !== 'Pending'
-        );
-        if (!validAccounts?.length) return;
+        const account = accountFilter.length ? accounts.find((acc) => acc.account[0].identification === accountFilter) : accounts[0];
 
-        const transactionsByAccount = await Promise.all(
-          validAccounts.map(async account => {
-            try {
-              const res = await getTransactions({
-                bank_id: account.bankId,
-                account_id: account.accountId,
-                limit: 100,
-                page: 1,
-              }).unwrap();
+        if (!account) return;
 
-              return res.transactions;
-            } catch (error) {
-              console.error(
-                `Ошибка при загрузке транзакций для счёта ${account.accountId}:`,
-                error
-              );
-              setHookError(true);
-              return [];
-            }
-          })
-        );
-        setHookError(false);
-        setTransactionsLoading(true);
-        const allTransactions = transactionsByAccount.flat();
-        setAllTransactions(allTransactions);
+        const { transactions } = await fetchTransactions({
+          bank_id: account.bankId,
+          account_id: account.accountId,
+          limit: 100,
+          page: 1,
+        }).unwrap();
+
+        setTransactions(transactions);
         setTransactionsLoading(false);
+
       } catch (error) {
         setHookError(true);
         setTransactionsLoading(false);
@@ -53,12 +36,13 @@ export const useTransactions = () => {
       }
     };
 
-    getAllTransactions();
-  }, [accounts, getTransactions]);
+    getTransactions();
+  }, [accounts, fetchTransactions, accountFilter]);
 
   return {
-    allTransactions,
+    transactions,
     isLoading: isLoading || transactionsLoading,
     isError: transactionsError || hookError,
+    accounts
   }
 }
