@@ -29,49 +29,46 @@ const AccountsBlock = () => {
       {!hasAccounts && !isLoading && (
         <div className='text-center my-3 opacity-40'>У вас пока не добавлены счета</div>
       )}
-      {isLoading
-        ? <Loader />
-        : accounts
-          .filter((_, i) => isFull ? true : i < 3)
+      {isLoading ? (
+        <Loader />
+      ) : (
+        accounts
+          .filter((_, i) => (isFull ? true : i < 3))
           .map(account => (
-          <AccountCard
-            key={account.accountId + account.bankId}
-            accountData={account}
-            onDescriptionUpdate={onDescriptionUpdate}
-          />
-        ))}
-      {!(isLoading || accounts.length <= 3 || isFull) &&
+            <AccountCard
+              key={account.accountId + account.bankId}
+              accountData={account}
+              onDescriptionUpdate={onDescriptionUpdate}
+            />
+          ))
+      )}
+      {!(isLoading || accounts.length <= 3 || isFull) && (
         <button
           onClick={() => setIsFull(true)}
-          className="flex items-center gap-2 text-sm hover:opacity-70 cursor-pointer transition-colors duration-200 group ml-3 mb-3"
+          className='flex items-center gap-2 text-sm hover:opacity-70 cursor-pointer transition-colors duration-200 group ml-3 mb-3'
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
           </svg>
           Показать все счета
         </button>
-      }
-      {!(isLoading || !isFull) &&
+      )}
+      {!(isLoading || !isFull) && (
         <button
           onClick={() => setIsFull(false)}
-          className="flex items-center gap-2 text-sm hover:opacity-70 cursor-pointer transition-colors duration-200 group ml-3 mb-3"
+          className='flex items-center gap-2 text-sm hover:opacity-70 cursor-pointer transition-colors duration-200 group ml-3 mb-3'
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 15l-6-6-6 6" />
+          <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M18 15l-6-6-6 6'
+            />
           </svg>
           Скрыть счета
         </button>
-      }
+      )}
       <Button
         onClick={() => {
           navigate('/account/add');
@@ -81,7 +78,7 @@ const AccountsBlock = () => {
         Добавить счет
       </Button>
     </div>
-  )
-}
+  );
+};
 
 export default AccountsBlock;

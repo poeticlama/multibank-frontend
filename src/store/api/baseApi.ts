@@ -11,7 +11,7 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
-  responseHandler: async (response) => {
+  responseHandler: async response => {
     const contentType = response.headers.get('content-type');
 
     if (contentType?.includes('application/json')) {

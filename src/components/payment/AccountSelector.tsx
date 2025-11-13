@@ -11,12 +11,12 @@ type AccountSelectorProps = {
 };
 
 export const AccountSelector = ({
-                                  accounts,
-                                  selectedAccount,
-                                  onAccountChange,
-                                  label = 'Выберите счет',
-                                  showOnlyEnabled = true,
-                                }: AccountSelectorProps) => {
+  accounts,
+  selectedAccount,
+  onAccountChange,
+  label = 'Выберите счет',
+  showOnlyEnabled = true,
+}: AccountSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<AccountData | null>(null);
 
@@ -52,7 +52,9 @@ export const AccountSelector = ({
 
   useEffect(() => {
     if (selectedAccount && filteredAccounts.length > 0) {
-      const account = filteredAccounts.find(acc => acc.account[0].identification === selectedAccount);
+      const account = filteredAccounts.find(
+        acc => acc.account[0].identification === selectedAccount
+      );
       setSelected(account || null);
     } else {
       setSelected(null);
@@ -62,7 +64,7 @@ export const AccountSelector = ({
   return (
     <div ref={ref} className='relative w-full'>
       <button
-        type="button"
+        type='button'
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full flex justify-between items-center p-3 rounded-lg border-1 border-gray-300 hover:bg-blue-100 transition ${
           selected ? 'text-black' : 'text-gray-500'
@@ -88,7 +90,9 @@ export const AccountSelector = ({
               key={account.accountId + account.bankId}
               onClick={() => handleSelect(account)}
               className={`px-6 py-3 cursor-pointer bg-blue-50 hover:bg-blue-200 text-sm ${
-                (selected?.account[0].identification || "") === account.account[0].identification ? 'bg-blue-100 font-medium' : ''
+                (selected?.account[0].identification || '') === account.account[0].identification
+                  ? 'bg-blue-100 font-medium'
+                  : ''
               }`}
             >
               {formatAccountDisplay(account)}

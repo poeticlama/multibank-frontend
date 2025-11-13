@@ -8,7 +8,7 @@ type PaymentConsentRequest = {
   creditor_account: string;
   creditor_name: string;
   reference: string;
-}
+};
 
 type PaymentRequest = {
   accountId: string;
@@ -21,7 +21,7 @@ type PaymentRequest = {
   comment: string;
   debtor_scheme: string;
   creditor_scheme: string;
-}
+};
 
 const paymentsApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -30,16 +30,16 @@ const paymentsApi = baseApi.injectEndpoints({
         url: 'api/consent/singlePayment',
         method: 'POST',
         body,
-      })
+      }),
     }),
     payment: build.mutation<string, PaymentRequest>({
       query: body => ({
         url: 'api/payment',
         method: 'POST',
-        body
-      })
-    })
-  })
-})
+        body,
+      }),
+    }),
+  }),
+});
 
 export const { useSinglePaymentConsentMutation, usePaymentMutation } = paymentsApi;

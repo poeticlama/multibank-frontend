@@ -4,7 +4,10 @@ import { CardPaymentForm } from '../components/payment/CardPaymentForm';
 import { AccountPaymentForm } from '../components/payment/AccountPaymentForm';
 import { Button } from '../components/shared/Button';
 import { useAccounts } from '../hooks/useAccounts.ts';
-import { usePaymentMutation, useSinglePaymentConsentMutation } from '../store/api/endpoints/payments.api.ts';
+import {
+  usePaymentMutation,
+  useSinglePaymentConsentMutation,
+} from '../store/api/endpoints/payments.api.ts';
 import PaymentInput from '../components/payment/PaymentInput.tsx';
 import Loader from '../components/shared/Loader.tsx';
 import SuccessfulPaymentModal from '../components/payment/SuccessfulPaymentModal.tsx';
@@ -21,37 +24,44 @@ const PaymentsPage = () => {
   const [toAccount, setToAccount] = useState('');
   const { accounts } = useAccounts();
 
-  const [createPaymentConsent, {isLoading: consentLoading, isError: consentError}] = useSinglePaymentConsentMutation();
-  const [createPayment, {isLoading: paymentLoading, isSuccess: paymentSuccess, isError: paymentError}] = usePaymentMutation();
+  const [createPaymentConsent, { isLoading: consentLoading, isError: consentError }] =
+    useSinglePaymentConsentMutation();
+  const [
+    createPayment,
+    { isLoading: paymentLoading, isSuccess: paymentSuccess, isError: paymentError },
+  ] = usePaymentMutation();
 
   const handleSubmit = () => {
     const fromAccountData = accounts.find(acc => acc.account[0].identification === fromAccount);
     const toAccountData = accounts.find(acc => acc.account[0].identification === toAccount);
 
-    if (!fromAccountData) return
+    if (!fromAccountData) return;
 
     const consentData = {
       bank_id: fromAccountData.bankId,
       debtor_account: fromAccountData.account[0].identification,
       amount: Number(amount),
       currency: fromAccountData.currency,
-      creditor_account: selectedMethod === 'account' ? toAccountData?.account[0].identification || "" : cardNumber,
-      creditor_name: toAccountData?.account[0].name || "",
+      creditor_account:
+        selectedMethod === 'account' ? toAccountData?.account[0].identification || '' : cardNumber,
+      creditor_name: toAccountData?.account[0].name || '',
       reference: comment,
     };
 
     const paymentData = {
       accountId: fromAccountData.accountId,
       debtor_account: fromAccountData.account[0].identification,
-      creditor_account: selectedMethod === 'account' ? toAccountData?.account[0].identification || "" : cardNumber,
+      creditor_account:
+        selectedMethod === 'account' ? toAccountData?.account[0].identification || '' : cardNumber,
       debtor_bank: fromAccountData.bankId,
-      creditor_bank: toAccountData?.bankId || "",
+      creditor_bank: toAccountData?.bankId || '',
       amount: Number(amount),
       currency: fromAccountData.currency,
       comment: comment,
       debtor_scheme: fromAccountData.account[0].schemeName,
-      creditor_scheme: selectedMethod === 'account' ? toAccountData?.account[0].schemeName || "" : "",
-    }
+      creditor_scheme:
+        selectedMethod === 'account' ? toAccountData?.account[0].schemeName || '' : '',
+    };
 
     createPaymentConsent(consentData).then(() => {
       createPayment(paymentData);
@@ -72,7 +82,7 @@ const PaymentsPage = () => {
     }
   };
 
-  if (paymentLoading || consentLoading) return <Loader />
+  if (paymentLoading || consentLoading) return <Loader />;
 
   return (
     <div className='min-h-screen pt-8'>
@@ -122,9 +132,7 @@ const PaymentsPage = () => {
           >
             Отправить
           </Button>
-          {paymentSuccess && (
-            <SuccessfulPaymentModal />
-          )}
+          {paymentSuccess && <SuccessfulPaymentModal />}
           {(consentError || paymentError) && (
             <div className='text-xs lg:text-sm mt-1 -mb-2 text-center text-red-700'>
               Произошла ошибка, попробуйте позже

@@ -21,7 +21,8 @@ const transactionsApi = baseApi.injectEndpoints({
           body,
         }),
         invalidatesTags: ['Transactions'],
-      }),
+      }
+    ),
   }),
   overrideExisting: false,
 });

@@ -8,14 +8,15 @@ export const useTransactions = (accountFilter: string) => {
   const [transactionsLoading, setTransactionsLoading] = useState(true);
   const [hookError, setHookError] = useState(false);
 
-  const [fetchTransactions, { isError: transactionsError }] =
-    useLazyGetTransactionsQuery();
+  const [fetchTransactions, { isError: transactionsError }] = useLazyGetTransactionsQuery();
   const { accounts, isLoading } = useAccounts();
 
   useEffect(() => {
     const getTransactions = async () => {
       try {
-        const account = accountFilter.length ? accounts.find((acc) => acc.account[0].identification === accountFilter) : accounts[0];
+        const account = accountFilter.length
+          ? accounts.find(acc => acc.account[0].identification === accountFilter)
+          : accounts[0];
 
         if (!account) return;
 
@@ -28,7 +29,6 @@ export const useTransactions = (accountFilter: string) => {
 
         setTransactions(transactions);
         setTransactionsLoading(false);
-
       } catch (error) {
         setHookError(true);
         setTransactionsLoading(false);
@@ -43,6 +43,6 @@ export const useTransactions = (accountFilter: string) => {
     transactions,
     isLoading: isLoading || transactionsLoading,
     isError: transactionsError || hookError,
-    accounts
-  }
-}
+    accounts,
+  };
+};

@@ -7,9 +7,16 @@ type PaymentInputProps = {
   placeholder: string;
   label: string;
   maxLength?: number;
-}
+};
 
-const PaymentInput = ({type, value, onChange, placeholder, label, maxLength}: PaymentInputProps) => {
+const PaymentInput = ({
+  type,
+  value,
+  onChange,
+  placeholder,
+  label,
+  maxLength,
+}: PaymentInputProps) => {
   return (
     <div className='mb-4'>
       <label className='block text-sm font-medium text-gray-700 mb-2'>{label}</label>
@@ -23,6 +30,6 @@ const PaymentInput = ({type, value, onChange, placeholder, label, maxLength}: Pa
       />
     </div>
   );
-}
+};
 
 export default PaymentInput;

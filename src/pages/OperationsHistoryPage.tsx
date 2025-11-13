@@ -1,93 +1,91 @@
-import VirtualScroll from '../components/operations-history/VirtualScroll.tsx'
-import { SETTINGS as DEFAULT_SETTINGS } from '../constants/settings.ts'
-import { Operation } from '../components/operations-history/Operation.tsx'
-import { useEffect, useState, useRef } from 'react'
-import { useAuth } from '../hooks/auth/useAuth.ts'
-import Loader from '../components/shared/Loader.tsx'
-import { useTransactions } from '../hooks/useTransactions.ts'
-import CustomSelect from '../components/shared/CustomSelect.tsx'
+import VirtualScroll from '../components/operations-history/VirtualScroll.tsx';
+import { SETTINGS as DEFAULT_SETTINGS } from '../constants/settings.ts';
+import { Operation } from '../components/operations-history/Operation.tsx';
+import { useEffect, useState, useRef } from 'react';
+import { useAuth } from '../hooks/auth/useAuth.ts';
+import Loader from '../components/shared/Loader.tsx';
+import { useTransactions } from '../hooks/useTransactions.ts';
+import CustomSelect from '../components/shared/CustomSelect.tsx';
 
 const OperationsHistoryPage = () => {
-  const { user } = useAuth()
-  const [accountFilter, setAccountFilter] = useState("")
-  const { transactions, isError, isLoading, accounts } = useTransactions(accountFilter)
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const rafRef = useRef<number | null>(null)
+  const { user } = useAuth();
+  const [accountFilter, setAccountFilter] = useState('');
+  const { transactions, isError, isLoading, accounts } = useTransactions(accountFilter);
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = originalOverflow
-    }
-  }, [])
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
   useEffect(() => {
     const sumFixedHeights = (where: 'top' | 'bottom') => {
-      const els = Array.from(document.querySelectorAll<HTMLElement>('*'))
+      const els = Array.from(document.querySelectorAll<HTMLElement>('*'));
       return els.reduce((acc, el) => {
-        const cs = getComputedStyle(el)
-        if (cs.position !== 'fixed') return acc
-        if (el.offsetWidth === 0 || el.offsetHeight === 0) return acc
-        const r = el.getBoundingClientRect()
+        const cs = getComputedStyle(el);
+        if (cs.position !== 'fixed') return acc;
+        if (el.offsetWidth === 0 || el.offsetHeight === 0) return acc;
+        const r = el.getBoundingClientRect();
         if (where === 'top') {
-          if (r.bottom <= 0) return acc
-          if (Math.abs(r.top) <= 2 || cs.top === '0px') return acc + r.height
+          if (r.bottom <= 0) return acc;
+          if (Math.abs(r.top) <= 2 || cs.top === '0px') return acc + r.height;
         } else {
-          if (Math.abs(window.innerHeight - (r.bottom || 0)) <= 2 || cs.bottom === '0px') return acc + r.height
+          if (Math.abs(window.innerHeight - (r.bottom || 0)) <= 2 || cs.bottom === '0px')
+            return acc + r.height;
         }
-        return acc
-      }, 0)
-    }
+        return acc;
+      }, 0);
+    };
 
     const calc = () => {
-      if (!containerRef.current) return
-      const rect = containerRef.current.getBoundingClientRect()
-      const elementTopDoc = rect.top + window.scrollY
-      const viewportBottomY = window.scrollY + window.innerHeight
-      const fixedTop = sumFixedHeights('top')
-      const fixedBottom = sumFixedHeights('bottom')
-      const availableHeight = Math.max(
-        0,
-        viewportBottomY - elementTopDoc - fixedTop - fixedBottom
-      )
-      const newAmount = Math.max(1, Math.floor(availableHeight / settings.itemHeight))
-      setSettings(prev => (prev.amount === newAmount ? prev : { ...prev, amount: newAmount }))
-    }
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const elementTopDoc = rect.top + window.scrollY;
+      const viewportBottomY = window.scrollY + window.innerHeight;
+      const fixedTop = sumFixedHeights('top');
+      const fixedBottom = sumFixedHeights('bottom');
+      const availableHeight = Math.max(0, viewportBottomY - elementTopDoc - fixedTop - fixedBottom);
+      const newAmount = Math.max(1, Math.floor(availableHeight / settings.itemHeight));
+      setSettings(prev => (prev.amount === newAmount ? prev : { ...prev, amount: newAmount }));
+    };
 
     const scheduleCalc = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
-        calc()
-        rafRef.current = null
-      })
-    }
+        calc();
+        rafRef.current = null;
+      });
+    };
 
-    scheduleCalc()
-    window.addEventListener('resize', scheduleCalc)
-    window.addEventListener('scroll', scheduleCalc, { passive: true })
+    scheduleCalc();
+    window.addEventListener('resize', scheduleCalc);
+    window.addEventListener('scroll', scheduleCalc, { passive: true });
 
-    const ro = new ResizeObserver(scheduleCalc)
-    if (containerRef.current) ro.observe(containerRef.current)
-    const mo = new MutationObserver(scheduleCalc)
-    mo.observe(document.body, { childList: true, subtree: true, attributes: true })
+    const ro = new ResizeObserver(scheduleCalc);
+    if (containerRef.current) ro.observe(containerRef.current);
+    const mo = new MutationObserver(scheduleCalc);
+    mo.observe(document.body, { childList: true, subtree: true, attributes: true });
 
     return () => {
-      window.removeEventListener('resize', scheduleCalc)
-      window.removeEventListener('scroll', scheduleCalc)
-      ro.disconnect()
-      mo.disconnect()
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [settings.itemHeight])
+      window.removeEventListener('resize', scheduleCalc);
+      window.removeEventListener('scroll', scheduleCalc);
+      ro.disconnect();
+      mo.disconnect();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [settings.itemHeight]);
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (isError) {
-    return <div className='text-lg text-red-600 text-center mt-10'>Ошибка загрузки транзакций</div>
+    return <div className='text-lg text-red-600 text-center mt-10'>Ошибка загрузки транзакций</div>;
   }
 
   return (
@@ -96,13 +94,13 @@ const OperationsHistoryPage = () => {
         <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
           Операции
         </h1>
-        <div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">
+        <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
           <CustomSelect
-            options={accounts.map((account) => ({
-              label: account.accountId + " - " + account.bankId,
+            options={accounts.map(account => ({
+              label: account.accountId + ' - ' + account.bankId,
               value: account.account[0].identification,
             }))}
-            onChange={(value) => setAccountFilter(value)}
+            onChange={value => setAccountFilter(value)}
           />
         </div>
       </div>
@@ -118,7 +116,7 @@ const OperationsHistoryPage = () => {
         )}
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default OperationsHistoryPage
+export default OperationsHistoryPage;

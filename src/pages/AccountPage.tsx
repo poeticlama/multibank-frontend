@@ -5,8 +5,11 @@ import AccountsBlock from '../components/account/accounts-block/AccountsBlock.ts
 import Loader from '../components/shared/Loader.tsx';
 
 const AccountPage = () => {
-  const { data: statistics, isLoading: statisticsLoading, isError: statisticsError } =
-    useGetStatisticsQuery(null);
+  const {
+    data: statistics,
+    isLoading: statisticsLoading,
+    isError: statisticsError,
+  } = useGetStatisticsQuery(null);
 
   return (
     <main className='py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto'>

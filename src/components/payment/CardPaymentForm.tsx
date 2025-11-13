@@ -27,7 +27,9 @@ export const CardPaymentForm = ({
 
   useEffect(() => {
     if (selectedAccount) {
-      const selectedAccountData = accounts.find(acc => acc.account[0].identification === selectedAccount);
+      const selectedAccountData = accounts.find(
+        acc => acc.account[0].identification === selectedAccount
+      );
       if (selectedAccountData) {
         setCurrency(selectedAccountData.currency);
       }
@@ -46,8 +48,13 @@ export const CardPaymentForm = ({
         showOnlyEnabled={true}
       />
 
-      <PaymentInput type="text" value={cardNumber} onChange={(e) => onCardNumberChange(e.target.value)} placeholder='Введите номер карты...' label="Номер карты получателя" />
-
+      <PaymentInput
+        type='text'
+        value={cardNumber}
+        onChange={e => onCardNumberChange(e.target.value)}
+        placeholder='Введите номер карты...'
+        label='Номер карты получателя'
+      />
 
       {/* Key меняется при смене валюты, чтобы пересоздать компонент */}
       <AmountInput

@@ -19,7 +19,7 @@ export const FormInput = ({
   onChange,
   placeholder,
   autoComplete,
-  minLength
+  minLength,
 }: FormInputProps) => {
   return (
     <div>

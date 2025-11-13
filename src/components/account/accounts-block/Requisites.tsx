@@ -87,8 +87,15 @@ const Requisites = ({ isOpen, setIsModalOpen, accountData }: RequisitesProps) =>
         </div>
 
         <div className='flex gap-5'>
-            <button className="font-semibold cursor-pointer hover:underline" onClick={handleCopyRequisites}>Копировать все</button>
-          <button className="font-semibold cursor-pointer hover:underline" onClick={onClose}>Закрыть</button>
+          <button
+            className='font-semibold cursor-pointer hover:underline'
+            onClick={handleCopyRequisites}
+          >
+            Копировать все
+          </button>
+          <button className='font-semibold cursor-pointer hover:underline' onClick={onClose}>
+            Закрыть
+          </button>
         </div>
       </div>
     </div>
