@@ -7,6 +7,7 @@ import { useAccounts } from '../hooks/useAccounts.ts';
 import { usePaymentMutation, useSinglePaymentConsentMutation } from '../store/api/endpoints/payments.api.ts';
 import PaymentInput from '../components/payment/PaymentInput.tsx';
 import Loader from '../components/shared/Loader.tsx';
+import SuccessfulPaymentModal from '../components/payment/SuccessfulPaymentModal.tsx';
 
 type PaymentMethod = 'card' | 'account';
 
@@ -122,9 +123,7 @@ const PaymentsPage = () => {
             Отправить
           </Button>
           {paymentSuccess && (
-            <div className='text-xs lg:text-sm mt-1 -mb-2 text-center text-green-700'>
-              Перевод выполнен успешно!
-            </div>
+            <SuccessfulPaymentModal />
           )}
           {(consentError || paymentError) && (
             <div className='text-xs lg:text-sm mt-1 -mb-2 text-center text-red-700'>
