@@ -25,7 +25,7 @@ const Loader = ({ size = 'md', color = 'blue', className = '' }: LoaderProps) =>
   };
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center ${className}`}>
+    <div className={`flex h-96 items-center justify-center ${className}`}>
       <div
         className={`
           ${sizeClasses[size]}

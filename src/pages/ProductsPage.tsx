@@ -5,6 +5,7 @@ import productTypes from '../constants/productTypes.ts';
 import { useLazyBanksQuery, useLazyGetProductsQuery } from '../store/api/endpoints/banks.api.ts';
 import type { ProductType } from '../types/products-types.ts';
 import type { BankInfo } from '../types/bank-info.ts';
+import Loader from '../components/shared/Loader.tsx';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -67,13 +68,7 @@ const ProductsPage = () => {
     loadProducts();
   }, [bankFilter, banks, fetchProducts, productFilter]);
 
-  if (productsLoading || banksLoading) {
-    return (
-      <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
-        <div className='text-center'>Загрузка продуктов...</div>
-      </main>
-    );
-  }
+  if (productsLoading || banksLoading) return <Loader />;
 
   if (banksError || productsError) {
     return (

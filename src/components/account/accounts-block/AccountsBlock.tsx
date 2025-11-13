@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAccounts } from '../../../hooks/useAccounts.ts';
 import { useSetDescriptionMutation } from '../../../store/api/endpoints/accounts.api.ts';
 import { useState } from 'react';
+import Loader from '../../shared/Loader.tsx';
 
 const AccountsBlock = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const AccountsBlock = () => {
         <div className='text-center my-3 opacity-40'>У вас пока не добавлены счета</div>
       )}
       {isLoading
-        ? 'Загрузка...'
+        ? <Loader />
         : accounts
           .filter((_, i) => isFull ? true : i < 3)
           .map(account => (

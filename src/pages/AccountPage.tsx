@@ -2,6 +2,7 @@ import ExpenseStatistics from '../components/account/statistics-block/ExpenseSta
 
 import { useGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
 import AccountsBlock from '../components/account/accounts-block/AccountsBlock.tsx';
+import Loader from '../components/shared/Loader.tsx';
 
 const AccountPage = () => {
   const { data: statistics, isLoading: statisticsLoading, isError: statisticsError } =
@@ -26,7 +27,7 @@ const AccountPage = () => {
             statisticsError ? (
               'Статистика недоступна'
             ) : (
-              'Загрузка...'
+              <Loader />
             )
           ) : (
             <ExpenseStatistics
