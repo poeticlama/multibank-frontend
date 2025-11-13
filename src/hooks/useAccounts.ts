@@ -2,8 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './rtk.ts';
 import type { AccountData, BankClientLink } from '../types/account-types.ts';
 import { useLazyGetAccountsQuery } from '../store/api/endpoints/accounts.api.ts';
-import { setAccounts } from '../store/slices/accounts.slice.ts';
-import { setError } from '../store/slices/accounts.slice.ts';
+import { setAccounts, setError } from '../store/slices/accounts.slice.ts';
 import { useAuth } from './auth/useAuth.ts';
 
 export const useAccounts = (autoLoad = true) => {
@@ -17,9 +16,7 @@ export const useAccounts = (autoLoad = true) => {
   const handleGetAccountsByBank = useCallback(
     async (bankClientLink: BankClientLink) => {
       try {
-        const resAccounts = await fetchAccounts(bankClientLink).unwrap();
-        dispatch(setAccounts(resAccounts));
-        return resAccounts;
+        return await fetchAccounts(bankClientLink).unwrap();
       } catch (err: any) {
         if (err?.data?.message === 'Consent is not approved yet') {
           return [
