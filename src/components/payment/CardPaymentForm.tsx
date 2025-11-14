@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AccountSelector } from './AccountSelector';
 import { AmountInput } from './AmountInput';
 import type { AccountData } from '../../types/account-types';
+import PaymentInput from './PaymentInput.tsx';
 
-interface CardPaymentFormProps {
+type CardPaymentFormProps = {
   cardNumber: string;
   onCardNumberChange: (number: string) => void;
   amount: string;
@@ -11,9 +12,9 @@ interface CardPaymentFormProps {
   selectedAccount: string;
   onAccountChange: (accountId: string) => void;
   accounts: AccountData[];
-}
+};
 
-export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
+export const CardPaymentForm = ({
   cardNumber,
   onCardNumberChange,
   amount,
@@ -21,12 +22,14 @@ export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
   selectedAccount,
   onAccountChange,
   accounts,
-}) => {
+}: CardPaymentFormProps) => {
   const [currency, setCurrency] = useState<string>('RUB');
- 
+
   useEffect(() => {
     if (selectedAccount) {
-      const selectedAccountData = accounts.find(acc => acc.accountId === selectedAccount);
+      const selectedAccountData = accounts.find(
+        acc => acc.account[0].identification === selectedAccount
+      );
       if (selectedAccountData) {
         setCurrency(selectedAccountData.currency);
       }
@@ -36,40 +39,32 @@ export const CardPaymentForm: React.FC<CardPaymentFormProps> = ({
   }, [selectedAccount, accounts]);
 
   return (
-    <div className="space-y-4">
-
+    <div className='space-y-4'>
       <AccountSelector
         accounts={accounts}
         selectedAccount={selectedAccount}
         onAccountChange={onAccountChange}
-        label="Выберите счет для списания"
+        label='Выберите счет для списания'
         showOnlyEnabled={true}
       />
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Номер карты получателя
-        </label>
-        <input
-          type="text"
-          value={cardNumber}
-          onChange={(e) => onCardNumberChange(e.target.value)}
-          placeholder="Введите номер карты..."
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition-colors outline-none"
-        />
-      </div>
-      
+      <PaymentInput
+        type='text'
+        value={cardNumber}
+        onChange={e => onCardNumberChange(e.target.value)}
+        placeholder='Введите номер карты...'
+        label='Номер карты получателя'
+      />
+
       {/* Key меняется при смене валюты, чтобы пересоздать компонент */}
       <AmountInput
         key={`amount-input-${currency}`}
         value={amount}
         onChange={onAmountChange}
-        placeholder="Введите сумму..."
+        placeholder='Введите сумму...'
         currency={currency}
-        label="Введите сумму перевода на карту"
+        label='Введите сумму перевода на карту'
       />
-      
-
     </div>
   );
 };

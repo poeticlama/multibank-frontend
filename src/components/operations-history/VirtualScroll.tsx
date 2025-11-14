@@ -56,9 +56,12 @@ const VirtualScroll = ({ settings, premium, transactions, template }: VirtualScr
 
     const visibleData = transactions.slice(startIndex, endIndex);
     const topPaddingHeight = startIndex * itemHeight;
-    const bottomPaddingHeight = Math.max(totalHeight - topPaddingHeight - visibleData.length * itemHeight, 0);
+    const bottomPaddingHeight = Math.max(
+      totalHeight - topPaddingHeight - visibleData.length * itemHeight,
+      0
+    );
 
-    setState((prevState) => ({
+    setState(prevState => ({
       ...prevState,
       data: visibleData,
       topPaddingHeight,
@@ -75,10 +78,10 @@ const VirtualScroll = ({ settings, premium, transactions, template }: VirtualScr
         msOverflowStyle: 'none',
       }}
       onScroll={handleScroll}
-      className="overflow-auto mt-3 xs:mt-4 sm:mt-5 bg-gray-100 px-2 xs:px-3 sm:px-4 lg:px-6 xl:px-8 border-1 border-gray-300 py-2 xs:py-2.5 sm:py-3 rounded-xl xs:rounded-2xl scrollbar-hide"
+      className='overflow-auto mt-3 xs:mt-4 sm:mt-5 bg-gray-100 px-2 xs:px-3 sm:px-4 lg:px-6 xl:px-8 border-1 border-gray-300 py-2 xs:py-2.5 sm:py-3 rounded-xl xs:rounded-2xl scrollbar-hide'
     >
       <div style={{ height: topPaddingHeight }} />
-      {data.map((item) => (
+      {data.map(item => (
         <RowTemplate key={item.transactionId} transaction={item} premium={premium} />
       ))}
       <div style={{ height: bottomPaddingHeight }} />

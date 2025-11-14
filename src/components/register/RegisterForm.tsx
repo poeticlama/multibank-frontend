@@ -1,25 +1,25 @@
 import React, { type ChangeEvent, useState } from 'react';
-import { FormInput } from '../shared/FormInput.tsx';
-import { Checkbox } from './Checkbox';
 import { Button } from '../shared/LoadingButton';
+import { FormInput } from '../shared/FormInput.tsx';
 
-type LoginFormData = {
+type RegisterFormData = {
   login: string;
   password: string;
+  confirmPassword: string;
 };
 
-type LoginFormProps = {
-  onSubmit: (data: LoginFormData, rememberMe: boolean) => Promise<void>;
+type RegisterFormProps = {
+  onSubmit: (data: RegisterFormData) => Promise<void>;
   loading?: boolean;
   error?: string;
 };
 
-export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormProps) => {
-  const [formData, setFormData] = useState<LoginFormData>({
+export const RegisterForm = ({ onSubmit, loading = false, error = '' }: RegisterFormProps) => {
+  const [formData, setFormData] = useState<RegisterFormData>({
     login: '',
     password: '',
+    confirmPassword: '',
   });
-  const [rememberMe, setRememberMe] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,7 +31,7 @@ export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormPr
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(formData, rememberMe);
+    await onSubmit(formData);
   };
 
   return (
@@ -53,18 +53,24 @@ export const LoginForm = ({ onSubmit, loading = false, error = '' }: LoginFormPr
         value={formData.password}
         onChange={handleChange}
         placeholder='Введите пароль'
-        autoComplete='current-password'
+        minLength={6}
+        autoComplete='new-password'
+      />
+      <p className='relative left-1 -mt-4 text-sm text-gray-500'>Минимум 6 символов</p>
+
+      <FormInput
+        label='Подтвердите пароль'
+        type='password'
+        name='confirmPassword'
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        placeholder='Повторите пароль'
+        minLength={6}
+        autoComplete='new-password'
       />
 
-      <Checkbox
-        label='Запомнить меня'
-        name='rememberMe'
-        checked={rememberMe}
-        onChange={e => setRememberMe(e.target.checked)}
-      />
-
-      <Button type='submit' disabled={loading}>
-        Войти
+      <Button type='submit' loading={loading} disabled={loading}>
+        Зарегистрироваться
       </Button>
 
       {error && <p className='flex justify-center text-sm text-red-500'>{error}</p>}

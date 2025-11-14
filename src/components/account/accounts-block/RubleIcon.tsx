@@ -1,6 +1,6 @@
 type RubleIconProps = {
   size?: number;
-}
+};
 
 const RubleIcon = ({ size = 25 }: RubleIconProps) => {
   return (
@@ -50,4 +50,4 @@ const RubleIcon = ({ size = 25 }: RubleIconProps) => {
   );
 };
 
-export default RubleIcon
+export default RubleIcon;

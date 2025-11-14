@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/registration/Card';
-import { RegisterForm } from '../components/registration/RegisterForm';
-import { LoginLink } from '../components/registration/LoginLink';
-import { useAuth } from '../hooks/auth/useAuth.ts';
+import { RegisterForm } from '../components/register/RegisterForm';
+import { LoginLink } from '../components/register/LoginLink';
+import { useAuth } from '../hooks/useAuth.ts';
+import { ContentCard } from '../components/shared/ContentCard.tsx';
 
-interface RegisterFormData {
+type RegisterFormData = {
   login: string;
   password: string;
   confirmPassword: string;
-}
+};
 
-const RegisterPage: React.FC = () => {
+const RegisterPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -51,18 +51,12 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-      <Card>
-        <h2 className="text-4xl font-bold text-center mb-8">Регистрация</h2>
-
-        <RegisterForm
-          onSubmit={handleRegisterSubmit}
-          loading={loading}
-          error={error}
-        />
-
+    <main className='min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8'>
+      <ContentCard>
+        <h2 className='text-4xl font-bold text-center mb-8'>Регистрация</h2>
+        <RegisterForm onSubmit={handleRegisterSubmit} loading={loading} error={error} />
         <LoginLink />
-      </Card>
+      </ContentCard>
     </main>
   );
 };

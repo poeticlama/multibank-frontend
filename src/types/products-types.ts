@@ -1,5 +1,5 @@
 export type ProductType = {
-  bankId: string,
+  bankId: string;
   productId: string;
   productType: 'deposit' | 'credit_card' | 'loan' | 'card';
   productName: string;

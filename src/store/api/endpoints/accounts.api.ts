@@ -7,7 +7,7 @@ type ConsentAccountResponse = {
   consentId: string;
   autoApproved: boolean;
   createdAt: string;
-}
+};
 
 export const accountsApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -32,9 +32,11 @@ export const accountsApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Accounts'],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyGetAccountsQuery, useConsentAccountMutation, useSetDescriptionMutation } = accountsApi;
+export const { useLazyGetAccountsQuery, useConsentAccountMutation, useSetDescriptionMutation } =
+  accountsApi;

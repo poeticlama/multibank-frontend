@@ -7,10 +7,10 @@ export const statisticsApi = baseApi.injectEndpoints({
       query: () => ({
         url: `/api/data/statistic?type=NONE`,
         method: 'GET',
-      })
+      }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLazyGetStatisticsQuery } = statisticsApi;
+export const { useGetStatisticsQuery } = statisticsApi;

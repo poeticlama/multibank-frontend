@@ -12,16 +12,10 @@ import PremiumPage from './pages/PremiumPage.tsx';
 import ProductFormPage from './pages/ProductFormPage.tsx';
 import AddBankPage from './pages/AddBankPage';
 
-
-
-
-
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <HomePage />
-    ),
+    element: <HomePage />,
   },
   {
     path: '/account',
@@ -37,44 +31,44 @@ export const router = createBrowserRouter([
       },
       {
         path: 'history',
-        element: <div className="overflow-hidden"><OperationsHistoryPage /></div>,
+        element: (
+          <div className='overflow-hidden'>
+            <OperationsHistoryPage />
+          </div>
+        ),
       },
       {
         path: 'payments',
-        element: <PaymentsPage />
+        element: <PaymentsPage />,
       },
       {
         path: 'add',
-        element: <AddBankPage />
+        element: <AddBankPage />,
       },
       {
         path: 'products',
-        element: <ProductsPage />
+        element: <ProductsPage />,
       },
       {
         path: 'product/:productId',
-        element: <ProductFormPage />
+        element: <ProductFormPage />,
       },
       {
         path: 'premium',
-        element: <PremiumPage />
+        element: <PremiumPage />,
       },
     ],
   },
   {
     path: '/login',
-    element: (
-      <LoginPage />
-    )
+    element: <LoginPage />,
   },
   {
     path: '/register',
-    element: (
-      <RegisterPage />
-    )
+    element: <RegisterPage />,
   },
   {
     path: '*',
-    element: <Navigate to="/" replace />
-  }
+    element: <Navigate to='/' replace />,
+  },
 ]);

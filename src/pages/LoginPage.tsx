@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/login/Card';
+import { ContentCard } from '../components/shared/ContentCard.tsx';
 import { LoginForm } from '../components/login/LoginForm';
 import { RegisterLink } from '../components/login/RegisterLink';
-import { useAuth } from '../hooks/auth/useAuth.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 
-
-interface LoginFormData {
+type LoginFormData = {
   login: string;
   password: string;
-}
+};
 
-
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -27,7 +25,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const success = await login(formData.login, formData.password, rememberMe);
-      
+
       if (success) {
         console.log('Вход выполнен успешно');
         navigate('/account');
@@ -42,18 +40,14 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
-      <Card>
-        <h2 className="text-4xl font-bold text-center mb-8">Вход</h2>
-        
-        <LoginForm
-          onSubmit={handleLoginSubmit}
-          loading={loading}
-          error={error}
-        />
+    <main className='min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8'>
+      <ContentCard>
+        <h2 className='text-4xl font-bold text-center mb-8'>Вход</h2>
+
+        <LoginForm onSubmit={handleLoginSubmit} loading={loading} error={error} />
 
         <RegisterLink />
-      </Card>
+      </ContentCard>
     </main>
   );
 };

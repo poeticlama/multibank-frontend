@@ -1,29 +1,24 @@
-import React from 'react';
+import { type ChangeEvent } from 'react';
 
-interface CheckboxProps {
+type CheckboxProps = {
   label: string;
   checked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
-}
+};
 
-export const Checkbox: React.FC<CheckboxProps> = ({
-  label,
-  checked,
-  onChange,
-  name = 'checkbox',
-}) => {
+export const Checkbox = ({ label, checked, onChange, name = 'checkbox' }: CheckboxProps) => {
   return (
-    <div className="flex items-center">
+    <div className='flex items-center'>
       <input
-        type="checkbox"
+        type='checkbox'
         id={name}
         name={name}
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+        className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
       />
-      <label htmlFor={name} className="ml-2 block text-sm text-gray-700">
+      <label htmlFor={name} className='ml-2 block text-sm text-gray-700'>
         {label}
       </label>
     </div>

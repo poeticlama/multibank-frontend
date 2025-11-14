@@ -1,125 +1,122 @@
 import VirtualScroll from '../components/operations-history/VirtualScroll.tsx';
-import { SETTINGS } from '../constants/settings.ts';
+import { SETTINGS as DEFAULT_SETTINGS } from '../constants/settings.ts';
 import { Operation } from '../components/operations-history/Operation.tsx';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/auth/useAuth.ts';
-import { useLazyGetTransactionsQuery } from '../store/api/endpoints/transactions.api.ts';
-import { useAccounts } from '../hooks/useAccounts.ts';
-import type { Transaction } from '../types/transaction-types.ts';
+import { useEffect, useState, useRef } from 'react';
+import { useAuth } from '../hooks/useAuth.ts';
 import Loader from '../components/shared/Loader.tsx';
-
+import { useTransactions } from '../hooks/useTransactions.ts';
+import CustomSelect from '../components/shared/CustomSelect.tsx';
 
 const OperationsHistoryPage = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const { user } = useAuth();
-  const { getAllAccounts, accounts, isLoading } = useAccounts();
-
-  const [getTransactions, {isLoading: transactionsLoading, isError: transactionsError}] = useLazyGetTransactionsQuery();
+  const [accountFilter, setAccountFilter] = useState('');
+  const { transactions, isError, isLoading, accounts } = useTransactions(accountFilter);
+  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-
     return () => {
       document.body.style.overflow = originalOverflow;
     };
   }, []);
 
   useEffect(() => {
-    const getAllTransactions = async () => {
-      try {
-        const fetchedAccounts = await getAllAccounts();
-
-        const validAccounts = (fetchedAccounts?.length ? fetchedAccounts : accounts).filter(account => account.status !== "Pending");
-        if (!validAccounts?.length) return;
-
-        const transactionsByAccount = await Promise.all(
-          validAccounts.map(async (account) => {
-            try {
-              const res = await getTransactions({
-                bank_id: account.bankId,
-                account_id: account.accountId,
-                limit: 100,
-                page: 1,
-              }).unwrap();
-
-              return res.transactions;
-            } catch (error) {
-              console.error(`Ошибка при загрузке транзакций для счёта ${account.accountId}:`, error);
-              return [];
-            }
-          })
-        );
-
-        const allTransactions = transactionsByAccount.flat();
-        setTransactions(allTransactions);
-      } catch (error) {
-        console.error('Ошибка при загрузке всех транзакций:', error);
-      }
+    const sumFixedHeights = (where: 'top' | 'bottom') => {
+      const els = Array.from(document.querySelectorAll<HTMLElement>('*'));
+      return els.reduce((acc, el) => {
+        const cs = getComputedStyle(el);
+        if (cs.position !== 'fixed') return acc;
+        if (el.offsetWidth === 0 || el.offsetHeight === 0) return acc;
+        const r = el.getBoundingClientRect();
+        if (where === 'top') {
+          if (r.bottom <= 0) return acc;
+          if (Math.abs(r.top) <= 2 || cs.top === '0px') return acc + r.height;
+        } else {
+          if (Math.abs(window.innerHeight - (r.bottom || 0)) <= 2 || cs.bottom === '0px')
+            return acc + r.height;
+        }
+        return acc;
+      }, 0);
     };
 
-    getAllTransactions();
-  }, []);
+    const calc = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const elementTopDoc = rect.top + window.scrollY;
+      const viewportBottomY = window.scrollY + window.innerHeight;
+      const fixedTop = sumFixedHeights('top');
+      const fixedBottom = sumFixedHeights('bottom');
+      const availableHeight = Math.max(0, viewportBottomY - elementTopDoc - fixedTop - fixedBottom);
+      const newAmount = Math.max(1, Math.floor(availableHeight / settings.itemHeight));
+      setSettings(prev => (prev.amount === newAmount ? prev : { ...prev, amount: newAmount }));
+    };
 
-  if (transactionsLoading || isLoading) {
+    const scheduleCalc = () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        calc();
+        rafRef.current = null;
+      });
+    };
+
+    scheduleCalc();
+    window.addEventListener('resize', scheduleCalc);
+    window.addEventListener('scroll', scheduleCalc, { passive: true });
+
+    const ro = new ResizeObserver(scheduleCalc);
+    if (containerRef.current) ro.observe(containerRef.current);
+    const mo = new MutationObserver(scheduleCalc);
+    mo.observe(document.body, { childList: true, subtree: true, attributes: true });
+
+    return () => {
+      window.removeEventListener('resize', scheduleCalc);
+      window.removeEventListener('scroll', scheduleCalc);
+      ro.disconnect();
+      mo.disconnect();
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [settings.itemHeight]);
+
+  if (isLoading) {
     return <Loader />;
   }
 
-  if (transactionsError) {
-    return <div className="text-lg text-red-600 text-center mt-10">Ошибка загрузки транзакций</div>
+  if (isError) {
+    return <div className='text-lg text-red-600 text-center mt-10'>Ошибка загрузки транзакций</div>;
   }
 
   return (
-    <main className="pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto">
-      {/* Заголовок */}
-      <div className="mb-4 sm:mb-6 lg:mb-5">
-        <h1 className="text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left">
+    <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
+      <div className='mb-4 sm:mb-6 lg:mb-5'>
+        <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
           Операции
         </h1>
-        
-        {/* Фильтры */}
-        {/*<div className="lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center">*/}
-        {/*  <CustomSelect*/}
-        {/*      options={months}*/}
-        {/*    />*/}
-
-        {/*  { !!user &&*/}
-        {/*    (*/}
-        {/*      <div>*/}
-        {/*        {*/}
-        {/*          user.status === "PREMIUM" ?*/}
-        {/*          <CustomSelect*/}
-        {/*            options={personalBusiness}*/}
-        {/*          /> :*/}
-        {/*          <div title="Только для premium аккаунтов">*/}
-        {/*            /!**/}
-        {/*              У меня в Firefox cursor-not-allowed не показывает title,*/}
-        {/*              вроде это нормально для многих браузеров,*/}
-        {/*              поэтому лучше на блок вверх title подвинуть*/}
-        {/*            *!/*/}
-        {/*            <div className="cursor-not-allowed opacity-50 pointer-events-none">*/}
-        {/*              <CustomSelect*/}
-        {/*                options={[ { label: "Личные и бизнес траты", value: "00"}, {label: "Только для premium аккаунтов", value: "01"}, ]}*/}
-        {/*              />*/}
-        {/*            </div>*/}
-        {/*          </div>*/}
-        {/*        }*/}
-        {/*      </div>*/}
-        {/*    )*/}
-        {/*  }*/}
-
-        {/*</div>*/}
+        <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
+          <CustomSelect
+            options={accounts.map(account => ({
+              label: account.accountId + ' - ' + account.bankId,
+              value: account.account[0].identification,
+            }))}
+            onChange={value => setAccountFilter(value)}
+          />
+        </div>
       </div>
 
-      {/* Список операций */}
-      <div className=" px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25">
+      <div ref={containerRef} className='px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25'>
         {!!user && (
-            <VirtualScroll settings={SETTINGS} template={Operation} premium={user.status === "PREMIUM"} transactions={transactions} />
-          )
-        }
+          <VirtualScroll
+            settings={settings}
+            template={Operation}
+            premium={user.status === 'PREMIUM'}
+            transactions={transactions}
+          />
+        )}
       </div>
     </main>
-  )
-}
+  );
+};
 
 export default OperationsHistoryPage;

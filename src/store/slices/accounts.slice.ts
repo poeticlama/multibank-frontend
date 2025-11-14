@@ -4,15 +4,15 @@ import type { AccountData } from '../../types/account-types.ts';
 type AccountsState = {
   accounts: AccountData[];
   error: string | null;
-}
+};
 
 const initialState: AccountsState = {
   accounts: [],
   error: null,
-}
+};
 
 const accountsSlice = createSlice({
-  name: "accounts",
+  name: 'accounts',
   initialState,
   reducers: {
     setAccounts: (state, action: PayloadAction<AccountData[]>) => {
@@ -22,7 +22,7 @@ const accountsSlice = createSlice({
       state.error = action.payload;
     },
   },
-})
+});
 
 export const { setAccounts, setError } = accountsSlice.actions;
 

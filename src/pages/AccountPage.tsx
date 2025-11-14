@@ -1,57 +1,15 @@
-import AccountCard from '../components/account/accounts-block/AccountCard.tsx';
 import ExpenseStatistics from '../components/account/statistics-block/ExpenseStatistics.tsx';
 
-import { Button } from '../components/shared/Button';
-import { useNavigate } from 'react-router-dom';
-
-import { useAccounts } from '../hooks/useAccounts.ts';
-import { useEffect, useState } from 'react';
-import { useAuth } from '../hooks/auth/useAuth.ts';
-import { useLazyGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
-import type { ExpensesPredict } from '../types/account-types.ts';
-import { useSetDescriptionMutation } from '../store/api/endpoints/accounts.api.ts';
-
-
+import { useGetStatisticsQuery } from '../store/api/endpoints/statistics.api.ts';
+import AccountsBlock from '../components/account/accounts-block/AccountsBlock.tsx';
+import Loader from '../components/shared/Loader.tsx';
 
 const AccountPage = () => {
-  const navigate = useNavigate();
-
-  const { accounts, hasAccounts, getAllAccounts, isLoading } = useAccounts();
-  const { refreshUser } = useAuth();
-  const [statistics, setStatistics] = useState<ExpensesPredict | null>(null);
-
-  const [fetchStatistics, {isLoading: statisticsLoading, isError: statisticsError}] = useLazyGetStatisticsQuery();
-  const [setDescription] = useSetDescriptionMutation();
-
-
-
-  const onDescriptionUpdate = async (accountId: string, bankId: string, newDescription: string) => {
-    try {
-      await setDescription({
-        bankId,
-        id: accountId,
-        text: newDescription,
-      });
-      await getAllAccounts();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await refreshUser();
-        await getAllAccounts();
-        const res = await fetchStatistics(null).unwrap();
-        setStatistics(res);
-      } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const {
+    data: statistics,
+    isLoading: statisticsLoading,
+    isError: statisticsError,
+  } = useGetStatisticsQuery(null);
 
   return (
     <main className='py-4 sm:py-6 lg:py-8 xl:py-10 px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25 text-blue-900 max-w-screen-2xl mx-auto'>
@@ -61,45 +19,31 @@ const AccountPage = () => {
 
       <div className='flex flex-col xl:flex-row gap-4 sm:gap-5 lg:gap-6 xl:gap-8 2xl:gap-10'>
         {/* Блок с картами счетов */}
-        <div className='flex flex-col gap-2 sm:gap-3 bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full xl:w-auto xl:min-w-[300px] 2xl:min-w-[350px] h-fit'>
-          {!hasAccounts && !isLoading && (
-            <div className='text-center my-3 opacity-40'>
-              У вас пока не добавлены счета
-            </div>
-          )}
-          {isLoading ? "Загрузка..." : accounts.map(account => (
-              <AccountCard key={account.accountId + account.bankId} accountData={account} onDescriptionUpdate={onDescriptionUpdate} />
-          ))}
-
-          <Button 
-            onClick={ ()=>{navigate('/account/add')} } 
-            disabled={false}
-          >
-            Добавить счет
-          </Button>
-
-        </div>
-
+        <AccountsBlock />
 
         {/* Блок со статистикой */}
-        <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full h-fit flex flex-col justify-around'>
+        <div className='bg-gray-100 p-3 sm:p-4 lg:p-5 rounded-xl w-full h-fit flex flex-col justify-around sticky top-40'>
           <h2 className='text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 xl:mb-12'>
             Расходы за последние 12 месяцев
           </h2>
-          {(statisticsLoading || !statistics) ?
-            statisticsError ? "Статистика недоступна" : "Загрузка..."
-            :
+          {statisticsLoading || !statistics ? (
+            statisticsError ? (
+              <h2 className="text-sm text-center text-gray-500">Статистика недоступна, попробуйте обновить страницу</h2>
+            ) : (
+              <Loader />
+            )
+          ) : (
             <ExpenseStatistics
               months={Object.keys(statistics.statistic)}
               expenses={Object.values(statistics.statistic)}
               currentPredict={statistics.currentPredict}
               nextPredict={statistics.nextPredict}
             />
-          }
+          )}
         </div>
       </div>
     </main>
   );
-}
+};
 
 export default AccountPage;

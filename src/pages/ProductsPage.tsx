@@ -5,11 +5,13 @@ import productTypes from '../constants/productTypes.ts';
 import { useLazyBanksQuery, useLazyGetProductsQuery } from '../store/api/endpoints/banks.api.ts';
 import type { ProductType } from '../types/products-types.ts';
 import type { BankInfo } from '../types/bank-info.ts';
+import Loader from '../components/shared/Loader.tsx';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [fetchBanks, { isLoading: banksLoading, isError: banksError }] = useLazyBanksQuery();
-  const [fetchProducts, {isLoading: productsLoading, isError: productsError }] = useLazyGetProductsQuery();
+  const [fetchProducts, { isLoading: productsLoading, isError: productsError }] =
+    useLazyGetProductsQuery();
   const [banks, setBanks] = useState<Option[]>([]);
   const [bankLinks, setBankLinks] = useState<BankInfo[]>([]);
   const [bankFilter, setBankFilter] = useState('all');
@@ -25,7 +27,7 @@ const ProductsPage = () => {
             return { label: bank.name, value: bank.id };
           }),
         ]);
-        setBankLinks(fetchedBanks)
+        setBankLinks(fetchedBanks);
       } catch (error) {
         console.error('Ошибка при загрузке банков:', error);
       }
@@ -35,21 +37,27 @@ const ProductsPage = () => {
   }, [fetchBanks]);
 
   useEffect(() => {
-    const loadAllProducts = async () => {
+    const loadProducts = async () => {
       try {
         if (bankFilter === 'all') {
           const bankIds = banks.slice(1).map(bank => bank.value);
-          const productPromises = bankIds.map(bankId =>
-            fetchProducts(bankId).unwrap()
-          );
+          const productPromises = bankIds.map(bankId => fetchProducts(bankId).unwrap());
 
           const results = await Promise.all(productPromises);
 
           const allProducts = results.flat();
-          setProducts(productFilter === 'all' ? allProducts : allProducts.filter(product => product.productType === productFilter));
+          setProducts(
+            productFilter === 'all'
+              ? allProducts
+              : allProducts.filter(product => product.productType === productFilter)
+          );
         } else {
           const products = await fetchProducts(bankFilter).unwrap();
-          setProducts(productFilter === 'all' ? products : products.filter(product => product.productType === productFilter));
+          setProducts(
+            productFilter === 'all'
+              ? products
+              : products.filter(product => product.productType === productFilter)
+          );
         }
       } catch (error) {
         console.error('Ошибка при загрузке продуктов:', error);
@@ -57,16 +65,10 @@ const ProductsPage = () => {
       }
     };
 
-    loadAllProducts();
+    loadProducts();
   }, [bankFilter, banks, fetchProducts, productFilter]);
 
-  if (productsLoading || banksLoading) {
-    return (
-      <main className='pt-4 sm:pt-6 lg:pt-8 text-blue-900 max-w-screen-2xl mx-auto'>
-        <div className='text-center'>Загрузка продуктов...</div>
-      </main>
-    );
-  }
+  if (productsLoading || banksLoading) return <Loader />;
 
   if (banksError || productsError) {
     return (

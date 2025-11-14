@@ -7,7 +7,7 @@ import Requisites from './Requisites.tsx';
 type AccountCardProps = {
   accountData: AccountData;
   onDescriptionUpdate: (accountId: string, bankId: string, newDescription: string) => void;
-}
+};
 
 const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => {
   const [iconSize, setIconSize] = useState(20);
@@ -15,8 +15,10 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState(accountData.description || '');
-  const [newDescription, setNewDescription] = useState(accountData.description || 'Добавьте описание');
-  
+  const [newDescription, setNewDescription] = useState(
+    accountData.description || 'Добавьте описание'
+  );
+
   useEffect(() => {
     const calculateIconSize = () => {
       const screenWidth = window.innerWidth;
@@ -26,13 +28,11 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
       setIconSize(finalSize);
     };
 
-
     calculateIconSize();
     window.addEventListener('resize', calculateIconSize);
-    
+
     return () => window.removeEventListener('resize', calculateIconSize);
   }, []);
-
 
   const truncateDescription = (text: string, maxLength: number = 60) => {
     if (!text) return '';
@@ -68,63 +68,52 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
   };
 
   return (
-    <div className="px-3 xs:px-4 sm:px-5 py-2 sm:py-3 bg-blue-200 w-full min-h-20 xs:min-h-22 sm:min-h-25 flex flex-col justify-between rounded-xl transition-all duration-200 hover:shadow-md">
-
+    <div className='px-3 xs:px-4 sm:px-5 py-2 sm:py-3 bg-blue-200 w-full min-h-20 xs:min-h-22 sm:min-h-25 flex flex-col justify-between rounded-xl transition-all duration-200 hover:shadow-md'>
       {/* Верхняя часть с балансом и валютой */}
-      <div className="flex items-center gap-3 mb-2">
-      </div>
-        {
-          accountData.status === "Pending" ?
-          (
-            <div className="flex items-center mb-10">
-              <h3
-                className="text-lg sm:text-xl font-bold break-words"
-              >
-                Ожидает подтверждения в {accountData.bankId}
-              </h3>
-            </div>
-          )
-          : (
-            <div className="flex items-center gap-3">
-              <RubleIcon size = {iconSize}/>
-              <h3
-                className="text-lg sm:text-xl font-bold break-words"
-              >
-                {accountData.amount + " " + getCurrency(accountData.currency)}
-              </h3>
-            </div>
-          )
-
-        }
+      <div className='flex items-center gap-3 mb-2'></div>
+      {accountData.status === 'Pending' ? (
+        <div className='flex items-center mb-10'>
+          <h3 className='text-lg sm:text-xl font-bold break-words'>
+            Ожидает подтверждения в {accountData.bankId}
+          </h3>
+        </div>
+      ) : (
+        <div className='flex items-center gap-3'>
+          <RubleIcon size={iconSize} />
+          <h3 className='text-lg sm:text-xl font-bold break-words'>
+            {accountData.amount + ' ' + getCurrency(accountData.currency)}
+          </h3>
+        </div>
+      )}
       {/* Блок с описанием счета */}
-      {newDescription && accountData.status !== "Pending" && (
-        <div className="my-2 relative">
+      {newDescription && accountData.status !== 'Pending' && (
+        <div className='my-2 relative'>
           {isEditing ? (
-            <div className="space-y-2">
+            <div className='space-y-2'>
               <textarea
                 value={editedDescription}
-                onChange={(e) => setEditedDescription(e.target.value)}
+                onChange={e => setEditedDescription(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full text-xs xs:text-sm text-gray-700 p-2 border border-blue-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className='w-full text-xs xs:text-sm text-gray-700 p-2 border border-blue-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
                 rows={3}
                 autoFocus
-                placeholder="Введите описание счета..."
+                placeholder='Введите описание счета...'
               />
-              <div className="flex gap-2 justify-end">
+              <div className='flex gap-2 justify-end'>
                 <button
                   onClick={handleCancel}
-                  className="text-xs px-3 py-1 text-gray-600 hover:text-gray-800 transition-colors"
+                  className='text-xs px-3 py-1 text-gray-600 hover:text-gray-800 transition-colors'
                 >
                   Отмена
                 </button>
                 <button
                   onClick={handleSave}
-                  className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                  className='text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors'
                 >
                   Сохранить
                 </button>
               </div>
-              <div className="text-xs text-gray-500 text-center">
+              <div className='text-xs text-gray-500 text-center'>
                 Ctrl+Enter для сохранения, Esc для отмены
               </div>
             </div>
@@ -138,18 +127,15 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
                   cursor-pointer hover:bg-blue-300 hover:bg-opacity-30 rounded px-1 py-1 transition-colors
                 `}
                 onClick={handleEditClick}
-                title="Кликните для редактирования"
+                title='Нажмите для редактирования'
               >
-                {isDescriptionExpanded ?
-                  newDescription :
-                  truncateDescription(newDescription)
-                }
+                {isDescriptionExpanded ? newDescription : truncateDescription(newDescription)}
               </div>
               {newDescription.length > 60 && (
-                <div className="flex justify-between items-center mt-1">
+                <div className='flex justify-between items-center mt-1'>
                   <button
                     onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                    className='text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors'
                   >
                     {isDescriptionExpanded ? 'Свернуть' : 'Подробнее'}
                   </button>
@@ -160,15 +146,14 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
         </div>
       )}
 
-
-      {accountData.status !== "Pending" &&
-        <div className="mt-auto font-light flex justify-between items-center gap-2">
-          <span className="text-sm xs:text-base truncate flex-1">
-            {accountData.bankId}
+      {accountData.status !== 'Pending' && (
+        <div className='mt-auto font-light flex justify-between items-center gap-2'>
+          <span className='font-semibold opacity-50 text-sm xs:text-base truncate flex-1'>
+            {accountData.accountSubType} - {accountData.bankId}
           </span>
           <button
             onClick={() => setRequisitesIsOpen(true)}
-            className="text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70"
+            className='text-xs xs:text-sm font-semibold hover:underline whitespace-nowrap flex-shrink-0 px-1 xs:px-2 py-1 rounded transition-colors bg-white bg-opacity-50 hover:bg-opacity-70 cursor-pointer'
           >
             Реквизиты
           </button>
@@ -178,13 +163,13 @@ const AccountCard = ({ accountData, onDescriptionUpdate }: AccountCardProps) => 
             setIsModalOpen={setRequisitesIsOpen}
             accountData={{
               identification: accountData.account[0].identification,
-              name: accountData.account[0].name
+              name: accountData.account[0].name,
             }}
           />
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default AccountCard;

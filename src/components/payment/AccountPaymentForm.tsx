@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AccountSelector } from './AccountSelector';
 import { AmountInput } from './AmountInput';
 import type { AccountData } from '../../types/account-types';
 
-interface AccountPaymentFormProps {
+type AccountPaymentFormProps = {
   amount: string;
   onAmountChange: (amount: string) => void;
   fromAccount: string;
@@ -11,9 +11,9 @@ interface AccountPaymentFormProps {
   toAccount: string;
   onToAccountChange: (accountId: string) => void;
   accounts: AccountData[];
-}
+};
 
-export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
+export const AccountPaymentForm = ({
   amount,
   onAmountChange,
   fromAccount,
@@ -21,13 +21,12 @@ export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
   toAccount,
   onToAccountChange,
   accounts,
-}) => {
+}: AccountPaymentFormProps) => {
   const [currency, setCurrency] = useState<string>('RUB');
-
 
   useEffect(() => {
     if (fromAccount) {
-      const selectedAccount = accounts.find(acc => acc.accountId === fromAccount);
+      const selectedAccount = accounts.find(acc => acc.account[0].identification === fromAccount);
       if (selectedAccount) {
         setCurrency(selectedAccount.currency);
       }
@@ -37,20 +36,20 @@ export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
   }, [fromAccount, accounts]);
 
   return (
-    <div className="space-y-4">
+    <div className='space-y-4'>
       <AccountSelector
         accounts={accounts}
         selectedAccount={fromAccount}
         onAccountChange={onFromAccountChange}
-        label="Выберите счет для списания"
+        label='Выберите счет для списания'
         showOnlyEnabled={true}
       />
-      
+
       <AccountSelector
         accounts={accounts}
         selectedAccount={toAccount}
         onAccountChange={onToAccountChange}
-        label="Выберите счет получателя"
+        label='Выберите счет получателя'
         showOnlyEnabled={true}
       />
 
@@ -59,9 +58,9 @@ export const AccountPaymentForm: React.FC<AccountPaymentFormProps> = ({
         key={`amount-input-${currency}`}
         value={amount}
         onChange={onAmountChange}
-        placeholder="Введите сумму..."
+        placeholder='Введите сумму...'
         currency={currency}
-        label="Введите сумму перевода на счет"
+        label='Введите сумму перевода на счет'
       />
     </div>
   );
