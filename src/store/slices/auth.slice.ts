@@ -26,6 +26,16 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
       state.isAuthenticated = !!action.payload;
+
+      if (action.payload) {
+        const userJson = JSON.stringify(action.payload);
+        if (localStorage.getItem('bankUser')) {
+          localStorage.setItem('bankUser', userJson);
+        }
+        if (sessionStorage.getItem('bankUser')) {
+          sessionStorage.setItem('bankUser', userJson);
+        }
+      }
     },
 
     setToken: (state, action: PayloadAction<string | null>) => {
