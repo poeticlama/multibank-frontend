@@ -82,23 +82,12 @@ export const useAuth = () => {
       const userData = await fetchGeneralData(null).unwrap();
       dispatch(setUser(userData));
 
-      if (auth.token && auth.expiresAt && auth.user) {
-        dispatch(
-          saveUserToStorage({
-            user: userData,
-            token: auth.token,
-            expiresIn: auth.expiresAt - Date.now(),
-            remember: !!localStorage.getItem('bankUser'),
-          })
-        );
-      }
-
       return userData;
     } catch (err: any) {
       dispatch(setError(err?.data?.message || 'Ошибка при обновлении данных пользователя'));
       return null;
     }
-  }, [auth.expiresAt, auth.token, auth.user, dispatch, fetchGeneralData]);
+  }, [dispatch, fetchGeneralData]);
 
   const handleLogout = () => {
     dispatch(logout());
