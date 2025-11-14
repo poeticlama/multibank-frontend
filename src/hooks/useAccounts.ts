@@ -66,10 +66,10 @@ export const useAccounts = (autoLoad = true) => {
   }, [dispatch, handleGetAccountsByBank, refreshUser, user?.bankClientLinks]);
 
   useEffect(() => {
-    if (autoLoad && user?.bankClientLinks?.length) {
+    if (autoLoad && user?.bankClientLinks?.length && accounts.accounts.length === 0) {
       handleGetAllAccounts();
     }
-  }, [autoLoad, user?.bankClientLinks, handleGetAllAccounts]);
+  }, [autoLoad, user?.bankClientLinks, accounts.accounts.length, handleGetAllAccounts]);
 
   return {
     accounts: accounts.accounts,
