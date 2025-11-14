@@ -17,8 +17,7 @@ export const Operation = ({ transaction, premium }: OperationProps): JSX.Element
 
   const handleSetValue = async (value: TransactionType) => {
     await setTransactionType({
-      bankId: transaction.bankId,
-      id: transaction.transactionId,
+      ...transaction,
       type: value,
     }).unwrap();
     setValue(value);

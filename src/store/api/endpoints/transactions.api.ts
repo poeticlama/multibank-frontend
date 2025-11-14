@@ -1,5 +1,5 @@
 import { baseApi } from '../baseApi.ts';
-import type { TransactionsResponse, TransactionType } from '../../../types/transaction-types.ts';
+import type { Transaction, TransactionsResponse } from '../../../types/transaction-types.ts';
 
 const transactionsApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -13,7 +13,7 @@ const transactionsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['Transactions'],
     }),
-    setTransactionType: build.mutation<void, { bankId: string; id: string; type: TransactionType }>(
+    setTransactionType: build.mutation<void, Transaction>(
       {
         query: body => ({
           url: '/api/transaction/setType',

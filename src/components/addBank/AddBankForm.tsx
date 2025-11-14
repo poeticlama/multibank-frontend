@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { BankInfo } from '../../types/bank-info.ts';
 import { useLazyBanksQuery } from '../../store/api/endpoints/banks.api.ts';
 import { useConsentAccountMutation } from '../../store/api/endpoints/accounts.api.ts';
+import { useAccounts } from '../../hooks/useAccounts.ts';
 
 const AddBankForm = () => {
   const [banks, setBanks] = useState<BankInfo[]>([]);
@@ -10,9 +11,10 @@ const AddBankForm = () => {
   const [bankId, setBankId] = useState('abank');
   const [clientId, setClientId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const {getAllAccounts} = useAccounts();
 
   const [fetchBanks] = useLazyBanksQuery();
-  const [consentAccountMutation] = useConsentAccountMutation();
+  const [consentAccountMutation, {isError: consentError}] = useConsentAccountMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const AddBankForm = () => {
         bank_id: bankId,
         client_id: clientId,
       }).unwrap();
+      await getAllAccounts();
 
       navigate('/account');
     } catch (error) {
@@ -118,6 +121,9 @@ const AddBankForm = () => {
               'Добавить банк'
             )}
           </button>
+          {consentError && <div className="text-center text-sm text-red-600">
+            Произошла ошибка, попробуйте позже
+          </div>}
         </form>
       </div>
     </div>

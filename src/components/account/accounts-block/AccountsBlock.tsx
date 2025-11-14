@@ -29,6 +29,14 @@ const AccountsBlock = () => {
       <h2 className="text-sm text-center text-gray-500">
         Не удалось загрузить счета
       </h2>
+      <Button
+        onClick={() => {
+          navigate('/account/add');
+        }}
+        pointer={true}
+      >
+        Добавить счет
+      </Button>
     </div>
     )
 

@@ -12,13 +12,11 @@ export type Transaction = {
   amount: Amount;
   type: TransactionType;
   creditDebitIndicator: 'Debit' | 'Credit';
-  status: 'Pending' | 'Booked' | 'Rejected';
+  status: 'Pending' | 'Booked' | 'Rejected' | 'Completed';
   bookingDateTime: string;
   valueDateTime: string;
   transactionInformation: string;
-  bankTransactionCode: {
-    code: string;
-  };
+  code: string;
 };
 
 export type TransactionsResponse = {
