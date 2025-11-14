@@ -24,7 +24,7 @@ const HeroBlock = () => {
               to='/register'
               className='border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300'
             >
-              Открыть счет
+              Зарегистрироваться
             </Link>
           </div>
         </div>

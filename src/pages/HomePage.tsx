@@ -1,6 +1,5 @@
 import HeroBlock from '../components/home/HeroBlock';
 import ServicesBlock from '../components/home/ServicesBlock';
-import AdvantagesBlock from '../components/home/AdvantagesBlock';
 import CtaBlock from '../components/home/CtaBlock';
 import FooterBlock from '../components/home/FooterBlock';
 import Description from '../components/home/Description';
@@ -11,7 +10,6 @@ const HomePage = () => {
       <HeroBlock />
       <Description />
       <ServicesBlock />
-      <AdvantagesBlock />
       <CtaBlock />
       <FooterBlock />
     </div>

@@ -58,7 +58,7 @@ const ServiceCard = ({ service, isHovered, onHover }: ServiceCardProps) => {
             }`}
           >
             <div className='flex items-center justify-between text-white text-sm font-semibold'>
-              <span>Перейти к услуге</span>
+              <span>Перейти</span>
               <span className='transform transition-transform duration-300 group-hover:translate-x-1'>
                 →
               </span>
