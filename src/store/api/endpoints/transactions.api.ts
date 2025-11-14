@@ -16,7 +16,7 @@ const transactionsApi = baseApi.injectEndpoints({
     setTransactionType: build.mutation<void, Transaction>(
       {
         query: body => ({
-          url: '/api/transaction/setType',
+          url: `/api/transaction/setType?type=${body.type}`,
           method: 'POST',
           body,
         }),
