@@ -73,7 +73,7 @@ export const useAccounts = (autoLoad = true) => {
 
   return {
     accounts: accounts.accounts,
-    isLoading: getAccountsLoading || (autoLoad && accounts.accounts.length === 0),
+    isLoading: getAccountsLoading,
     error: accounts.error,
 
     getAccountsByBank: handleGetAccountsByBank,

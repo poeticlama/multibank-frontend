@@ -28,7 +28,7 @@ const AccountPage = () => {
           </h2>
           {statisticsLoading || !statistics ? (
             statisticsError ? (
-              <h2 className="text-sm text-center text-gray-500">Статистика недоступна, попробуйте обновить страницу</h2>
+              <h2 className="text-sm text-center opacity-40">Статистика недоступна</h2>
             ) : (
               <Loader />
             )

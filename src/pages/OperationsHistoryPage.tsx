@@ -94,27 +94,39 @@ const OperationsHistoryPage = () => {
         <h1 className='text-2xl font-bold mb-5 lg:mb-10 lg:px-25 text-blue-900 text-center lg:text-left'>
           Операции
         </h1>
-        <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
-          <CustomSelect
-            options={accounts.map(account => ({
-              label: account.accountId + ' - ' + account.bankId,
-              value: account.account[0].identification,
-            }))}
-            onChange={value => setAccountFilter(value)}
-          />
-        </div>
+        {transactions.length !== 0 && (
+          <div className='lg:ml-25 flex flex-col lg:flex-row gap-1 sm:gap-2 lg:gap-3 px-2 sm:px-0 items-center'>
+            <CustomSelect
+              options={accounts.map(account => ({
+                label: account.accountId + ' - ' + account.bankId,
+                value: account.account[0].identification,
+              }))}
+              onChange={value => setAccountFilter(value)}
+            />
+          </div>
+          )
+        }
       </div>
 
-      <div ref={containerRef} className='px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25'>
-        {!!user && (
-          <VirtualScroll
-            settings={settings}
-            template={Operation}
-            premium={user.status === 'PREMIUM'}
-            transactions={transactions}
-          />
-        )}
-      </div>
+      {transactions.length === 0 ? (
+        <div className="text-center text-blue-900 opacity-40">
+          История операций недоступна
+        </div>
+      )
+        :
+        (
+          <div ref={containerRef} className='px-3 xs:px-4 sm:px-6 lg:px-8 xl:px-25'>
+            {!!user && (
+              <VirtualScroll
+                settings={settings}
+                template={Operation}
+                premium={user.status === 'PREMIUM'}
+                transactions={transactions}
+              />
+            )}
+          </div>
+        )
+      }
     </main>
   );
 };

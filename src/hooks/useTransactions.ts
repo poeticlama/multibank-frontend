@@ -5,7 +5,7 @@ import { useAccounts } from './useAccounts.ts';
 
 export const useTransactions = (accountFilter: string) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [transactionsLoading, setTransactionsLoading] = useState(true);
+  const [transactionsLoading, setTransactionsLoading] = useState(false);
   const [hookError, setHookError] = useState(false);
 
   const [fetchTransactions, { isError: transactionsError }] = useLazyGetTransactionsQuery();
@@ -13,12 +13,16 @@ export const useTransactions = (accountFilter: string) => {
 
   useEffect(() => {
     const getTransactions = async () => {
+      setTransactionsLoading(true);
       try {
         const account = accountFilter.length
           ? accounts.find(acc => acc.account[0].identification === accountFilter)
           : accounts[0];
 
-        if (!account) return;
+        if (!account) {
+          setTransactionsLoading(false);
+          return;
+        }
 
         const { transactions } = await fetchTransactions({
           bank_id: account.bankId,
